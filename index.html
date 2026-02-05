@@ -1,0 +1,1787 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Digital Signage - Masjid Abdurrahman STMIK Tazkia</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ===== RESET & BASE ===== */
+        :root {
+            --primary-navy: #1a237e;
+            --primary-dark-navy: #0d1452;
+            --primary-orange: #ff6f00;
+            --primary-dark-orange: #e65100;
+            --primary-gold: #ffd700;
+            --primary-dark-gold: #ffc400;
+            
+            --bg-white: #ffffff;
+            --bg-light: #f8f9fa;
+            --bg-gray: #f5f5f5;
+            --text-dark: #212121;
+            --text-light: #ffffff;
+            --text-gray: #666666;
+            
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 14px;
+            --radius-xl: 18px;
+            
+            --header-height: 11vh;
+            --section1-height: 38vh;
+            --section2-height: 24vh;
+            --section3-height: 23vh;
+            --footer-height: 4vh;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden !important;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8eaf6 100%);
+            position: fixed;
+            top: 0;
+            left: 0;
+            font-size: 14px;
+        }
+
+        /* ===== MAIN CONTAINER - FIXED HEIGHT ===== */
+        .container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* ===== HEADER - FIXED ===== */
+        .header {
+            height: var(--header-height);
+            min-height: 70px;
+            background: linear-gradient(135deg, var(--primary-navy) 0%, var(--primary-dark-navy) 100%);
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            border-bottom: 3px solid var(--primary-orange);
+            flex-shrink: 0;
+            position: relative;
+            z-index: 100;
+        }
+
+        /* Left: Logo & Masjid Info */
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--bg-white);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: var(--primary-navy);
+            font-weight: 700;
+            border: 2px solid var(--primary-orange);
+            flex-shrink: 0;
+        }
+
+        .masjid-info {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .masjid-name {
+            font-size: clamp(14px, 1.8vw, 17px);
+            font-weight: 700;
+            color: var(--text-light);
+            line-height: 1.2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .masjid-location {
+            font-size: clamp(10px, 1.3vw, 12px);
+            color: var(--primary-orange);
+            font-weight: 500;
+            margin-top: 2px;
+            white-space: nowrap;
+        }
+
+        /* Center: Live Clock - WIB DI SAMPING SIMETRIS */
+        .clock-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            flex: 1;
+        }
+
+        .live-clock {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+
+        .time-digits {
+            font-size: clamp(32px, 5.5vw, 42px) !important;
+            font-weight: 700;
+            color: var(--primary-orange);
+            letter-spacing: 1.5px;
+            font-variant-numeric: tabular-nums;
+            text-shadow: 0 3px 12px rgba(255, 111, 0, 0.4);
+        }
+
+        .wib-badge {
+            background: linear-gradient(135deg, var(--primary-orange), var(--primary-dark-orange));
+            color: white;
+            padding: 6px 14px !important;
+            border-radius: 20px;
+            font-size: 14px !important;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 3px 8px rgba(255, 111, 0, 0.3);
+        }
+
+        /* Right: Dates */
+        .date-section {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            flex: 1;
+            text-align: right;
+        }
+
+        .gregorian-date {
+            font-size: clamp(12px, 1.6vw, 15px);
+            font-weight: 600;
+            color: var(--text-light);
+            line-height: 1.2;
+        }
+
+        .hijri-date {
+            font-size: clamp(11px, 1.4vw, 13px);
+            color: var(--primary-gold);
+            font-weight: 500;
+            margin-top: 3px;
+            font-style: italic;
+            line-height: 1.2;
+        }
+
+        /* ===== SECTION 1: JADWAL SHALAT ===== */
+        .section-prayer {
+            height: var(--section1-height);
+            min-height: 250px;
+            background: var(--bg-white);
+            margin: 10px 15px 6px;
+            border-radius: var(--radius-xl);
+            padding: 15px 20px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            border: 3px solid var(--primary-orange);
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .section-title {
+            font-size: clamp(16px, 2.2vw, 19px);
+            font-weight: 700;
+            color: var(--primary-navy);
+            text-align: center;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-orange), var(--primary-dark-orange));
+            border-radius: 2px;
+        }
+
+        .prayer-horizontal-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            margin: 15px 0 20px;
+            height: 90px;
+        }
+
+        .prayer-card {
+            background: linear-gradient(145deg, #f8f9fa, #ffffff);
+            border-radius: var(--radius-md);
+            padding: 14px 10px;
+            text-align: center;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .prayer-card.active {
+            background: linear-gradient(145deg, var(--primary-orange), var(--primary-dark-orange));
+            border-color: var(--primary-dark-orange);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 111, 0, 0.25);
+        }
+
+        .prayer-name {
+            font-size: clamp(12px, 1.7vw, 15px);
+            font-weight: 700;
+            color: var(--primary-navy);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .prayer-card.active .prayer-name {
+            color: var(--text-light);
+        }
+
+        .prayer-time {
+            font-size: clamp(16px, 2.3vw, 20px);
+            font-weight: 700;
+            color: var(--primary-orange);
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 0.5px;
+        }
+
+        .prayer-card.active .prayer-time {
+            color: var(--text-light);
+        }
+
+        .countdown-container {
+            background: linear-gradient(135deg, var(--primary-navy), var(--primary-dark-navy));
+            border-radius: var(--radius-md);
+            padding: 12px 20px;
+            margin: 10px auto;
+            max-width: 600px;
+            text-align: center;
+            border: 2px solid var(--primary-orange);
+            box-shadow: 0 4px 15px rgba(26, 35, 126, 0.2);
+            flex-shrink: 0;
+        }
+
+        .countdown-text {
+            font-size: clamp(14px, 1.9vw, 17px);
+            font-weight: 700;
+            color: var(--primary-orange);
+            line-height: 1.4;
+        }
+
+        /* ===== SECTION 2 & 3 CONTAINER - HEIGHT DIKURANGI ===== */
+        .content-sections {
+            height: calc(var(--section2-height) + var(--section3-height));
+            min-height: 280px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 0 15px 0; /* BOTTOM MARGIN 0 */
+            flex-shrink: 0;
+        }
+
+        .content-section {
+            background: var(--bg-white);
+            border-radius: var(--radius-lg);
+            padding: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            border: 2px solid;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .section-left {
+            border-color: #4caf50;
+        }
+
+        .section-right {
+            border-color: #2196f3;
+        }
+
+        .content-title {
+            font-size: clamp(14px, 1.9vw, 17px);
+            font-weight: 700;
+            color: var(--primary-navy);
+            text-align: center;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid;
+            flex-shrink: 0;
+        }
+
+        .section-left .content-title {
+            border-bottom-color: #4caf50;
+            color: #2e7d32;
+        }
+
+        .section-right .content-title {
+            border-bottom-color: #2196f3;
+            color: #1565c0;
+        }
+
+        /* SECTION 2 & 3 CONTENT BODY - NO SCROLL! */
+        .content-body {
+            flex: 1;
+            position: relative;
+            overflow: hidden !important;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .slide-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s ease;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .slide-container.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* ===== SECTION 2: SPIRITUAL CONTENT ===== */
+        .spiritual-content {
+            text-align: center;
+            padding: 8px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .spiritual-icon {
+            font-size: clamp(22px, 3.2vw, 30px);
+            margin-bottom: 15px;
+            flex-shrink: 0;
+        }
+
+        .spiritual-text {
+            font-size: clamp(14px, 1.9vw, 17px);
+            font-weight: 600;
+            color: var(--text-dark);
+            line-height: 1.5;
+            margin-bottom: 10px;
+            font-style: italic;
+            padding: 0 5px;
+        }
+
+        .spiritual-source {
+            font-size: clamp(12px, 1.5vw, 14px);
+            color: var(--text-gray);
+            font-weight: 500;
+            margin-top: 10px;
+            flex-shrink: 0;
+        }
+
+        .dots-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 15px;
+            flex-shrink: 0;
+        }
+
+        .dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: var(--primary-orange);
+            transform: scale(1.3);
+        }
+
+        /* SUNNAH JUMAT STYLE */
+        .sunnah-title {
+            font-size: clamp(15px, 2.1vw, 18px);
+            font-weight: 700;
+            color: var(--primary-navy);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .sunnah-text {
+            font-size: clamp(14px, 1.9vw, 17px);
+            font-weight: 600;
+            color: var(--text-dark);
+            line-height: 1.5;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        /* ===== SECTION 3: INFO CONTENT - 2 ITEM PER SLIDE ===== */
+        .info-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px; /* GAP BESAR UNTUK 2 ITEM SAJA */
+            height: 100%;
+            justify-content: center;
+            padding: 10px 0;
+        }
+
+        .info-item {
+            background: linear-gradient(135deg, #f8f9fa, #ffffff);
+            border-radius: var(--radius-md);
+            padding: 18px 16px !important; /* PADDING BESAR */
+            border-left: 4px solid var(--primary-orange);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 75px; /* TINGGI CUKUP */
+            flex: 1;
+        }
+
+        .info-icon {
+            font-size: clamp(16px, 2.2vw, 20px);
+            margin-bottom: 8px;
+            color: var(--primary-orange);
+        }
+
+        .info-title {
+            font-size: clamp(14px, 1.9vw, 17px);
+            font-weight: 700;
+            color: var(--primary-navy);
+            margin-bottom: 6px;
+            line-height: 1.3;
+        }
+
+        .info-desc {
+            font-size: clamp(13px, 1.7vw, 15px);
+            color: var(--text-gray);
+            line-height: 1.4;
+        }
+
+        /* PETUGAS JUMAT STYLE */
+        .petugas-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            height: 100%;
+            justify-content: center;
+            padding: 10px 0;
+        }
+
+        .petugas-card {
+            background: linear-gradient(135deg, #fff3e0, #fff8e1);
+            border-radius: var(--radius-md);
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 2px solid #ffb74d;
+            transition: all 0.3s ease;
+            min-height: 70px;
+        }
+
+        .petugas-card.highlight {
+            background: linear-gradient(135deg, #fffde7, #fff9c4);
+            border-color: var(--primary-gold);
+            box-shadow: 0 4px 12px rgba(255, 193, 7, 0.2);
+        }
+
+        .petugas-icon {
+            font-size: clamp(18px, 2.5vw, 22px);
+            width: 45px;
+            height: 45px;
+            background: white;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            color: var(--primary-orange);
+        }
+
+        .petugas-details {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .petugas-role {
+            font-size: clamp(12px, 1.5vw, 14px);
+            color: var(--primary-orange);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .petugas-name {
+            font-size: clamp(14px, 1.9vw, 17px);
+            color: var(--text-dark);
+            font-weight: 700;
+            margin-top: 4px;
+            line-height: 1.3;
+        }
+
+        .jadwal-jumat-info {
+            background: linear-gradient(135deg, var(--primary-navy), var(--primary-dark-navy));
+            border-radius: var(--radius-md);
+            padding: 12px;
+            margin-top: 15px;
+            text-align: center;
+            color: white;
+            border: 2px solid var(--primary-orange);
+            flex-shrink: 0;
+        }
+
+        .jadwal-jumat-info p {
+            font-size: clamp(13px, 1.7vw, 15px);
+            margin: 6px 0;
+            line-height: 1.4;
+        }
+
+        /* ===== FOOTER MARQUEE - FIXED FINAL ===== */
+        .footer {
+            height: var(--footer-height);
+            min-height: 45px !important; /* TINGGI PASTI */
+            background: linear-gradient(135deg, var(--primary-navy), var(--primary-dark-navy));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-top: 3px solid var(--primary-orange);
+            flex-shrink: 0;
+            margin-top: 5px !important; /* JARAK DARI SECTION DI ATAS */
+            position: relative;
+            z-index: 100;
+        }
+
+        .marquee-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .marquee-content {
+            display: inline-block;
+            white-space: nowrap;
+            color: var(--primary-orange);
+            font-size: clamp(14px, 1.9vw, 17px) !important;
+            font-weight: 600;
+            animation: marqueeScroll 120s linear infinite;
+            padding-left: 100%;
+            letter-spacing: 0.5px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            line-height: 1.2;
+        }
+
+        @keyframes marqueeScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* ===== FRIDAY MODE STYLES ===== */
+        .friday-mode .header {
+            background: linear-gradient(135deg, var(--primary-navy) 0%, #4a148c 50%, var(--primary-dark-navy) 100%);
+            border-bottom-color: var(--primary-gold);
+        }
+
+        .friday-mode .masjid-name {
+            color: var(--primary-gold);
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+        }
+
+        .friday-mode .masjid-name::before {
+            content: "✨ ";
+        }
+
+        .friday-mode .masjid-name::after {
+            content: " ✨";
+        }
+
+        .friday-mode .hijri-date {
+            color: var(--primary-gold);
+            font-weight: 600;
+        }
+
+        .friday-mode .section-prayer {
+            border-color: var(--primary-gold);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.15);
+        }
+
+        .friday-mode .section-title {
+            color: var(--primary-gold);
+        }
+
+        .friday-mode .section-title::after {
+            background: linear-gradient(90deg, var(--primary-gold), #ffab00);
+        }
+
+        .friday-mode .footer {
+            background: linear-gradient(135deg, var(--primary-navy), #4a148c);
+            border-top-color: var(--primary-gold);
+        }
+
+        .friday-mode .sunnah-title {
+            color: var(--primary-gold);
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.2);
+        }
+
+        /* ===== COUNTDOWN OVERLAY ===== */
+        .countdown-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--primary-dark-navy), #1a237e, #283593, #1a237e, var(--primary-dark-navy));
+            background-size: 400% 400%;
+            z-index: 9999;
+            display: none;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        .countdown-overlay.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.5s ease, gradientBG 15s ease infinite;
+        }
+
+        .countdown-wrapper {
+            text-align: center;
+            padding: 20px;
+            max-width: 90vw;
+        }
+
+        .countdown-icon {
+            font-size: clamp(40px, 10vw, 60px);
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.5));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .countdown-header {
+            font-size: clamp(18px, 4vw, 24px);
+            color: var(--primary-orange);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255, 111, 0, 0.5);
+        }
+
+        .countdown-prayer {
+            font-size: clamp(24px, 6vw, 36px);
+            color: var(--text-light);
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+            letter-spacing: 0.5px;
+        }
+
+        .countdown-timer {
+            font-size: clamp(50px, 12vw, 80px);
+            color: var(--primary-orange);
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 20px;
+            text-shadow: 0 0 25px rgba(255, 111, 0, 0.6);
+            letter-spacing: 2px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .countdown-message {
+            font-size: clamp(16px, 3vw, 20px);
+            color: var(--text-light);
+            font-style: italic;
+            opacity: 0.9;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            transition: opacity 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); text-shadow: 0 0 25px rgba(255, 111, 0, 0.6); }
+            50% { transform: scale(1.03); text-shadow: 0 0 40px rgba(255, 111, 0, 0.9); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes gradientBG {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* ===== MOBILE FALLBACK ===== */
+        @media screen and (max-width: 1024px) {
+            .prayer-horizontal-grid {
+                grid-template-columns: repeat(3, 1fr);
+                grid-template-rows: repeat(2, 1fr);
+                gap: 10px;
+                height: auto;
+            }
+            
+            .content-sections {
+                grid-template-columns: 1fr;
+                height: auto;
+                min-height: 300px;
+                margin: 0 12px 0;
+            }
+            
+            .content-section {
+                min-height: 160px;
+            }
+            
+            .header {
+                flex-direction: column;
+                height: auto;
+                min-height: 90px;
+                padding: 10px 15px;
+                gap: 10px;
+            }
+            
+            .logo-section, .clock-section, .date-section {
+                width: 100%;
+                text-align: center;
+                margin: 5px 0;
+            }
+            
+            .date-section {
+                align-items: center;
+            }
+            
+            .clock-section {
+                order: 1;
+            }
+            
+            .logo-section {
+                order: 2;
+            }
+            
+            .date-section {
+                order: 3;
+            }
+        }
+
+        /* ===== UTILITY CLASSES ===== */
+        .hidden {
+            display: none !important;
+        }
+        
+        .visible {
+            display: block !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <!-- Left: Logo & Masjid Info -->
+            <div class="logo-section">
+                <div class="logo-icon">🕌</div>
+                <div class="masjid-info">
+                    <h1 class="masjid-name">MASJID ABDURRAHMAN STMIK TAZKIA</h1>
+                    <div class="masjid-location">Dramaga, Bogor - Jawa Barat</div>
+                </div>
+            </div>
+
+            <!-- Center: Live Clock -->
+            <div class="clock-section">
+                <div class="live-clock">
+                    <span class="time-digits" id="current-time">00:00:00</span>
+                    <span class="wib-badge">WIB</span>
+                </div>
+            </div>
+
+            <!-- Right: Dates -->
+            <div class="date-section">
+                <div class="gregorian-date" id="current-date">-</div>
+                <div class="hijri-date" id="hijri-date-header">-</div>
+            </div>
+        </header>
+
+        <!-- Section 1: Jadwal Shalat -->
+        <section class="section-prayer">
+            <h2 class="section-title">JADWAL SHALAT HARI INI</h2>
+            <div class="prayer-horizontal-grid" id="prayer-grid">
+                <!-- Generated by JavaScript -->
+            </div>
+            <div class="countdown-container">
+                <div class="countdown-text" id="next-prayer-countdown">MEMUAT JADWAL SHALAT...</div>
+            </div>
+        </section>
+
+        <!-- Section 2 & 3 Container -->
+        <div class="content-sections">
+            <!-- Left Section: Spiritual Content -->
+            <section class="content-section section-left">
+                <h3 class="content-title" id="left-section-title">HADITS & HIKMAH</h3>
+                <div class="content-body">
+                    <!-- Normal Days: Spiritual Slides -->
+                    <div class="slide-container active" id="spiritual-slide">
+                        <div class="spiritual-content">
+                            <div class="spiritual-icon" id="spiritual-icon">📿</div>
+                            <div class="spiritual-text" id="spiritual-text">Memuat konten spiritual...</div>
+                            <div class="spiritual-source" id="spiritual-source">-</div>
+                            <div class="dots-indicator" id="spiritual-dots">
+                                <!-- Generated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Friday Mode: Sunnah Jumat Slides -->
+                    <div class="slide-container hidden" id="sunnah-slide">
+                        <div class="spiritual-content">
+                            <div class="spiritual-icon" id="sunnah-icon">🛁</div>
+                            <div class="sunnah-title" id="sunnah-title">Sunnah Jumat</div>
+                            <div class="sunnah-text" id="sunnah-text">Memuat sunnah Jumat...</div>
+                            <div class="spiritual-source" id="sunnah-source">-</div>
+                            <div class="dots-indicator" id="sunnah-dots">
+                                <!-- Generated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Section: Info & Announcements -->
+            <section class="content-section section-right">
+                <h3 class="content-title" id="right-section-title">INFORMASI & PENGUMUMAN</h3>
+                <div class="content-body">
+                    <!-- Normal Days: Info Slides -->
+                    <div class="slide-container active" id="info-slide">
+                        <div class="info-content" id="info-content">
+                            <!-- 2 ITEM PER SLIDE - Generated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <!-- Friday Mode: Petugas Jumat -->
+                    <div class="slide-container hidden" id="petugas-jumat-slide">
+                        <div class="petugas-container" id="petugas-container">
+                            <!-- Generated by JavaScript -->
+                        </div>
+                        <div class="jadwal-jumat-info">
+                            <p>🕌 <strong>Khutbah:</strong> 11:45 WIB</p>
+                            <p>🙏 <strong>Shalat Jumat:</strong> 12:15 WIB</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Footer Marquee -->
+        <footer class="footer">
+            <div class="marquee-container">
+                <div class="marquee-content" id="marquee-text">Memuat running text...</div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Countdown Overlay -->
+    <div class="countdown-overlay" id="countdown-overlay">
+        <div class="countdown-wrapper">
+            <div class="countdown-icon">🕌</div>
+            <h2 class="countdown-header">MENUJU WAKTU ADZAN</h2>
+            <div class="countdown-prayer" id="countdown-prayer-name">DZUHUR</div>
+            <div class="countdown-timer" id="countdown-timer">02:00</div>
+            <p class="countdown-message" id="countdown-message">Luruskan dan rapatkan shaf kalian</p>
+        </div>
+    </div>
+
+    <script>
+        // ===========================================
+        // FULLSCREEN HELPER - SIMPLE
+        // ===========================================
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'F11') {
+                e.preventDefault();
+                toggleFullscreen();
+            }
+        });
+        
+        // Auto fullscreen saat pertama load
+        setTimeout(() => {
+            if (window.innerWidth > 768) {
+                toggleFullscreen();
+            }
+        }, 1000);
+
+        // ===========================================
+        // CONFIGURATION & STATE
+        // ===========================================
+        'use strict';
+
+        const CONFIG = {
+            LOCATION: {
+                name: 'Dramaga, Bogor',
+                latitude: -6.5533,
+                longitude: 106.7394,
+                timezone: 'Asia/Jakarta',
+                method: 2 // ISNA
+            },
+            API: {
+                prayerTimes: 'https://api.aladhan.com/v1/timings',
+                timeout: 5000
+            },
+            TIMING: {
+                spiritualInterval: 60000, // 60 detik untuk spiritual
+                infoInterval: 30000, // 30 DETIK untuk info section
+                marqueeInterval: 60000,
+                countdownCheck: 1000,
+                clockUpdate: 1000,
+                dailyRefresh: 60000,
+                modeCheck: 1000
+            }
+        };
+
+        const STATE = {
+            currentPrayerTimes: null,
+            currentMode: 'normal',
+            isCountdownActive: false,
+            isFridayMode: false,
+            
+            spiritualIndex: 0,
+            spiritualContent: [],
+            sunnahIndex: 0,
+            sunnahContent: [],
+            
+            infoSlideIndex: 0, // INDEKS SLIDE INFO (setiap slide 2 item)
+            infoSlides: [], // SLIDE INFO (2 item per slide)
+            petugasContent: [],
+            
+            marqueeContent: [],
+            currentMarquee: '',
+            
+            countdownMessageIndex: 0,
+            countdownMessages: [
+                "Luruskan dan rapatkan shaf kalian",
+                "Matikan handphone dan alat elektronik",
+                "Niatkan shalat dengan ikhlas karena Allah",
+                "Segeralah menuju shaf paling depan"
+            ]
+        };
+
+        // ===========================================
+        // DATA: 21 HADITS (3 PER HARI × 7 HARI)
+        // ===========================================
+        const DAILY_HADITS = {
+            0: [ // Minggu
+                { icon: "📿", text: "Sebaik-baik manusia adalah yang paling bermanfaat bagi manusia", source: "HR. Thabrani" },
+                { icon: "🤲", text: "Doa adalah senjata seorang mukmin, tiang agama, dan cahaya langit dan bumi", source: "HR. Al-Hakim" },
+                { icon: "🌙", text: "Waktu yang paling dekat seorang hamba dengan Tuhannya adalah saat ia sedang sujud", source: "HR. Muslim" }
+            ],
+            1: [ // Senin
+                { icon: "🌙", text: "Sebaik-baik manusia adalah yang paling bermanfaat bagi manusia", source: "HR. Thabrani" },
+                { icon: "📚", text: "Menuntut ilmu adalah kewajiban bagi setiap muslim, laki-laki maupun perempuan", source: "HR. Ibnu Majah" },
+                { icon: "🤲", text: "Barangsiapa merintis jalan mencari ilmu, Allah akan memudahkan baginya jalan menuju surga", source: "HR. Muslim" }
+            ],
+            2: [ // Selasa
+                { icon: "💎", text: "Senyummu kepada saudaramu adalah sedekah", source: "HR. Tirmidzi" },
+                { icon: "🌟", text: "Allah tidak melihat bentuk rupa dan hartamu, tetapi Dia melihat hati dan amalmu", source: "HR. Muslim" },
+                { icon: "✨", text: "Sesungguhnya Allah mencintai pekerjaan yang dilakukan dengan tekun meskipun sedikit", source: "HR. Muslim" }
+            ],
+            3: [ // Rabu
+                { icon: "🕌", text: "Setiap amal perbuatan tergantung niatnya, dan setiap orang akan mendapat apa yang diniatkannya", source: "HR. Bukhari & Muslim" },
+                { icon: "📖", text: "Bacalah Al-Qur'an, ia akan datang pada hari kiamat sebagai pemberi syafaat bagi pembacanya", source: "HR. Muslim" },
+                { icon: "🌙", text: "Barangsiapa berpuasa Ramadhan karena iman dan mengharap pahala, diampuni dosa-dosanya yang telah lalu", source: "HR. Bukhari" }
+            ],
+            4: [ // Kamis
+                { icon: "💚", text: "Ciri orang munafik ada tiga: bila berbicara ia berdusta, bila berjanji ia mengingkari, bila diberi amanat ia berkhianat", source: "HR. Bukhari & Muslim" },
+                { icon: "🤝", text: "Mukmin yang kuat lebih baik dan lebih dicintai Allah daripada mukmin yang lemah", source: "HR. Muslim" },
+                { icon: "🕌", text: "Kesabaran itu ada pada saat pertama kali ditimpa musibah", source: "HR. Bukhari" }
+            ],
+            5: [ // Jumat
+                { icon: "🕌", text: "Barangsiapa membaca surat Al-Kahfi pada hari Jumat, Allah akan menerangi hidupnya di antara dua Jumat", source: "HR. Baihaqi" },
+                { icon: "🌟", text: "Hari Jumat adalah hari raya bagi umatku", source: "HR. Abu Daud" },
+                { icon: "💎", text: "Perbanyaklah bershalawat kepadaku pada hari Jumat", source: "HR. Abu Daud" }
+            ],
+            6: [ // Sabtu
+                { icon: "📿", text: "Barangsiapa bertakwa kepada Allah, niscaya Dia akan membukakan jalan keluar baginya", source: "QS. Ath-Thalaq: 2-3" },
+                { icon: "🤲", text: "Dan barangsiapa bertawakal kepada Allah, niscaya Allah akan mencukupkan keperluannya", source: "QS. Ath-Thalaq: 3" },
+                { icon: "🌙", text: "Sesungguhnya Allah beserta orang-orang yang sabar", source: "QS. Al-Baqarah: 153" }
+            ]
+        };
+
+        // ===========================================
+        // DATA: AYAT QURAN & HIKMAH
+        // ===========================================
+        const QURAN_AYATS = [
+            { icon: "📖", text: "Sesungguhnya shalat itu mencegah dari perbuatan keji dan mungkar", source: "QS. Al-Ankabut: 45" },
+            { icon: "🌙", text: "Dan mintalah pertolongan dengan sabar dan shalat", source: "QS. Al-Baqarah: 45" },
+            { icon: "💎", text: "Sesungguhnya bersama kesulitan ada kemudahan", source: "QS. Al-Insyirah: 6" },
+            { icon: "🕌", text: "Tidak ada paksaan dalam agama", source: "QS. Al-Baqarah: 256" },
+            { icon: "✨", text: "Sesungguhnya Allah tidak akan mengubah nasib suatu kaum hingga mereka mengubah diri mereka sendiri", source: "QS. Ar-Ra'd: 11" }
+        ];
+
+        const HIKMAH_ULAMA = [
+            { icon: "🧠", text: "Ilmu tanpa amal seperti pohon tanpa buah", source: "Imam Syafi'i" },
+            { icon: "💭", text: "Sabar memiliki dua sisi, sisi yang satu adalah sabar, sisi yang lain adalah bersyukur kepada Allah", source: "Ibnu Taimiyah" },
+            { icon: "🌟", text: "Amal yang paling utama adalah yang paling ikhlas dan paling benar", source: "Fudhail bin Iyadh" },
+            { icon: "📚", text: "Barangsiapa menginginkan dunia maka dengan ilmu, barangsiapa menginginkan akhirat maka dengan ilmu", source: "Imam Syafi'i" }
+        ];
+
+        // ===========================================
+        // DATA: SUNNAH JUMAT (6 ITEM)
+        // ===========================================
+        const SUNNAH_JUMAT = [
+            { icon: "🛁", title: "MANDI JUMAT", text: "Mandi besar pada hari Jumat adalah wajib bagi setiap muslim yang telah baligh", source: "HR. Bukhari & Muslim" },
+            { icon: "👔", title: "PAKAI PAKAIAN BAIK", text: "Hendaknya memakai pakaian terbaik dan memakai minyak wangi", source: "HR. Bukhari" },
+            { icon: "🚶", title: "BERANGKAT LEBIH AWAL", text: "Berangkat lebih awal ke masjid dan berjalan dengan tenang", source: "HR. Bukhari" },
+            { icon: "🤲", title: "SHALAWAT NABI", text: "Memperbanyak shalawat kepada Nabi Muhammad SAW", source: "HR. Abu Daud" },
+            { icon: "📖", title: "BACA SURAT AL-KAHFI", text: "Membaca surat Al-Kahfi pada malam Jumat atau hari Jumat", source: "HR. Baihaqi" },
+            { icon: "🤲", title: "PERBANYAK DOA", text: "Memperbanyak doa di waktu mustajab (saat-saat terakhir setelah Ashar)", source: "HR. Bukhari" }
+        ];
+
+        // ===========================================
+        // DATA: INFO ITEMS - SEMUA ITEM
+        // ===========================================
+        const INFO_ITEMS = [
+            { icon: "💝", title: "DONASI PEMBANGUNAN", desc: "Rek: BSI 1234567890 a.n. Masjid Abdurrahman" },
+            { icon: "📱", title: "QRIS DONASI", desc: "Scan QRIS untuk donasi digital" },
+            { icon: "🏗️", title: "PROYEK MASJID", desc: "Renovasi perpustakaan sedang berlangsung" },
+            { icon: "📞", title: "KONTAK BEND AHARA", desc: "0812-3456-7890 (Bpk. Ahmad)" },
+            { icon: "📢", title: "KAJIAN RUTIN", desc: "Setiap Ahad ba'da Maghrib - Ust. Abdullah" },
+            { icon: "🕌", title: "SHALAT BERJAMAAH", desc: "Imam tetap: Ust. Muhammad" },
+            { icon: "📚", title: "PERPUSTAKAAN", desc: "Buka 08:00-12:00 WIB. Gratis pinjam" },
+            { icon: "🚧", title: "PERHATIAN", desc: "Hati-hati area renovasi kamar mandi" },
+            { icon: "📅", title: "TAHLILAN RUTIN", desc: "Malam Jumat ba'da Isya - Aula Masjid" },
+            { icon: "👨‍👩‍👧‍👦", title: "BAZAR UMKM", desc: "Sabtu-Minggu, 08:00-17:00 WIB" },
+            { icon: "🎓", title: "TPA MASJID", desc: "Belajar mengaji anak-anak setiap sore" },
+            { icon: "🤲", title: "DOA BERSAMA", desc: "Setiap ba'da Shubuh berjamaah" },
+            { icon: "🍯", title: "MADU ASLI", desc: "Madu hutan Sumbawa. Hub: Bpk. Hadi" },
+            { icon: "🥮", title: "KUE TRADISIONAL", desc: "Lapis legit, nastar. Ibu Siti" },
+            { icon: "👕", title: "BAJU MUSLIM", desc: "Gamis dan baju koko. Ibu Aisyah" },
+            { icon: "📚", title: "BUKU AGAMA", desc: "Koleksi lengkap. Toko Buku Al-Hikmah" },
+            { icon: "🤫", title: "JAGA KETENANGAN", desc: "Tidak berbicara keras dalam masjid" },
+            { icon: "📵", title: "HP MODE SENYAP", desc: "Matikan atau silent handphone" },
+            { icon: "🧹", title: "JAGA KEBERSIHAN", desc: "Buang sampah pada tempatnya" },
+            { icon: "👞", title: "ATUR ALAS KAKI", desc: "Rapikan alas kaki di rak tersedia" }
+        ];
+
+        // ===========================================
+        // DATA: PETUGAS JUMAT (4 ORANG)
+        // ===========================================
+        const PETUGAS_JUMAT = [
+            { icon: "🎤", role: "KHATIB", name: "Dr. H. Ahmad Fauzi, M.Ag." },
+            { icon: "🕌", role: "IMAM SHALAT", name: "Ust. Muhammad Rizki, S.Ag." },
+            { icon: "📣", role: "MUADZIN", name: "Ust. Abdul Rahman" },
+            { icon: "🤲", role: "PETUGAS KEBERSIHAN", name: "Bpk. Suryadi" }
+        ];
+
+        // ===========================================
+        // DATA: MARQUEE CONTENT
+        // ===========================================
+        const MARQUEE_CONTENT = [
+            "🕌 SELAMAT DATANG DI MASJID ABDURRAHMAN STMIK TAZKIA - JAGA KEBERSIHAN DAN KETENANGAN DI AREA MASJID",
+            "🤲 AYO SHALAT BERJAMAAH DI MASJID - PAHALA 27 DERAJAT DIBANDINGKAN SHALAT SENDIRIAN",
+            "📚 PERPUSTAKAAN MASJID BUKA SETIAP HARI 08:00-12:00 WIB - GRATIS PINJAM BUKU AGAMA",
+            "💝 BANTU PEMBANGUNAN PERPUSTAKAAN MASJID - INFAQ DAN SHADAQAH DITERIMA BEND AHARA",
+            "🌙 KAJIAN RUTIN SETIAP AHAD BADA MAGHRIB - UST. ABDULLAH - GRATIS UNTUK UMUM",
+            "👨‍👩‍👧‍👦 BAZAR UMKM SABTU-MINGGU 08:00-17:00 WIB - DUKUNG EKONOMI LINGKUNGAN MASJID",
+            "📢 PENGUMUMAN: RENOVASI KAMAR MANDI SEDANG BERLANGSUNG - MOHON MAKLUM DAN HATI-HATI",
+            "🤫 HARGAI KEKUDUSAN MASJID: JANGAN BERBICARA KETIKA KHATIB SEDANG BERKHUTBAH",
+            "📵 MATIKAN HANDPHONE ATAU SETEL MODE SENYAP SAAT DI DALAM MASJID",
+            "🙏 SHAF SHALAT YANG RAPAT DAN LURUS MENINGKATKAN KEKHUYUKAN BERIBADAH"
+        ];
+
+        // ===========================================
+        // INITIALIZATION
+        // ===========================================
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Digital Signage Masjid - Initializing...');
+            
+            initializeClock();
+            initializeSpiritualContent();
+            initializeInfoContent();
+            initializeMarquee();
+            
+            loadPrayerTimes();
+            
+            setupIntervals();
+            
+            checkDayMode();
+            
+            console.log('Digital Signage Masjid - Initialized successfully!');
+        });
+
+        // ===========================================
+        // CLOCK FUNCTION
+        // ===========================================
+        function initializeClock() {
+            updateClock();
+            setInterval(updateClock, CONFIG.TIMING.clockUpdate);
+        }
+
+        function updateClock() {
+            const now = new Date();
+            
+            // Format time
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            document.getElementById('current-time').textContent = `${hours}:${minutes}:${seconds}`;
+            
+            // Format Gregorian date
+            const options = { 
+                weekday: 'long', 
+                day: 'numeric', 
+                month: 'long', 
+                year: 'numeric' 
+            };
+            const dateString = now.toLocaleDateString('id-ID', options);
+            document.getElementById('current-date').textContent = dateString;
+            
+            // Update mode based on time
+            checkDayMode();
+            checkCountdownMode();
+        }
+
+        // ===========================================
+        // PRAYER TIMES FUNCTION
+        // ===========================================
+        async function loadPrayerTimes() {
+            try {
+                console.log('Loading prayer times...');
+                
+                const cached = localStorage.getItem('prayerTimes');
+                const cacheTime = localStorage.getItem('prayerTimesCacheTime');
+                
+                if (cached && cacheTime) {
+                    const cacheAge = Date.now() - parseInt(cacheTime);
+                    if (cacheAge < 24 * 60 * 60 * 1000) {
+                        console.log('Using cached prayer times');
+                        const data = JSON.parse(cached);
+                        processPrayerTimes(data);
+                        return;
+                    }
+                }
+                
+                const today = new Date();
+                const dateString = `${today.getDate()}-${today.getMonth() + 1}-${today.getFullYear()}`;
+                
+                const response = await fetchWithTimeout(
+                    `${CONFIG.API.prayerTimes}/${dateString}?latitude=${CONFIG.LOCATION.latitude}&longitude=${CONFIG.LOCATION.longitude}&method=${CONFIG.LOCATION.method}&timezone=${CONFIG.LOCATION.timezone}`,
+                    { timeout: CONFIG.API.timeout }
+                );
+                
+                if (!response.ok) throw new Error('API response not ok');
+                
+                const data = await response.json();
+                
+                localStorage.setItem('prayerTimes', JSON.stringify(data));
+                localStorage.setItem('prayerTimesCacheTime', Date.now().toString());
+                
+                processPrayerTimes(data);
+                
+            } catch (error) {
+                console.error('Error loading prayer times:', error);
+                useFallbackPrayerTimes();
+            }
+        }
+
+        function processPrayerTimes(data) {
+            if (!data || !data.data || !data.data.timings) {
+                useFallbackPrayerTimes();
+                return;
+            }
+            
+            const timings = data.data.timings;
+            STATE.currentPrayerTimes = timings;
+            
+            updatePrayerGrid(timings);
+            
+            // Update hijri date in HEADER
+            if (data.data.date && data.data.date.hijri) {
+                const hijri = data.data.date.hijri;
+                document.getElementById('hijri-date-header').textContent = 
+                    `${hijri.day} ${hijri.month.en} ${hijri.year} H`;
+            }
+            
+            updateNextPrayerCountdown();
+        }
+
+        function useFallbackPrayerTimes() {
+            console.log('Using fallback prayer times');
+            
+            const fallbackTimings = {
+                Fajr: "04:30",
+                Dhuhr: "11:45",
+                Asr: "15:00",
+                Maghrib: "17:45",
+                Isha: "19:00",
+                Sunrise: "05:45",
+                Imsak: "04:20",
+                Midnight: "23:00"
+            };
+            
+            STATE.currentPrayerTimes = fallbackTimings;
+            updatePrayerGrid(fallbackTimings);
+            
+            document.getElementById('hijri-date-header').textContent = 
+                "Menggunakan jadwal lokal";
+        }
+
+        function updatePrayerGrid(timings) {
+            const prayers = [
+                { name: "SUBUH", time: timings.Fajr, key: "Fajr" },
+                { name: "DZUHUR", time: timings.Dhuhr, key: "Dhuhr" },
+                { name: "ASHAR", time: timings.Asr, key: "Asr" },
+                { name: "MAGHRIB", time: timings.Maghrib, key: "Maghrib" },
+                { name: "ISYA", time: timings.Isha, key: "Isha" }
+            ];
+            
+            const grid = document.getElementById('prayer-grid');
+            grid.innerHTML = '';
+            
+            const now = new Date();
+            const currentTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+            let activeFound = false;
+            
+            prayers.forEach((prayer, index) => {
+                const prayerTime = convertTo24Hour(prayer.time);
+                const isActive = !activeFound && currentTime >= (index > 0 ? convertTo24Hour(prayers[index-1].time) : "00:00") && currentTime < prayerTime;
+                
+                if (isActive) activeFound = true;
+                
+                const card = document.createElement('div');
+                card.className = `prayer-card ${isActive ? 'active' : ''}`;
+                card.innerHTML = `
+                    <div class="prayer-name">${prayer.name}</div>
+                    <div class="prayer-time">${prayer.time}</div>
+                `;
+                
+                grid.appendChild(card);
+            });
+            
+            if (!activeFound) {
+                const lastCard = grid.lastElementChild;
+                if (lastCard) lastCard.classList.add('active');
+            }
+        }
+
+        function convertTo24Hour(timeStr) {
+            if (!timeStr) return "00:00";
+            
+            const [time, modifier] = timeStr.split(' ');
+            if (!modifier) return timeStr;
+            
+            let [hours, minutes] = time.split(':');
+            
+            if (modifier === 'PM' && hours !== '12') {
+                hours = parseInt(hours, 10) + 12;
+            }
+            if (modifier === 'AM' && hours === '12') {
+                hours = '00';
+            }
+            
+            return `${hours.toString().padStart(2, '0')}:${minutes}`;
+        }
+
+        function updateNextPrayerCountdown() {
+            if (!STATE.currentPrayerTimes) return;
+            
+            const now = new Date();
+            const currentTime = now.getHours() * 60 + now.getMinutes();
+            
+            const prayers = [
+                { name: "SUBUH", time: STATE.currentPrayerTimes.Fajr },
+                { name: "DZUHUR", time: STATE.currentPrayerTimes.Dhuhr },
+                { name: "ASHAR", time: STATE.currentPrayerTimes.Asr },
+                { name: "MAGHRIB", time: STATE.currentPrayerTimes.Maghrib },
+                { name: "ISYA", time: STATE.currentPrayerTimes.Isha }
+            ];
+            
+            let nextPrayer = null;
+            let timeToNext = Infinity;
+            
+            for (const prayer of prayers) {
+                const prayerTime = convertTo24Hour(prayer.time);
+                const [prayerHours, prayerMinutes] = prayerTime.split(':').map(Number);
+                const prayerTotalMinutes = prayerHours * 60 + prayerMinutes;
+                
+                if (prayerTotalMinutes > currentTime) {
+                    const diff = prayerTotalMinutes - currentTime;
+                    if (diff < timeToNext) {
+                        timeToNext = diff;
+                        nextPrayer = prayer;
+                    }
+                }
+            }
+            
+            if (!nextPrayer && prayers.length > 0) {
+                nextPrayer = prayers[0];
+                const prayerTime = convertTo24Hour(nextPrayer.time);
+                const [prayerHours, prayerMinutes] = prayerTime.split(':').map(Number);
+                const prayerTotalMinutes = prayerHours * 60 + prayerMinutes;
+                timeToNext = (24 * 60 - currentTime) + prayerTotalMinutes;
+            }
+            
+            if (nextPrayer) {
+                const hours = Math.floor(timeToNext / 60);
+                const minutes = timeToNext % 60;
+                
+                if (timeToNext <= 120) {
+                    document.getElementById('next-prayer-countdown').innerHTML = 
+                        `<span style="color:#ff4444">⏳ ${hours} jam ${minutes} menit menuju ${nextPrayer.name}</span>`;
+                } else {
+                    document.getElementById('next-prayer-countdown').textContent = 
+                        `Waktu shalat ${nextPrayer.name}: ${nextPrayer.time} (${hours} jam ${minutes} menit lagi)`;
+                }
+            }
+        }
+
+        // ===========================================
+        // SPIRITUAL CONTENT FUNCTIONS
+        // ===========================================
+        function initializeSpiritualContent() {
+            const today = new Date().getDay();
+            STATE.spiritualContent = [
+                ...DAILY_HADITS[today],
+                ...QURAN_AYATS,
+                ...HIKMAH_ULAMA
+            ];
+            
+            STATE.sunnahContent = SUNNAH_JUMAT;
+            
+            createSpiritualDots();
+            createSunnahDots();
+            
+            showNextSpiritualContent();
+            
+            if (STATE.isFridayMode) {
+                showNextSunnahContent();
+            }
+        }
+
+        function createSpiritualDots() {
+            const dotsContainer = document.getElementById('spiritual-dots');
+            dotsContainer.innerHTML = '';
+            
+            for (let i = 0; i < STATE.spiritualContent.length; i++) {
+                const dot = document.createElement('div');
+                dot.className = `dot ${i === 0 ? 'active' : ''}`;
+                dotsContainer.appendChild(dot);
+            }
+        }
+
+        function createSunnahDots() {
+            const dotsContainer = document.getElementById('sunnah-dots');
+            dotsContainer.innerHTML = '';
+            
+            for (let i = 0; i < STATE.sunnahContent.length; i++) {
+                const dot = document.createElement('div');
+                dot.className = `dot ${i === 0 ? 'active' : ''}`;
+                dotsContainer.appendChild(dot);
+            }
+        }
+
+        function showNextSpiritualContent() {
+            if (STATE.spiritualContent.length === 0) return;
+            
+            const content = STATE.spiritualContent[STATE.spiritualIndex];
+            
+            document.getElementById('spiritual-icon').textContent = content.icon;
+            document.getElementById('spiritual-text').textContent = content.text;
+            document.getElementById('spiritual-source').textContent = content.source;
+            
+            updateSpiritualDots();
+            
+            STATE.spiritualIndex = (STATE.spiritualIndex + 1) % STATE.spiritualContent.length;
+        }
+
+        function showNextSunnahContent() {
+            if (STATE.sunnahContent.length === 0) return;
+            
+            const content = STATE.sunnahContent[STATE.sunnahIndex];
+            
+            document.getElementById('sunnah-icon').textContent = content.icon;
+            document.getElementById('sunnah-title').textContent = content.title;
+            document.getElementById('sunnah-text').textContent = content.text;
+            document.getElementById('sunnah-source').textContent = content.source;
+            
+            updateSunnahDots();
+            
+            STATE.sunnahIndex = (STATE.sunnahIndex + 1) % STATE.sunnahContent.length;
+        }
+
+        function updateSpiritualDots() {
+            const dots = document.querySelectorAll('#spiritual-dots .dot');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === STATE.spiritualIndex);
+            });
+        }
+
+        function updateSunnahDots() {
+            const dots = document.querySelectorAll('#sunnah-dots .dot');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === STATE.sunnahIndex);
+            });
+        }
+
+        // ===========================================
+        // INFO CONTENT FUNCTIONS - 2 ITEM PER SLIDE
+        // ===========================================
+        function initializeInfoContent() {
+            // BUAT SLIDE DARI INFO ITEMS (2 ITEM PER SLIDE)
+            STATE.infoSlides = [];
+            for (let i = 0; i < INFO_ITEMS.length; i += 2) {
+                STATE.infoSlides.push(INFO_ITEMS.slice(i, i + 2));
+            }
+            
+            STATE.petugasContent = PETUGAS_JUMAT;
+            
+            showNextInfoSlide();
+            initializePetugasDisplay();
+        }
+
+        function showNextInfoSlide() {
+            if (STATE.infoSlides.length === 0) return;
+            
+            const slide = STATE.infoSlides[STATE.infoSlideIndex];
+            const container = document.getElementById('info-content');
+            container.innerHTML = '';
+            
+            slide.forEach(item => {
+                const infoItem = document.createElement('div');
+                infoItem.className = 'info-item';
+                infoItem.innerHTML = `
+                    <div class="info-icon">${item.icon}</div>
+                    <div class="info-title">${item.title}</div>
+                    <div class="info-desc">${item.desc}</div>
+                `;
+                container.appendChild(infoItem);
+            });
+            
+            STATE.infoSlideIndex = (STATE.infoSlideIndex + 1) % STATE.infoSlides.length;
+        }
+
+        function initializePetugasDisplay() {
+            const container = document.getElementById('petugas-container');
+            container.innerHTML = '';
+            
+            STATE.petugasContent.forEach((petugas, index) => {
+                const petugasCard = document.createElement('div');
+                petugasCard.className = `petugas-card ${index === 0 ? 'highlight' : ''}`;
+                petugasCard.innerHTML = `
+                    <div class="petugas-icon">${petugas.icon}</div>
+                    <div class="petugas-details">
+                        <div class="petugas-role">${petugas.role}</div>
+                        <div class="petugas-name">${petugas.name}</div>
+                    </div>
+                `;
+                container.appendChild(petugasCard);
+            });
+        }
+
+        // ===========================================
+        // MARQUEE FUNCTIONS
+        // ===========================================
+        function initializeMarquee() {
+            STATE.marqueeContent = MARQUEE_CONTENT;
+            
+            updateMarquee();
+            
+            setInterval(updateMarquee, CONFIG.TIMING.marqueeInterval);
+        }
+
+        function updateMarquee() {
+            if (STATE.marqueeContent.length === 0) return;
+            
+            const randomIndex = Math.floor(Math.random() * STATE.marqueeContent.length);
+            const content = STATE.marqueeContent[randomIndex];
+            
+            if (STATE.isCountdownActive) {
+                document.getElementById('marquee-text').textContent = 
+                    "🚨 WAKTU SHALAT SEGERA TIBA 🚨 - SIAPKAN DIRI UNTUK SHALAT BERJAMAAH DI MASJID - LURUSKAN DAN RAPATKAN SHAF KALIAN";
+                return;
+            }
+            
+            if (STATE.isFridayMode) {
+                document.getElementById('marquee-text').textContent = 
+                    "🕌 HARI JUMAT - HARI RAYA UMAT ISLAM 🕌 - PERBANYAK SHALAWAT KEPADA NABI MUHAMMAD SAW - BACA SURAT AL-KAHFI - DATANG LEBIH AWAL KE MASJID";
+                return;
+            }
+            
+            document.getElementById('marquee-text').textContent = content;
+        }
+
+        // ===========================================
+        // MODE MANAGEMENT FUNCTIONS
+        // ===========================================
+        function checkDayMode() {
+            const now = new Date();
+            const dayOfWeek = now.getDay();
+            const hours = now.getHours();
+            
+            if (dayOfWeek === 5) {
+                if (!STATE.isFridayMode) {
+                    enableFridayMode();
+                }
+                
+                if (hours >= 10 && hours < 14) {
+                    showFridayContent();
+                } else {
+                    showNormalContent();
+                }
+            } else {
+                if (STATE.isFridayMode) {
+                    disableFridayMode();
+                }
+                showNormalContent();
+            }
+        }
+
+        function enableFridayMode() {
+            STATE.isFridayMode = true;
+            document.body.classList.add('friday-mode');
+            
+            document.getElementById('left-section-title').textContent = 'SUNNAH JUMAT';
+            document.getElementById('right-section-title').textContent = 'PETUGAS JUMAT';
+            
+            console.log('Friday mode enabled');
+        }
+
+        function disableFridayMode() {
+            STATE.isFridayMode = false;
+            document.body.classList.remove('friday-mode');
+            
+            document.getElementById('left-section-title').textContent = 'HADITS & HIKMAH';
+            document.getElementById('right-section-title').textContent = 'INFORMASI & PENGUMUMAN';
+            
+            console.log('Friday mode disabled');
+        }
+
+        function showFridayContent() {
+            document.getElementById('spiritual-slide').classList.remove('active');
+            document.getElementById('sunnah-slide').classList.add('active');
+            document.getElementById('info-slide').classList.remove('active');
+            document.getElementById('petugas-jumat-slide').classList.add('active');
+        }
+
+        function showNormalContent() {
+            document.getElementById('spiritual-slide').classList.add('active');
+            document.getElementById('sunnah-slide').classList.remove('active');
+            document.getElementById('info-slide').classList.add('active');
+            document.getElementById('petugas-jumat-slide').classList.remove('active');
+        }
+
+        // ===========================================
+        // UTILITY FUNCTIONS
+        // ===========================================
+        function fetchWithTimeout(url, options = {}) {
+            const { timeout = 5000 } = options;
+            
+            return Promise.race([
+                fetch(url),
+                new Promise((_, reject) =>
+                    setTimeout(() => reject(new Error('Request timeout')), timeout)
+                )
+            ]);
+        }
+
+        function setupIntervals() {
+            // Spiritual content: 60 detik
+            setInterval(() => {
+                if (STATE.isFridayMode && document.getElementById('sunnah-slide').classList.contains('active')) {
+                    showNextSunnahContent();
+                } else {
+                    showNextSpiritualContent();
+                }
+            }, CONFIG.TIMING.spiritualInterval);
+            
+            // Info content: 30 DETIK (sesuai permintaan)
+            setInterval(() => {
+                if (STATE.isFridayMode && document.getElementById('petugas-jumat-slide').classList.contains('active')) {
+                    return;
+                }
+                showNextInfoSlide();
+            }, CONFIG.TIMING.infoInterval);
+            
+            setInterval(() => {
+                checkCountdownMode();
+                updateNextPrayerCountdown();
+            }, CONFIG.TIMING.countdownCheck);
+            
+            setInterval(loadPrayerTimes, CONFIG.TIMING.dailyRefresh);
+            
+            setInterval(checkDayMode, CONFIG.TIMING.modeCheck);
+            
+            setInterval(updateMarquee, CONFIG.TIMING.marqueeInterval);
+        }
+
+        function checkCountdownMode() {
+            if (!STATE.currentPrayerTimes) return;
+            
+            const now = new Date();
+            const currentTime = now.getHours() * 60 + now.getMinutes();
+            
+            const prayers = [
+                { name: "SUBUH", time: STATE.currentPrayerTimes.Fajr },
+                { name: "DZUHUR", time: STATE.currentPrayerTimes.Dhuhr },
+                { name: "ASHAR", time: STATE.currentPrayerTimes.Asr },
+                { name: "MAGHRIB", time: STATE.currentPrayerTimes.Maghrib },
+                { name: "ISYA", time: STATE.currentPrayerTimes.Isha }
+            ];
+            
+            for (const prayer of prayers) {
+                const prayerTime = convertTo24Hour(prayer.time);
+                const [prayerHours, prayerMinutes] = prayerTime.split(':').map(Number);
+                const prayerTotalMinutes = prayerHours * 60 + prayerMinutes;
+                
+                if (prayerTotalMinutes - currentTime <= 2 && prayerTotalMinutes - currentTime > 0) {
+                    if (!STATE.isCountdownActive) {
+                        enableCountdownMode(prayer.name);
+                    }
+                    return;
+                }
+            }
+            
+            if (STATE.isCountdownActive) {
+                disableCountdownMode();
+            }
+        }
+
+        function enableCountdownMode(prayerName) {
+            STATE.isCountdownActive = true;
+            
+            document.getElementById('countdown-prayer-name').textContent = prayerName;
+            document.getElementById('countdown-overlay').classList.add('active');
+            
+            startCountdownTimer();
+            
+            console.log(`Countdown mode enabled for ${prayerName}`);
+        }
+
+        function disableCountdownMode() {
+            STATE.isCountdownActive = false;
+            document.getElementById('countdown-overlay').classList.remove('active');
+            console.log('Countdown mode disabled');
+        }
+
+        function startCountdownTimer() {
+            let seconds = 120;
+            
+            function updateTimer() {
+                if (!STATE.isCountdownActive) return;
+                
+                const minutes = Math.floor(seconds / 60);
+                const remainingSeconds = seconds % 60;
+                
+                document.getElementById('countdown-timer').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+                
+                if (seconds % 30 === 0) {
+                    STATE.countdownMessageIndex = (STATE.countdownMessageIndex + 1) % STATE.countdownMessages.length;
+                    document.getElementById('countdown-message').textContent = 
+                        STATE.countdownMessages[STATE.countdownMessageIndex];
+                }
+                
+                if (seconds > 0) {
+                    seconds--;
+                    setTimeout(updateTimer, 1000);
+                } else {
+                    setTimeout(() => {
+                        disableCountdownMode();
+                        enableAzanMode();
+                    }, 1000);
+                }
+            }
+            
+            updateTimer();
+        }
+
+        function enableAzanMode() {
+            document.getElementById('marquee-text').textContent = 
+                "📣 ADZAN TELAH BERKUMANDANG 📣 - SEGERA LAKSANAKAN SHALAT WAJIB - UTAMAKAN SHALAT BERJAMAAH DI MASJID";
+            
+            setTimeout(() => {
+                if (STATE.isCountdownActive === false) {
+                    document.getElementById('marquee-text').textContent = 
+                        "🕌 SHALAT BERJAMAAH DI MASJID MEMBAWA PAHALA 27 DERAJAT - AYO SHALAT DI MASJID";
+                }
+            }, 5 * 60 * 1000);
+            
+            console.log('Azan mode activated');
+        }
+
+        // ===========================================
+        // ERROR HANDLING
+        // ===========================================
+        window.addEventListener('error', function(event) {
+            console.error('Unhandled error:', event.error);
+            
+            setTimeout(() => {
+                location.reload();
+            }, 30000);
+        });
+
+        setInterval(() => {
+            console.log('Auto-reloading for maintenance...');
+            location.reload();
+        }, 6 * 60 * 60 * 1000);
+
+        console.log('Digital Signage System ready!');
+    </script>
+</body>
+</html>
