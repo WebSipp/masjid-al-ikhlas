@@ -396,7 +396,7 @@
             z-index: 1;
         }
         
-        /* RUNNING TEXT - ADAB ISLAM (YANG BENAR) */
+        /* RUNNING TEXT - ADAB ISLAM (SEDERHANA DAN PASTI MUNCUL) */
         .marquee-container {
             background: linear-gradient(90deg, rgba(240, 247, 255, 0.9) 0%, rgba(255, 255, 255, 0.9) 100%);
             padding: 8px 0;
@@ -409,7 +409,6 @@
             flex-shrink: 0;
         }
         
-        /* METHOD YANG BENAR: SATU PERSATU MASUK DAN KELUAR */
         .marquee-track {
             position: absolute;
             top: 0;
@@ -418,10 +417,9 @@
             width: max-content;
             display: flex;
             align-items: center;
-            animation: marquee-slow 300s linear infinite;
+            animation: marquee-very-slow 300s linear infinite;
         }
         
-        /* ANIMASI BARU: SETIAP ITEMPUNYA SENDIRI YANG DIANIMASI */
         .adab-item {
             white-space: nowrap;
             padding: 0 60px;
@@ -430,42 +428,11 @@
             color: var(--primary-dark);
             display: flex;
             align-items: center;
-            animation: item-marquee 300s linear infinite;
         }
         
-        /* ANIMASI UTAMA UNTUK TRACK */
-        @keyframes marquee-slow {
+        @keyframes marquee-very-slow {
             0% { transform: translateX(100vw); }
             100% { transform: translateX(-100%); }
-        }
-        
-        /* ANIMASI UNTUK MASING-MASING ITEM (SATU PERSATU) */
-        @keyframes item-marquee {
-            0%, 5% {
-                opacity: 0;
-                transform: translateX(20px);
-            }
-            10%, 25% {
-                opacity: 1;
-                transform: translateX(0);
-            }
-            30%, 100% {
-                opacity: 0;
-                transform: translateX(-20px);
-            }
-        }
-        
-        /* ATUR DELAY UNTUK SETIAP ITEM */
-        .adab-item:nth-child(1) {
-            animation-delay: 0s;
-        }
-        
-        .adab-item:nth-child(2) {
-            animation-delay: 100s; /* Setelah item pertama selesai */
-        }
-        
-        .adab-item:nth-child(3) {
-            animation-delay: 200s; /* Setelah item kedua selesai */
         }
         
         .adab-item i {
@@ -529,7 +496,7 @@
             .main-container {
                 padding: 20px 30px;
                 gap: 30px;
-                height: calc(100vh - 200px); /* FIXED HEIGHT CALCULATION */
+                height: calc(100vh - 200px);
             }
             
             .sidebar-left {
@@ -1161,26 +1128,12 @@
                 `${hijriDay} ${hijriMonth} ${hijriYear} H`;
         }
         
-        // FUNGSI UNTUK MEMBUAT RUNNING TEXT ADAB YANG BENAR
+        // FUNGSI UNTUK MEMBUAT RUNNING TEXT ADAB (PASTI MUNCUL)
         function createAdabMarquee() {
             const marqueeTrack = document.getElementById('marquee-track');
             marqueeTrack.innerHTML = '';
             
-            // Tambahkan spasi awal yang sangat besar
-            const initialSpace = document.createElement('div');
-            initialSpace.className = 'adab-item';
-            initialSpace.innerHTML = '<i class="fas fa-info-circle"></i> Menampilkan adab-adab Islam...';
-            initialSpace.style.opacity = '0';
-            initialSpace.style.visibility = 'hidden';
-            marqueeTrack.appendChild(initialSpace);
-            
-            // Tambahkan spasi kosong
-            const emptySpace = document.createElement('div');
-            emptySpace.style.padding = '0 100vw';
-            emptySpace.style.visibility = 'hidden';
-            marqueeTrack.appendChild(emptySpace);
-            
-            // Tambahkan adab satu per satu dengan spasi besar antar item
+            // Tambahkan semua adab dengan spasi normal
             adabs.forEach((adab, index) => {
                 const adabItem = document.createElement('div');
                 adabItem.className = 'adab-item';
@@ -1192,12 +1145,11 @@
                 
                 // Tambahkan spasi besar antara item
                 const space = document.createElement('div');
-                space.style.padding = '0 100vw';
-                space.style.visibility = 'hidden';
+                space.style.padding = '0 100px';
                 marqueeTrack.appendChild(space);
             });
             
-            // Tambahkan duplikat untuk looping smooth
+            // Duplikat untuk looping smooth
             adabs.forEach((adab, index) => {
                 const adabItem = document.createElement('div');
                 adabItem.className = 'adab-item';
@@ -1208,8 +1160,7 @@
                 marqueeTrack.appendChild(adabItem);
                 
                 const space = document.createElement('div');
-                space.style.padding = '0 100vw';
-                space.style.visibility = 'hidden';
+                space.style.padding = '0 100px';
                 marqueeTrack.appendChild(space);
             });
         }
