@@ -48,6 +48,7 @@
             position: relative;
             z-index: 10;
             min-height: 80px;
+            flex-shrink: 0;
         }
         
         .date-section {
@@ -99,7 +100,7 @@
             padding: 15px 20px;
             gap: 20px;
             min-height: 0;
-            height: calc(100vh - 190px);
+            overflow: hidden;
         }
         
         /* SIDEBAR KIRI - TIMER & HADIS */
@@ -395,7 +396,7 @@
             z-index: 1;
         }
         
-        /* RUNNING TEXT - ADAB ISLAM (SALING TUNGGU) */
+        /* RUNNING TEXT - ADAB ISLAM (YANG BENAR) */
         .marquee-container {
             background: linear-gradient(90deg, rgba(240, 247, 255, 0.9) 0%, rgba(255, 255, 255, 0.9) 100%);
             padding: 8px 0;
@@ -408,15 +409,19 @@
             flex-shrink: 0;
         }
         
-        /* Method baru untuk running text saling tunggu */
-        .adab-track {
-            display: flex;
+        /* METHOD YANG BENAR: SATU PERSATU MASUK DAN KELUAR */
+        .marquee-track {
             position: absolute;
-            left: 100%;
+            top: 0;
+            left: 0;
+            height: 100%;
             width: max-content;
-            animation: slideInOut 120s linear infinite;
+            display: flex;
+            align-items: center;
+            animation: marquee-slow 300s linear infinite;
         }
         
+        /* ANIMASI BARU: SETIAP ITEMPUNYA SENDIRI YANG DIANIMASI */
         .adab-item {
             white-space: nowrap;
             padding: 0 60px;
@@ -425,43 +430,42 @@
             color: var(--primary-dark);
             display: flex;
             align-items: center;
-            opacity: 0;
-            animation: fadeInOut 120s linear infinite;
+            animation: item-marquee 300s linear infinite;
         }
         
-        /* Animasi baru: satu persatu masuk dan keluar */
-        @keyframes slideInOut {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(calc(-100% - 100vw));
-            }
+        /* ANIMASI UTAMA UNTUK TRACK */
+        @keyframes marquee-slow {
+            0% { transform: translateX(100vw); }
+            100% { transform: translateX(-100%); }
         }
         
-        @keyframes fadeInOut {
+        /* ANIMASI UNTUK MASING-MASING ITEM (SATU PERSATU) */
+        @keyframes item-marquee {
             0%, 5% {
                 opacity: 0;
+                transform: translateX(20px);
             }
-            10%, 30% {
+            10%, 25% {
                 opacity: 1;
+                transform: translateX(0);
             }
-            35%, 100% {
+            30%, 100% {
                 opacity: 0;
+                transform: translateX(-20px);
             }
         }
         
-        /* Atur delay untuk setiap item */
+        /* ATUR DELAY UNTUK SETIAP ITEM */
         .adab-item:nth-child(1) {
             animation-delay: 0s;
         }
         
         .adab-item:nth-child(2) {
-            animation-delay: 40s;
+            animation-delay: 100s; /* Setelah item pertama selesai */
         }
         
         .adab-item:nth-child(3) {
-            animation-delay: 80s;
+            animation-delay: 200s; /* Setelah item kedua selesai */
         }
         
         .adab-item i {
@@ -495,129 +499,129 @@
             font-size: 1.6rem;
         }
         
-        /* RESPONSIVE UNTUK TV BESAR (4K) */
+        /* RESPONSIVE UNTUK TV BESAR (4K) - DIPERBAIKI */
         @media (min-width: 1921px) {
             body {
                 font-size: 1.2rem;
             }
             
             .header {
-                padding: 30px 60px;
-                min-height: 120px;
+                padding: 25px 50px;
+                min-height: 100px;
             }
             
             .hijri-date {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
             
             .gregorian-date {
-                font-size: 1.5rem;
+                font-size: 1.4rem;
             }
             
             .masjid-name {
-                font-size: 3rem;
+                font-size: 2.8rem;
             }
             
             .masjid-address {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
             }
             
             .main-container {
-                padding: 30px 40px;
-                gap: 40px;
-                height: calc(100vh - 250px);
+                padding: 20px 30px;
+                gap: 30px;
+                height: calc(100vh - 200px); /* FIXED HEIGHT CALCULATION */
             }
             
             .sidebar-left {
                 flex: 0 0 35%;
-                gap: 30px;
+                gap: 25px;
             }
             
             .timer-section {
-                padding: 40px;
-                border-radius: 30px;
-                min-height: 300px;
+                padding: 30px;
+                border-radius: 25px;
+                min-height: 250px;
             }
             
             .digital-clock {
-                font-size: 6rem;
+                font-size: 5rem;
             }
             
             .timezone {
-                font-size: 1.8rem;
+                font-size: 1.5rem;
             }
             
             .countdown-container {
-                padding: 25px;
-                border-radius: 20px;
-                min-height: 130px;
+                padding: 20px;
+                border-radius: 18px;
+                min-height: 110px;
             }
             
             .next-prayer-name {
-                font-size: 2rem;
+                font-size: 1.6rem;
             }
             
             .countdown-timer {
-                font-size: 3rem;
+                font-size: 2.5rem;
             }
             
             .wisdom-text {
-                font-size: 1.8rem;
+                font-size: 1.6rem;
                 line-height: 1.8;
             }
             
             .wisdom-reference {
-                font-size: 1.3rem;
-                padding: 10px 25px;
+                font-size: 1.2rem;
+                padding: 8px 20px;
             }
             
             .prayer-schedule {
-                min-height: 150px;
-                padding: 20px 0;
-                border-radius: 30px 30px 0 0;
+                min-height: 130px;
+                padding: 15px 0;
+                border-radius: 25px 25px 0 0;
             }
             
             .schedule-title {
-                font-size: 1.8rem;
-                margin-bottom: 20px;
+                font-size: 1.5rem;
+                margin-bottom: 15px;
             }
             
             .prayer-item {
-                padding: 20px 10px;
-                border-radius: 15px;
-                margin: 0 5px;
+                padding: 15px 8px;
+                border-radius: 12px;
+                margin: 0 4px;
             }
             
             .prayer-name {
-                font-size: 1.2rem;
-                margin-bottom: 10px;
+                font-size: 1.1rem;
+                margin-bottom: 8px;
             }
             
             .prayer-time {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
             
             .marquee-container {
-                height: 60px;
+                height: 55px;
             }
             
             .adab-item {
-                font-size: 1.4rem;
-                padding: 0 80px;
+                font-size: 1.3rem;
+                padding: 0 70px;
             }
             
             .adab-item i {
-                font-size: 1.4rem;
-                margin-right: 15px;
+                font-size: 1.3rem;
+                margin-right: 12px;
             }
         }
         
         /* RESPONSIVE UNTUK LAPTOP 14 INCH & UKURAN LEBIH KECIL */
         @media (max-width: 1366px) {
             .main-container {
-                height: calc(100vh - 180px);
                 padding: 12px 15px;
                 gap: 15px;
+                height: calc(100vh - 180px);
             }
             
             .sidebar-left {
@@ -739,7 +743,7 @@
             
             .adab-item {
                 font-size: 0.9rem;
-                padding: 0 50px;
+                padding: 0 40px;
             }
             
             .main-container {
@@ -816,29 +820,10 @@
             .prayer-name {
                 font-size: 0.8rem;
             }
-        }
-        
-        @media (max-height: 800px) {
-            .main-container {
-                height: calc(100vh - 170px);
-            }
             
-            .timer-section {
-                padding: 15px;
-                min-height: 180px;
-            }
-            
-            .digital-clock {
-                font-size: 3.2rem;
-            }
-            
-            .wisdom-text {
-                font-size: 1.05rem;
-            }
-            
-            .prayer-schedule {
-                min-height: 100px;
-                padding: 10px 0;
+            .adab-item {
+                font-size: 0.85rem;
+                padding: 0 30px;
             }
         }
         
@@ -974,7 +959,7 @@
     
     <!-- RUNNING TEXT - ADAB ISLAM -->
     <div class="marquee-container">
-        <div class="adab-track" id="adab-track">
+        <div class="marquee-track" id="marquee-track">
             <!-- Adab akan diisi oleh JavaScript -->
         </div>
     </div>
@@ -1010,18 +995,9 @@
         
         // DATA ADAB ISLAM
         const adabs = [
-            {
-                text: "Masuk masjid dengan membaca doa dan menggunakan kaki kanan terlebih dahulu",
-                icon: "fas fa-door-open"
-            },
-            {
-                text: "Menjaga kebersihan masjid dan tidak meninggalkan sampah di dalamnya",
-                icon: "fas fa-broom"
-            },
-            {
-                text: "Mematikan atau menyetel mode silent ponsel saat berada di dalam masjid",
-                icon: "fas fa-mobile-alt"
-            }
+            "Masuk masjid dengan membaca doa dan menggunakan kaki kanan terlebih dahulu",
+            "Menjaga kebersihan masjid dan tidak meninggalkan sampah di dalamnya",
+            "Mematikan atau menyetel mode silent ponsel saat berada di dalam masjid"
         ];
         
         // FUNGSI UNTUK UPDATE WAKTU DAN TANGGAL
@@ -1185,42 +1161,56 @@
                 `${hijriDay} ${hijriMonth} ${hijriYear} H`;
         }
         
-        // FUNGSI UNTUK MEMBUAT RUNNING TEXT ADAB (SATU PERSATU)
+        // FUNGSI UNTUK MEMBUAT RUNNING TEXT ADAB YANG BENAR
         function createAdabMarquee() {
-            const adabTrack = document.getElementById('adab-track');
-            adabTrack.innerHTML = '';
+            const marqueeTrack = document.getElementById('marquee-track');
+            marqueeTrack.innerHTML = '';
             
-            // Tambahkan spasi kosong di awal
+            // Tambahkan spasi awal yang sangat besar
+            const initialSpace = document.createElement('div');
+            initialSpace.className = 'adab-item';
+            initialSpace.innerHTML = '<i class="fas fa-info-circle"></i> Menampilkan adab-adab Islam...';
+            initialSpace.style.opacity = '0';
+            initialSpace.style.visibility = 'hidden';
+            marqueeTrack.appendChild(initialSpace);
+            
+            // Tambahkan spasi kosong
             const emptySpace = document.createElement('div');
             emptySpace.style.padding = '0 100vw';
             emptySpace.style.visibility = 'hidden';
-            adabTrack.appendChild(emptySpace);
+            marqueeTrack.appendChild(emptySpace);
             
-            // Tambahkan adab satu per satu dengan spasi besar
+            // Tambahkan adab satu per satu dengan spasi besar antar item
             adabs.forEach((adab, index) => {
                 const adabItem = document.createElement('div');
                 adabItem.className = 'adab-item';
-                adabItem.innerHTML = `<i class="${adab.icon}"></i> ${adab.text}`;
-                adabTrack.appendChild(adabItem);
                 
-                // Tambahkan spasi sangat besar antara item
-                const bigSpace = document.createElement('div');
-                bigSpace.style.padding = '0 100vw';
-                bigSpace.style.visibility = 'hidden';
-                adabTrack.appendChild(bigSpace);
+                const icons = ['fas fa-door-open', 'fas fa-broom', 'fas fa-mobile-alt'];
+                adabItem.innerHTML = `<i class="${icons[index]}"></i> ${adab}`;
+                
+                marqueeTrack.appendChild(adabItem);
+                
+                // Tambahkan spasi besar antara item
+                const space = document.createElement('div');
+                space.style.padding = '0 100vw';
+                space.style.visibility = 'hidden';
+                marqueeTrack.appendChild(space);
             });
             
-            // Tambahkan duplikat untuk looping
+            // Tambahkan duplikat untuk looping smooth
             adabs.forEach((adab, index) => {
                 const adabItem = document.createElement('div');
                 adabItem.className = 'adab-item';
-                adabItem.innerHTML = `<i class="${adab.icon}"></i> ${adab.text}`;
-                adabTrack.appendChild(adabItem);
                 
-                const bigSpace = document.createElement('div');
-                bigSpace.style.padding = '0 100vw';
-                bigSpace.style.visibility = 'hidden';
-                adabTrack.appendChild(bigSpace);
+                const icons = ['fas fa-door-open', 'fas fa-broom', 'fas fa-mobile-alt'];
+                adabItem.innerHTML = `<i class="${icons[index]}"></i> ${adab}`;
+                
+                marqueeTrack.appendChild(adabItem);
+                
+                const space = document.createElement('div');
+                space.style.padding = '0 100vw';
+                space.style.visibility = 'hidden';
+                marqueeTrack.appendChild(space);
             });
         }
         
@@ -1289,6 +1279,33 @@
             }
         }
         
+        // FUNGSI UNTUK MENGHITUNG DAN MENYESUAIKAN TINGGI
+        function calculateAndAdjustHeights() {
+            const header = document.querySelector('.header');
+            const footer = document.querySelector('.prayer-schedule');
+            const marquee = document.querySelector('.marquee-container');
+            const mainContainer = document.querySelector('.main-container');
+            
+            const headerHeight = header.offsetHeight;
+            const footerHeight = footer.offsetHeight;
+            const marqueeHeight = marquee.offsetHeight;
+            
+            // Hitung tinggi yang tersedia untuk main container
+            const windowHeight = window.innerHeight;
+            const availableHeight = windowHeight - headerHeight - footerHeight - marqueeHeight;
+            
+            // Set tinggi main container
+            mainContainer.style.height = availableHeight + 'px';
+            
+            console.log('Height Calculation:', {
+                windowHeight,
+                headerHeight,
+                footerHeight,
+                marqueeHeight,
+                availableHeight
+            });
+        }
+        
         // INISIALISASI SAAT HALAMAN DIMUAT
         document.addEventListener('DOMContentLoaded', function() {
             // Buat jadwal shalat
@@ -1297,7 +1314,7 @@
             // Update tanggal hijriyah
             updateHijriDate();
             
-            // Buat running text adab dengan animasi satu persatu
+            // Buat running text adab dengan animasi yang benar
             createAdabMarquee();
             
             // Update waktu setiap detik
@@ -1327,25 +1344,12 @@
                 }
             });
             
-            // Atur tinggi kontainer saat resize
-            function handleResize() {
-                const headerHeight = document.querySelector('.header').offsetHeight;
-                const footerHeight = document.querySelector('.prayer-schedule').offsetHeight;
-                const marqueeHeight = document.querySelector('.marquee-container').offsetHeight;
-                
-                const mainContainer = document.querySelector('.main-container');
-                const availableHeight = window.innerHeight - headerHeight - footerHeight - marqueeHeight;
-                
-                mainContainer.style.height = availableHeight + 'px';
-            }
-            
-            window.addEventListener('resize', handleResize);
-            setTimeout(handleResize, 100);
-            
             // Handler untuk tombol fullscreen
             document.getElementById('enter-fullscreen-btn').addEventListener('click', function() {
                 enterFullscreen();
                 document.getElementById('fullscreen-overlay').style.display = 'none';
+                // Tunggu sebentar lalu hitung ulang tinggi
+                setTimeout(calculateAndAdjustHeights, 100);
             });
             
             // Deteksi apakah sudah di fullscreen
@@ -1354,22 +1358,31 @@
                     // Jika keluar dari fullscreen, tampilkan overlay lagi
                     document.getElementById('fullscreen-overlay').style.display = 'flex';
                 }
+                // Hitung ulang tinggi setelah perubahan fullscreen
+                setTimeout(calculateAndAdjustHeights, 100);
             });
             
-            // Coba masuk fullscreen otomatis setelah 2 detik (dengan user gesture)
+            // Atur tinggi kontainer saat resize (termasuk saat masuk fullscreen)
+            window.addEventListener('resize', calculateAndAdjustHeights);
+            
+            // Panggil pertama kali
+            setTimeout(calculateAndAdjustHeights, 500);
+            
+            // Coba masuk fullscreen otomatis setelah 1 detik
             setTimeout(() => {
                 // Hanya jika belum fullscreen
                 if (!document.fullscreenElement) {
                     // Tampilkan overlay untuk konfirmasi
                     document.getElementById('fullscreen-overlay').style.display = 'flex';
                 }
-            }, 2000);
+            }, 1000);
             
-            // Coba trigger user gesture untuk fullscreen
+            // Jika user klik di mana saja, coba masuk fullscreen
             document.addEventListener('click', function firstClick() {
                 if (!document.fullscreenElement) {
                     enterFullscreen();
                     document.getElementById('fullscreen-overlay').style.display = 'none';
+                    setTimeout(calculateAndAdjustHeights, 100);
                 }
                 document.removeEventListener('click', firstClick);
             });
