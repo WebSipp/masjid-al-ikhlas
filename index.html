@@ -2,8 +2,8 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <!-- FIXED META TAG - TV & LAPTOP SAMA -->
-    <meta name="viewport" content="width=device-width, initial-scale=0.7, maximum-scale=0.7, user-scalable=no">
+    <!-- META TAG UNTUK SEMUA DEVICE -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Display Digital Masjid Baiturrahman</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
@@ -26,31 +26,34 @@
             box-sizing: border-box;
         }
         
-        body {
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
             font-family: 'Open Sans', sans-serif;
             background: linear-gradient(135deg, #F0F4F8 0%, #E3EAF2 100%);
             color: var(--text-dark);
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            zoom: 0.7; /* TAMBAH INI UNTUK SCALING */
         }
         
-        /* HEADER - TANGGAL DAN INFO MASJID */
+        /* LAYOUT UTAMA - FLEX COLUMN */
+        body {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        
+        /* HEADER - AUTO HEIGHT */
         .header {
+            flex-shrink: 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 30px;
-            background: rgba(255, 255, 255, 0.9);
+            padding: 20px 30px;
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            position: relative;
             z-index: 10;
-            min-height: 80px;
-            flex-shrink: 0;
         }
         
         .date-section {
@@ -59,15 +62,15 @@
         }
         
         .hijri-date {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             color: var(--primary-dark);
             font-weight: 700;
-            margin-bottom: 4px;
+            margin-bottom: 5px;
             letter-spacing: 0.5px;
         }
         
         .gregorian-date {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             color: var(--text-dark);
             font-weight: 600;
             opacity: 0.9;
@@ -80,7 +83,7 @@
         .masjid-name {
             font-family: 'Montserrat', sans-serif;
             font-weight: 800;
-            font-size: 2rem;
+            font-size: 2.2rem;
             color: var(--primary-dark);
             line-height: 1.1;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -88,31 +91,30 @@
         }
         
         .masjid-address {
-            font-size: 0.9rem;
+            font-size: 1rem;
             color: var(--text-dark);
-            margin-top: 3px;
+            margin-top: 5px;
             font-weight: 500;
             opacity: 0.85;
         }
         
-        /* MAIN CONTAINER - SELALU HORIZONTAL */
+        /* MAIN CONTAINER - AMBIL SEMUA RUANG TERSISA */
         .main-container {
-            display: flex;
             flex: 1;
-            padding: 15px 20px;
+            display: flex;
+            padding: 20px;
             gap: 20px;
             min-height: 0;
             overflow: hidden;
         }
         
-        /* SIDEBAR KIRI - TIMER & HADIS */
+        /* SIDEBAR KIRI - 35% */
         .sidebar-left {
-            flex: 0 0 35%;
+            width: 35%;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 20px;
             min-height: 0;
-            height: 100%;
         }
         
         /* TIMER SECTION */
@@ -122,23 +124,26 @@
             -webkit-backdrop-filter: blur(10px);
             border-radius: 20px;
             box-shadow: var(--shadow);
-            padding: 20px;
+            padding: 25px;
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.9);
-            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            flex: 1;
         }
         
         .clock-container {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
         
         .digital-clock {
             font-family: 'Montserrat', sans-serif;
-            font-size: 4rem;
+            font-size: 5rem;
             font-weight: 800;
             color: var(--primary-dark);
             line-height: 1;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             letter-spacing: 2px;
             text-shadow: 0 2px 10px rgba(26, 77, 140, 0.2);
         }
@@ -153,53 +158,53 @@
         }
         
         .timezone {
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             color: var(--primary-light);
             font-weight: 600;
-            margin-top: 5px;
+            margin-top: 8px;
             opacity: 0.9;
         }
         
         .countdown-container {
             background: linear-gradient(135deg, var(--primary-dark) 0%, var(--accent-blue) 100%);
             border-radius: 16px;
-            padding: 15px;
+            padding: 20px;
             box-shadow: 0 10px 20px rgba(46, 119, 187, 0.3);
-            min-height: 90px;
         }
         
         .next-prayer-name {
             font-family: 'Montserrat', sans-serif;
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: var(--text-light);
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
         }
         
         .countdown-timer {
             font-family: 'Montserrat', sans-serif;
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             font-weight: 800;
             color: var(--text-light);
             letter-spacing: 1px;
             text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
         }
         
-        /* HADIS & AYAT SECTION - NO BACKGROUND */
+        /* HADIS & AYAT SECTION */
         .wisdom-section {
-            flex: 1;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            padding: 25px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 15px;
-            min-height: 150px;
-            overflow: visible;
-            background: transparent !important;
-            box-shadow: none !important;
-            border: none !important;
+            flex: 1;
+            border: 1px solid rgba(255, 255, 255, 0.9);
         }
         
         .wisdom-content {
@@ -215,30 +220,30 @@
         }
         
         .wisdom-text {
-            font-size: 1.15rem;
+            font-size: 1.4rem;
             line-height: 1.7;
             color: var(--text-dark);
             font-style: italic;
-            margin-bottom: 12px;
-            padding: 0 10px;
+            margin-bottom: 15px;
+            padding: 0 15px;
             font-weight: 500;
-            max-width: 95%;
+            max-width: 100%;
         }
         
         .wisdom-reference {
-            font-size: 0.95rem;
+            font-size: 1.1rem;
             color: var(--primary-dark);
             font-weight: 700;
             font-style: normal;
-            padding: 6px 15px;
+            padding: 10px 20px;
             background: rgba(26, 77, 140, 0.08);
             border-radius: 50px;
             display: inline-block;
         }
         
-        /* SIDEBAR KANAN - WALLPAPER */
+        /* SIDEBAR KANAN - 65% */
         .sidebar-right {
-            flex: 1;
+            width: 65%;
             background-color: #e6e6e6;
             border-radius: 20px;
             overflow: hidden;
@@ -269,34 +274,34 @@
             opacity: 1;
         }
         
-        /* WALLPAPER 1 - Kaligrafi Masjid */
+        /* WALLPAPER */
         .wallpaper-1 {
             background-image: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), 
                               url('https://images.unsplash.com/photo-1548013146-72479768bada?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
         }
         
-        /* WALLPAPER 2 - Masjidil Haram */
         .wallpaper-2 {
             background-image: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), 
                               url('https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
         }
         
-        /* WALLPAPER 3 - Masjid Nabawi */
         .wallpaper-3 {
             background-image: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), 
                               url('https://images.unsplash.com/photo-1545569341-9eb8b30979d9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
         }
         
-        /* FOOTER - JADWAL SHALAT DENGAN SHIMMER EFFECT */
+        /* FOOTER - JADWAL SHALAT */
+        .footer-container {
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        
         .prayer-schedule {
             background: linear-gradient(135deg, var(--primary-dark) 0%, #153a6e 100%);
-            border-radius: 20px 20px 0 0;
-            padding: 12px 0;
-            min-height: 110px;
-            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
             position: relative;
             z-index: 5;
-            flex-shrink: 0;
         }
         
         .prayer-schedule::before {
@@ -319,9 +324,9 @@
             text-align: center;
             color: var(--text-light);
             font-family: 'Montserrat', sans-serif;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: 600;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
             padding: 0 20px;
             text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
             letter-spacing: 1px;
@@ -330,13 +335,13 @@
         .prayer-grid {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
-            gap: 2px;
-            padding: 0 10px;
+            gap: 5px;
+            padding: 0 20px;
         }
         
         .prayer-item {
             background-color: rgba(255, 255, 255, 0.08);
-            padding: 10px 5px;
+            padding: 12px 8px;
             text-align: center;
             border-radius: 10px;
             margin: 0 3px;
@@ -358,7 +363,6 @@
             z-index: 2;
         }
         
-        /* Efek shimmer untuk item aktif */
         .prayer-item.active::before {
             content: '';
             position: absolute;
@@ -376,11 +380,12 @@
         }
         
         .prayer-name {
-            font-size: 0.9rem;
+            font-size: 1rem;
             color: var(--text-light);
             font-weight: 600;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             opacity: 0.9;
+            text-transform: uppercase;
         }
         
         .prayer-item.active .prayer-name {
@@ -390,7 +395,7 @@
         
         .prayer-time {
             font-family: 'Montserrat', sans-serif;
-            font-size: 1.4rem;
+            font-size: 1.6rem;
             font-weight: 700;
             color: var(--text-light);
             letter-spacing: 1px;
@@ -398,17 +403,15 @@
             z-index: 1;
         }
         
-        /* RUNNING TEXT - ADAB ISLAM (SEDERHANA DAN PASTI MUNCUL) */
+        /* RUNNING TEXT */
         .marquee-container {
             background: linear-gradient(90deg, rgba(240, 247, 255, 0.9) 0%, rgba(255, 255, 255, 0.9) 100%);
-            padding: 8px 0;
+            padding: 12px 0;
             overflow: hidden;
             border-top: 2px solid var(--primary-light);
-            height: 45px;
             position: relative;
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
-            flex-shrink: 0;
         }
         
         .marquee-track {
@@ -425,7 +428,7 @@
         .adab-item {
             white-space: nowrap;
             padding: 0 60px;
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: 600;
             color: var(--primary-dark);
             display: flex;
@@ -438,9 +441,9 @@
         }
         
         .adab-item i {
-            margin-right: 10px;
+            margin-right: 12px;
             color: var(--accent-blue);
-            font-size: 1rem;
+            font-size: 1.1rem;
         }
         
         /* STYLE UNTUK FULLSCREEN */
@@ -449,308 +452,82 @@
         }
         
         body:fullscreen .header {
-            padding: 20px 40px;
+            padding: 25px 40px;
         }
         
         body:fullscreen .masjid-name {
-            font-size: 2.2rem;
+            font-size: 2.5rem;
         }
         
         body:fullscreen .digital-clock {
-            font-size: 4.5rem;
+            font-size: 5.5rem;
         }
         
         body:fullscreen .wisdom-text {
-            font-size: 1.3rem;
+            font-size: 1.5rem;
         }
         
         body:fullscreen .prayer-time {
-            font-size: 1.6rem;
+            font-size: 1.8rem;
         }
         
-        /* RESPONSIVE UNTUK TV BESAR (4K) - DIPERBAIKI */
+        /* RESPONSIVE UNTUK TV BESAR (SCALING SAJA) */
         @media (min-width: 1921px) {
+            /* HANYA PERBESAR FONT, TIDAK UBAH LAYOUT */
             body {
-                font-size: 1.2rem;
-            }
-            
-            .header {
-                padding: 25px 50px;
-                min-height: 100px;
-            }
-            
-            .hijri-date {
-                font-size: 1.8rem;
-            }
-            
-            .gregorian-date {
-                font-size: 1.4rem;
-            }
-            
-            .masjid-name {
-                font-size: 2.8rem;
-            }
-            
-            .masjid-address {
-                font-size: 1.1rem;
-            }
-            
-            .main-container {
-                padding: 20px 30px;
-                gap: 30px;
-                height: calc(100vh - 200px);
-            }
-            
-            .sidebar-left {
-                flex: 0 0 35%;
-                gap: 25px;
-            }
-            
-            .timer-section {
-                padding: 30px;
-                border-radius: 25px;
-                min-height: 250px;
-            }
-            
-            .digital-clock {
-                font-size: 5rem;
-            }
-            
-            .timezone {
-                font-size: 1.5rem;
-            }
-            
-            .countdown-container {
-                padding: 20px;
-                border-radius: 18px;
-                min-height: 110px;
-            }
-            
-            .next-prayer-name {
-                font-size: 1.6rem;
-            }
-            
-            .countdown-timer {
-                font-size: 2.5rem;
-            }
-            
-            .wisdom-text {
-                font-size: 1.6rem;
-                line-height: 1.8;
-            }
-            
-            .wisdom-reference {
-                font-size: 1.2rem;
-                padding: 8px 20px;
-            }
-            
-            .prayer-schedule {
-                min-height: 130px;
-                padding: 15px 0;
-                border-radius: 25px 25px 0 0;
-            }
-            
-            .schedule-title {
-                font-size: 1.5rem;
-                margin-bottom: 15px;
-            }
-            
-            .prayer-item {
-                padding: 15px 8px;
-                border-radius: 12px;
-                margin: 0 4px;
-            }
-            
-            .prayer-name {
-                font-size: 1.1rem;
-                margin-bottom: 8px;
-            }
-            
-            .prayer-time {
-                font-size: 1.8rem;
-            }
-            
-            .marquee-container {
-                height: 55px;
-            }
-            
-            .adab-item {
-                font-size: 1.3rem;
-                padding: 0 70px;
-            }
-            
-            .adab-item i {
-                font-size: 1.3rem;
-                margin-right: 12px;
+                zoom: 1.2;
             }
         }
         
-        /* RESPONSIVE UNTUK LAPTOP 14 INCH & UKURAN LEBIH KECIL */
+        /* MEDIA QUERY UNTUK LAYAR KECIL - TETAP HORIZONTAL */
         @media (max-width: 1366px) {
             .main-container {
-                padding: 12px 15px;
+                padding: 15px;
                 gap: 15px;
-                height: calc(100vh - 180px);
-            }
-            
-            .sidebar-left {
-                flex: 0 0 38%;
-                gap: 12px;
             }
             
             .digital-clock {
-                font-size: 3.5rem;
+                font-size: 4.5rem;
             }
             
             .countdown-timer {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
             
             .wisdom-text {
-                font-size: 1.1rem;
-                line-height: 1.6;
-            }
-            
-            .prayer-time {
                 font-size: 1.3rem;
             }
             
-            .prayer-name {
-                font-size: 0.85rem;
+            .prayer-time {
+                font-size: 1.5rem;
             }
         }
         
-        /* ==== PERUBAHAN KRITIS: HAPUS MEDIA QUERY YANG BUAT VERTIKAL ==== */
-        /* @media (max-width: 1024px) DIHAPUS SEMUA! */
-        /* TIDAK ADA LAGI YANG MENGUBAH flex-direction: column */
+        /* HAPUS SEMUA MEDIA QUERY YANG UBAH KE VERTIKAL */
+        /* TIDAK ADA @media (max-width: 1024px) LAGI */
         
-        /* MEDIA QUERY UNTUK SCALING SAJA (TIDAK UBAH LAYOUT) */
-        @media (max-width: 1024px) {
-            /* HANYA SCALING, TIDAK UBAH LAYOUT */
-            body {
-                zoom: 0.6; /* Scale down untuk layar kecil */
-            }
-        }
-        
-        /* MEDIA QUERY LAINNYA - HANYA UKURAN FONT */
+        /* UNTUK LAYAR SANGAT KECIL - TETAP HORIZONTAL TAPI PERKECIL */
         @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
-                text-align: center;
-                gap: 10px;
-                padding: 12px 20px;
-                min-height: auto;
+            /* HANYA PERKECIL, TIDAK UBAH LAYOUT */
+            body {
+                zoom: 0.9;
             }
             
-            .date-section, .masjid-section {
-                text-align: center;
-                width: 100%;
+            .header {
+                flex-direction: row;
+                padding: 15px 20px;
             }
             
             .masjid-name {
-                font-size: 1.6rem;
-            }
-            
-            .hijri-date {
-                font-size: 1.2rem;
-            }
-            
-            .gregorian-date {
-                font-size: 1rem;
-            }
-            
-            .digital-clock {
-                font-size: 3rem;
-            }
-            
-            .countdown-timer {
                 font-size: 1.8rem;
             }
             
-            .wisdom-text {
-                font-size: 1.05rem;
-            }
-            
-            .prayer-grid {
-                grid-template-columns: repeat(6, 1fr); /* TETAP 6 KOLOM */
-            }
-            
-            .marquee-container {
-                height: 40px;
-            }
-            
-            .adab-item {
-                font-size: 0.9rem;
-                padding: 0 40px;
+            .hijri-date {
+                font-size: 1.3rem;
             }
             
             .main-container {
-                padding: 10px;
-                gap: 12px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .header {
-                padding: 10px 15px;
-            }
-            
-            .masjid-name {
-                font-size: 1.4rem;
-            }
-            
-            .timer-section {
-                padding: 15px;
-                min-height: 170px;
-            }
-            
-            .digital-clock {
-                font-size: 2.5rem;
-            }
-            
-            .countdown-timer {
-                font-size: 1.5rem;
-            }
-            
-            .next-prayer-name {
-                font-size: 1.1rem;
-            }
-            
-            .wisdom-section {
-                padding: 10px;
-            }
-            
-            .wisdom-text {
-                font-size: 1rem;
-                line-height: 1.5;
-            }
-            
-            .wisdom-reference {
-                font-size: 0.85rem;
-                padding: 5px 12px;
-            }
-            
-            .prayer-schedule {
-                min-height: 100px;
-                padding: 10px 0;
-            }
-            
-            .schedule-title {
-                font-size: 1.1rem;
-                margin-bottom: 10px;
-            }
-            
-            .prayer-time {
-                font-size: 1.2rem;
-            }
-            
-            .prayer-name {
-                font-size: 0.8rem;
-            }
-            
-            .adab-item {
-                font-size: 0.85rem;
-                padding: 0 30px;
+                flex-direction: row; /* PASTIKAN HORIZONTAL */
             }
         }
         
@@ -764,7 +541,7 @@
             animation: fadeIn 0.5s ease-out;
         }
         
-        /* Fullscreen Overlay untuk Prompt */
+        /* Fullscreen Overlay */
         .fullscreen-overlay {
             position: fixed;
             top: 0;
@@ -784,13 +561,13 @@
         
         .fullscreen-overlay h2 {
             font-family: 'Montserrat', sans-serif;
-            font-size: 2rem;
+            font-size: 2.5rem;
             margin-bottom: 20px;
             color: var(--accent-blue);
         }
         
         .fullscreen-overlay p {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             margin-bottom: 30px;
             max-width: 600px;
             line-height: 1.6;
@@ -816,7 +593,7 @@
     </style>
 </head>
 <body>
-    <!-- FULLSCREEN OVERLAY (akan dihilangkan setelah masuk fullscreen) -->
+    <!-- FULLSCREEN OVERLAY -->
     <div class="fullscreen-overlay" id="fullscreen-overlay">
         <h2>Display Digital Masjid Baiturrahman</h2>
         <p>Untuk pengalaman terbaik, tampilan akan dibuka dalam mode layar penuh. Klik tombol di bawah untuk melanjutkan.</p>
@@ -825,7 +602,7 @@
         </button>
     </div>
     
-    <!-- HEADER - TANGGAL DAN INFO MASJID -->
+    <!-- HEADER -->
     <header class="header">
         <div class="date-section">
             <div class="hijri-date" id="hijri-date">17 Ramadhan 1445 H</div>
@@ -838,9 +615,9 @@
         </div>
     </header>
     
-    <!-- MAIN CONTAINER -->
+    <!-- MAIN CONTENT - HORIZONTAL -->
     <div class="main-container">
-        <!-- SIDEBAR KIRI - TIMER & HADIS -->
+        <!-- SIDEBAR KIRI -->
         <div class="sidebar-left">
             <!-- TIMER SECTION -->
             <div class="timer-section">
@@ -855,7 +632,7 @@
                 </div>
             </div>
             
-            <!-- HADIS & AYAT SECTION - NO BACKGROUND -->
+            <!-- HADIS & AYAT SECTION -->
             <div class="wisdom-section">
                 <div class="wisdom-content fade-in" id="wisdom-content">
                     <div class="wisdom-text" id="wisdom-text">
@@ -866,7 +643,7 @@
             </div>
         </div>
         
-        <!-- SIDEBAR KANAN - WALLPAPER -->
+        <!-- SIDEBAR KANAN -->
         <div class="sidebar-right">
             <div class="wallpaper-slider">
                 <div class="wallpaper-slide wallpaper-1 active"></div>
@@ -876,18 +653,21 @@
         </div>
     </div>
     
-    <!-- FOOTER - JADWAL SHALAT -->
-    <footer class="prayer-schedule">
-        <div class="schedule-title">JADWAL SHALAT HARI INI</div>
-        <div class="prayer-grid" id="prayer-grid">
-            <!-- Jadwal akan diisi oleh JavaScript -->
-        </div>
-    </footer>
-    
-    <!-- RUNNING TEXT - ADAB ISLAM -->
-    <div class="marquee-container">
-        <div class="marquee-track" id="marquee-track">
-            <!-- Adab akan diisi oleh JavaScript -->
+    <!-- FOOTER CONTAINER -->
+    <div class="footer-container">
+        <!-- JADWAL SHALAT -->
+        <footer class="prayer-schedule">
+            <div class="schedule-title">JADWAL SHALAT HARI INI</div>
+            <div class="prayer-grid" id="prayer-grid">
+                <!-- Jadwal akan diisi oleh JavaScript -->
+            </div>
+        </footer>
+        
+        <!-- RUNNING TEXT -->
+        <div class="marquee-container">
+            <div class="marquee-track" id="marquee-track">
+                <!-- Adab akan diisi oleh JavaScript -->
+            </div>
         </div>
     </div>
     
@@ -1088,7 +868,7 @@
                 `${hijriDay} ${hijriMonth} ${hijriYear} H`;
         }
         
-        // FUNGSI UNTUK MEMBUAT RUNNING TEXT ADAB (PASTI MUNCUL)
+        // FUNGSI UNTUK MEMBUAT RUNNING TEXT ADAB
         function createAdabMarquee() {
             const marqueeTrack = document.getElementById('marquee-track');
             marqueeTrack.innerHTML = '';
@@ -1171,50 +951,10 @@
             } else if (elem.mozRequestFullScreen) { /* Firefox */
                 elem.mozRequestFullScreen();
             } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
-                elem.webkitRequestFullscreen();
+                elem.webkitRequestfullscreen();
             } else if (elem.msRequestFullscreen) { /* IE/Edge */
                 elem.msRequestFullscreen();
             }
-        }
-        
-        // FUNGSI UNTUK KELUAR FULLSCREEN
-        function exitFullscreen() {
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
-            } else if (document.mozCancelFullScreen) { /* Firefox */
-                document.mozCancelFullScreen();
-            } else if (document.webkitExitFullscreen) { /* Chrome, Safari & Opera */
-                document.webkitExitFullscreen();
-            } else if (document.msExitFullscreen) { /* IE/Edge */
-                document.msExitFullscreen();
-            }
-        }
-        
-        // FUNGSI UNTUK MENGHITUNG DAN MENYESUAIKAN TINGGI
-        function calculateAndAdjustHeights() {
-            const header = document.querySelector('.header');
-            const footer = document.querySelector('.prayer-schedule');
-            const marquee = document.querySelector('.marquee-container');
-            const mainContainer = document.querySelector('.main-container');
-            
-            const headerHeight = header.offsetHeight;
-            const footerHeight = footer.offsetHeight;
-            const marqueeHeight = marquee.offsetHeight;
-            
-            // Hitung tinggi yang tersedia untuk main container
-            const windowHeight = window.innerHeight;
-            const availableHeight = windowHeight - headerHeight - footerHeight - marqueeHeight;
-            
-            // Set tinggi main container
-            mainContainer.style.height = availableHeight + 'px';
-            
-            console.log('Height Calculation:', {
-                windowHeight,
-                headerHeight,
-                footerHeight,
-                marqueeHeight,
-                availableHeight
-            });
         }
         
         // INISIALISASI SAAT HALAMAN DIMUAT
@@ -1225,7 +965,7 @@
             // Update tanggal hijriyah
             updateHijriDate();
             
-            // Buat running text adab dengan animasi yang benar
+            // Buat running text adab
             createAdabMarquee();
             
             // Update waktu setiap detik
@@ -1238,62 +978,24 @@
             // Rotasi wallpaper setiap 60 detik
             setInterval(rotateWallpaper, 60000);
             
-            // Deteksi tombol F11 untuk fullscreen
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'F11') {
-                    e.preventDefault();
-                    if (!document.fullscreenElement) {
-                        enterFullscreen();
-                    } else {
-                        exitFullscreen();
-                    }
-                }
-                
-                // Tombol ESC juga bisa keluar fullscreen (opsional)
-                if (e.key === 'Escape' && document.fullscreenElement) {
-                    exitFullscreen();
-                }
-            });
-            
             // Handler untuk tombol fullscreen
             document.getElementById('enter-fullscreen-btn').addEventListener('click', function() {
                 enterFullscreen();
                 document.getElementById('fullscreen-overlay').style.display = 'none';
-                // Tunggu sebentar lalu hitung ulang tinggi
-                setTimeout(calculateAndAdjustHeights, 100);
             });
             
-            // Deteksi apakah sudah di fullscreen
-            document.addEventListener('fullscreenchange', function() {
-                if (!document.fullscreenElement) {
-                    // Jika keluar dari fullscreen, tampilkan overlay lagi
-                    document.getElementById('fullscreen-overlay').style.display = 'flex';
-                }
-                // Hitung ulang tinggi setelah perubahan fullscreen
-                setTimeout(calculateAndAdjustHeights, 100);
-            });
-            
-            // Atur tinggi kontainer saat resize (termasuk saat masuk fullscreen)
-            window.addEventListener('resize', calculateAndAdjustHeights);
-            
-            // Panggil pertama kali
-            setTimeout(calculateAndAdjustHeights, 500);
-            
-            // Coba masuk fullscreen otomatis setelah 1 detik
+            // Coba masuk fullscreen otomatis setelah 2 detik
             setTimeout(() => {
-                // Hanya jika belum fullscreen
                 if (!document.fullscreenElement) {
-                    // Tampilkan overlay untuk konfirmasi
                     document.getElementById('fullscreen-overlay').style.display = 'flex';
                 }
-            }, 1000);
+            }, 2000);
             
             // Jika user klik di mana saja, coba masuk fullscreen
             document.addEventListener('click', function firstClick() {
                 if (!document.fullscreenElement) {
                     enterFullscreen();
                     document.getElementById('fullscreen-overlay').style.display = 'none';
-                    setTimeout(calculateAndAdjustHeights, 100);
                 }
                 document.removeEventListener('click', firstClick);
             });
