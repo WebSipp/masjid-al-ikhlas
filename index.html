@@ -590,6 +590,35 @@
             transform: scale(1.05);
             box-shadow: 0 10px 25px rgba(46, 119, 187, 0.4);
         }
+        
+        /* Loading State */
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        
+        .loading::after {
+            content: 'Memuat...';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+        
+        /* Error State */
+        .error-message {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 10px;
+            margin: 10px 0;
+            color: #d32f2f;
+            font-size: 0.9rem;
+            text-align: center;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -627,8 +656,8 @@
                 </div>
                 
                 <div class="countdown-container">
-                    <div class="next-prayer-name" id="next-prayer-name">Maghrib</div>
-                    <div class="countdown-timer" id="countdown-timer">02:14:28</div>
+                    <div class="next-prayer-name" id="next-prayer-name">Memuat...</div>
+                    <div class="countdown-timer" id="countdown-timer">--:--:--</div>
                 </div>
             </div>
             
@@ -655,11 +684,17 @@
     
     <!-- FOOTER CONTAINER -->
     <div class="footer-container">
+        <!-- ERROR MESSAGE -->
+        <div class="error-message" id="error-message"></div>
+        
         <!-- JADWAL SHALAT -->
         <footer class="prayer-schedule">
             <div class="schedule-title">JADWAL SHALAT HARI INI</div>
             <div class="prayer-grid" id="prayer-grid">
                 <!-- Jadwal akan diisi oleh JavaScript -->
+                <div class="prayer-item loading" style="grid-column: 1 / -1; height: 80px;">
+                    <div class="prayer-name">Memuat jadwal...</div>
+                </div>
             </div>
         </footer>
         
@@ -672,20 +707,124 @@
     </div>
     
     <script>
-        // DATA JADWAL SHALAT
-        const prayerTimes = {
-            "Subuh": "04:30",
-            "Syuruq": "05:45",
-            "Dzuhur": "12:15",
-            "Ashar": "15:30",
-            "Maghrib": "18:20",
-            "Isya": "19:45"
+        // ==================== KONFIGURASI ====================
+        const CONFIG = {
+            MASJID: {
+                name: "MASJID BAITURRAHMAN",
+                address: "Jl. Raya Janti, Banguntapan, Bantul, Yogyakarta",
+                cityCode: "1301", // Kode kota Yogyakarta untuk API MyQuran
+                timezone: "WIB"
+            },
+            
+            // Default jadwal (fallback jika API gagal)
+            DEFAULT_PRAYER_TIMES: {
+                "Subuh": "04:30",
+                "Syuruq": "05:45", 
+                "Dzuhur": "12:15",
+                "Ashar": "15:30",
+                "Maghrib": "18:20",
+                "Isya": "19:45"
+            },
+            
+            // Urutan sholat
+            PRAYER_ORDER: ["Subuh", "Syuruq", "Dzuhur", "Ashar", "Maghrib", "Isya"],
+            
+            // API Endpoint (PUBLIC, NO API KEY NEEDED)
+            API_ENDPOINT: "https://api.myquran.com/v1/sholat/jadwal"
         };
         
-        const prayerOrder = ["Subuh", "Syuruq", "Dzuhur", "Ashar", "Maghrib", "Isya"];
+        // ==================== ADMIN DATA FETCHER ====================
+        const ADMIN_BACKEND_URL = 'https://script.google.com/macros/s/AKfycbzsDOKEhe7C3S9q8dZYQHrY8IHet61bdCwroHRzUizvSl4LzY5nFQZ5cWIKEgBz0Yc7OA/exec'; // GANTI DENGAN URL LU!
         
-        // DATA HIKMAH & HADIS
-        const wisdoms = [
+        async function fetchAdminData() {
+            try {
+                const response = await fetch(ADMIN_BACKEND_URL);
+                const data = await response.json();
+                
+                // Jika ada running text baru, update
+                if (data.runningText && data.runningText.trim() !== '') {
+                    updateRunningText(data.runningText);
+                }
+                
+                // Jika ada wisdom baru, update
+                if (data.wisdomText && data.wisdomText.trim() !== '') {
+                    updateWisdom(data.wisdomText, data.wisdomRef);
+                }
+                
+                // Jika ada wallpaper baru, update
+                if (data.wallpaperUrl && data.wallpaperUrl.trim() !== '') {
+                    updateWallpaper(data.wallpaperUrl);
+                }
+                
+                console.log('Admin data updated successfully');
+                
+            } catch (error) {
+                console.log('Failed to fetch admin data:', error);
+                // Tetap jalan dengan data existing
+            }
+        }
+        
+        function updateRunningText(text) {
+            // Buat atau update running text element
+            let runningTextElement = document.getElementById('running-text');
+            
+            if (!runningTextElement) {
+                // Jika belum ada, buat element baru
+                const marqueeContainer = document.querySelector('.marquee-container');
+                if (marqueeContainer) {
+                    runningTextElement = document.createElement('div');
+                    runningTextElement.id = 'running-text';
+                    runningTextElement.className = 'adab-item';
+                    runningTextElement.innerHTML = `<i class="fas fa-bullhorn"></i> ${text}`;
+                    
+                    // Kosongkan dan tambahkan yang baru
+                    const marqueeTrack = document.getElementById('marquee-track');
+                    if (marqueeTrack) {
+                        marqueeTrack.innerHTML = '';
+                        marqueeTrack.appendChild(runningTextElement);
+                    }
+                }
+            } else {
+                // Update yang sudah ada
+                runningTextElement.innerHTML = `<i class="fas fa-bullhorn"></i> ${text}`;
+            }
+        }
+        
+        function updateWisdom(text, reference) {
+            const wisdomText = document.getElementById('wisdom-text');
+            const wisdomRef = document.getElementById('wisdom-reference');
+            
+            if (wisdomText) {
+                wisdomText.textContent = text;
+                wisdomText.style.fontStyle = 'italic';
+            }
+            
+            if (wisdomRef && reference) {
+                wisdomRef.textContent = reference;
+                wisdomRef.style.fontStyle = 'normal';
+            }
+        }
+        
+        function updateWallpaper(url) {
+            // Update wallpaper pertama dengan URL baru
+            const wallpaper1 = document.querySelector('.wallpaper-1');
+            if (wallpaper1 && url) {
+                wallpaper1.style.backgroundImage = 
+                    `linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), url('${url}')`;
+                
+                // Juga update wallpaper lainnya sebagai backup
+                const wallpapers = document.querySelectorAll('.wallpaper-slide');
+                wallpapers.forEach((wallpaper, index) => {
+                    if (index > 0) {
+                        wallpaper.style.backgroundImage = 
+                            `linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), url('${url}')`;
+                    }
+                });
+            }
+        }
+        
+        // ==================== DATA STATIC ====================
+        const WISDOMS = [
             {
                 text: "Sesungguhnya shalat itu adalah kewajiban yang ditentukan waktunya atas orang-orang yang beriman.",
                 reference: "QS. An-Nisa (4) : 103"
@@ -697,17 +836,200 @@
             {
                 text: "Amal pertama yang dihisab dari seorang hamba pada hari kiamat adalah shalat.",
                 reference: "HR. Tirmidzi"
+            },
+            {
+                text: "Shalat adalah tiang agama, barangsiapa mendirikannya maka ia telah mendirikan agama.",
+                reference: "HR. Baihaqi"
+            },
+            {
+                text: "Dua rakaat shalat sunnah Subuh lebih baik dari dunia dan seisinya.",
+                reference: "HR. Muslim"
             }
         ];
         
-        // DATA ADAB ISLAM
-        const adabs = [
+        const ADABS = [
             "Masuk masjid dengan membaca doa dan menggunakan kaki kanan terlebih dahulu",
             "Menjaga kebersihan masjid dan tidak meninggalkan sampah di dalamnya",
-            "Mematikan atau menyetel mode silent ponsel saat berada di dalam masjid"
+            "Mematikan atau menyetel mode silent ponsel saat berada di dalam masjid",
+            "Tidak lalu lalang di depan orang yang sedang shalat",
+            "Membaca Al-Qur'an atau dzikir sebelum shalat dimulai"
         ];
         
-        // FUNGSI UNTUK UPDATE WAKTU DAN TANGGAL
+        // ==================== STATE MANAGEMENT ====================
+        let currentPrayerTimes = {};
+        let lastUpdatedDate = null;
+        let wisdomIndex = 0;
+        let wallpaperIndex = 0;
+        let isLoading = false;
+        
+        // ==================== PRAYER TIMES MANAGEMENT ====================
+        class PrayerTimesManager {
+            constructor() {
+                this.cacheKey = 'masjid_prayer_times_cache';
+                this.cacheDuration = 12 * 60 * 60 * 1000; // 12 jam
+            }
+            
+            async getTodayPrayerTimes() {
+                const today = new Date().toDateString();
+                
+                // 1. Cek cache dulu
+                const cached = this.getFromCache();
+                if (cached && cached.date === today) {
+                    console.log('Menggunakan data cache');
+                    return cached.times;
+                }
+                
+                // 2. Coba fetch dari API
+                try {
+                    console.log('Fetching data dari API...');
+                    const apiTimes = await this.fetchFromAPI();
+                    
+                    // Simpan ke cache
+                    this.saveToCache({
+                        date: today,
+                        times: apiTimes,
+                        timestamp: Date.now()
+                    });
+                    
+                    return apiTimes;
+                } catch (error) {
+                    console.error('API Error:', error);
+                    
+                    // 3. Jika cache masih valid (kurang dari 24 jam), pakai cache lama
+                    if (cached && (Date.now() - cached.timestamp) < 86400000) {
+                        console.log('API gagal, menggunakan cache lama');
+                        return cached.times;
+                    }
+                    
+                    // 4. Jika semua gagal, pakai default
+                    console.log('Menggunakan data default');
+                    return CONFIG.DEFAULT_PRAYER_TIMES;
+                }
+            }
+            
+            async fetchFromAPI() {
+                const today = new Date().toISOString().split('T')[0];
+                const url = `${CONFIG.API_ENDPOINT}/${CONFIG.MASJID.cityCode}/${today}`;
+                
+                console.log('Fetching dari:', url);
+                
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                
+                // Validasi response
+                if (!data.data || !data.data.jadwal) {
+                    throw new Error('Format response tidak valid');
+                }
+                
+                const jadwal = data.data.jadwal;
+                
+                return {
+                    "Subuh": jadwal.subuh || "04:30",
+                    "Syuruq": jadwal.terbit || "05:45",
+                    "Dzuhur": jadwal.dzuhur || "12:15",
+                    "Ashar": jadwal.ashar || "15:30",
+                    "Maghrib": jadwal.maghrib || "18:20",
+                    "Isya": jadwal.isya || "19:45"
+                };
+            }
+            
+            getFromCache() {
+                try {
+                    const cached = localStorage.getItem(this.cacheKey);
+                    if (!cached) return null;
+                    
+                    const parsed = JSON.parse(cached);
+                    
+                    // Cek apakah cache masih valid (kurang dari cacheDuration)
+                    if (Date.now() - parsed.timestamp > this.cacheDuration) {
+                        return null;
+                    }
+                    
+                    return parsed;
+                } catch (error) {
+                    console.error('Cache error:', error);
+                    return null;
+                }
+            }
+            
+            saveToCache(data) {
+                try {
+                    localStorage.setItem(this.cacheKey, JSON.stringify(data));
+                } catch (error) {
+                    console.error('Gagal menyimpan cache:', error);
+                }
+            }
+            
+            clearCache() {
+                localStorage.removeItem(this.cacheKey);
+            }
+        }
+        
+        // ==================== DOM MANIPULATION ====================
+        async function initializePrayerSchedule() {
+            const prayerGrid = document.getElementById('prayer-grid');
+            
+            try {
+                isLoading = true;
+                prayerGrid.innerHTML = `
+                    <div class="prayer-item" style="grid-column: 1 / -1; height: 80px;">
+                        <div class="prayer-name">Memuat jadwal...</div>
+                    </div>
+                `;
+                
+                const manager = new PrayerTimesManager();
+                currentPrayerTimes = await manager.getTodayPrayerTimes();
+                lastUpdatedDate = new Date().toDateString();
+                
+                // Update UI
+                updatePrayerGridUI();
+                updateDateTime(); // Hitung countdown dengan data baru
+                
+                // Sembunyikan error message jika ada
+                document.getElementById('error-message').style.display = 'none';
+                
+            } catch (error) {
+                console.error('Gagal memuat jadwal:', error);
+                
+                // Tampilkan error message
+                const errorDiv = document.getElementById('error-message');
+                errorDiv.textContent = 'Gagal memuat jadwal terkini. Menggunakan data cache.';
+                errorDiv.style.display = 'block';
+                
+                // Pakai default
+                currentPrayerTimes = CONFIG.DEFAULT_PRAYER_TIMES;
+                updatePrayerGridUI();
+            } finally {
+                isLoading = false;
+            }
+        }
+        
+        function updatePrayerGridUI() {
+            const prayerGrid = document.getElementById('prayer-grid');
+            prayerGrid.innerHTML = '';
+            
+            CONFIG.PRAYER_ORDER.forEach(prayerName => {
+                const prayerTime = currentPrayerTimes[prayerName] || '--:--';
+                
+                const prayerItem = document.createElement('div');
+                prayerItem.className = 'prayer-item';
+                prayerItem.id = `prayer-${prayerName.toLowerCase()}`;
+                
+                prayerItem.innerHTML = `
+                    <div class="prayer-name">${prayerName}</div>
+                    <div class="prayer-time">${prayerTime}</div>
+                `;
+                
+                prayerGrid.appendChild(prayerItem);
+            });
+        }
+        
+        // ==================== DATE & TIME FUNCTIONS ====================
         function updateDateTime() {
             const now = new Date();
             
@@ -721,7 +1043,7 @@
                 `${hours}<span class="blink">${colon}</span>${minutes}`;
             
             // Update Tanggal Masehi
-            const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+            const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabu"];
             const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", 
                            "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
             
@@ -733,28 +1055,34 @@
             document.getElementById('gregorian-date').textContent = 
                 `${dayName}, ${date} ${monthName} ${year}`;
             
-            // Update countdown
-            updateCountdown(now);
-            
-            // Update highlight shalat aktif
-            updateActivePrayer(now);
-            
-            // Update efek visual countdown saat < 5 menit
-            updateCountdownEffects();
+            // Update countdown jika data sudah ada
+            if (Object.keys(currentPrayerTimes).length > 0) {
+                updateCountdown(now);
+                updateActivePrayer(now);
+                updateCountdownEffects();
+            }
         }
         
-        // FUNGSI UNTUK COUNTDOWN SHALAT BERIKUTNYA
         function updateCountdown(now) {
+            if (!currentPrayerTimes || Object.keys(currentPrayerTimes).length === 0) {
+                document.getElementById('next-prayer-name').textContent = 'Memuat...';
+                document.getElementById('countdown-timer').textContent = '--:--:--';
+                return;
+            }
+            
             const currentTime = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
             
             // Cari shalat berikutnya
             let nextPrayerName = "Subuh";
-            let nextPrayerTime = prayerTimes["Subuh"];
+            let nextPrayerTime = currentPrayerTimes["Subuh"];
             let found = false;
             
-            for (let i = 0; i < prayerOrder.length; i++) {
-                const prayerName = prayerOrder[i];
-                const prayerTime = prayerTimes[prayerName];
+            for (let i = 0; i < CONFIG.PRAYER_ORDER.length; i++) {
+                const prayerName = CONFIG.PRAYER_ORDER[i];
+                const prayerTime = currentPrayerTimes[prayerName];
+                
+                if (!prayerTime || prayerTime === '--:--') continue;
+                
                 const [prayerHour, prayerMinute] = prayerTime.split(':').map(Number);
                 const prayerSeconds = prayerHour * 3600 + prayerMinute * 60;
                 
@@ -769,10 +1097,16 @@
             // Jika tidak ada shalat berikutnya di hari ini, ambil Subuh besok
             if (!found) {
                 nextPrayerName = "Subuh";
-                nextPrayerTime = prayerTimes["Subuh"];
+                nextPrayerTime = currentPrayerTimes["Subuh"];
             }
             
             // Hitung selisih waktu
+            if (!nextPrayerTime || nextPrayerTime === '--:--') {
+                document.getElementById('next-prayer-name').textContent = 'Data tidak tersedia';
+                document.getElementById('countdown-timer').textContent = '--:--:--';
+                return;
+            }
+            
             const [nextHour, nextMinute] = nextPrayerTime.split(':').map(Number);
             const nextPrayerSeconds = nextHour * 3600 + nextMinute * 60;
             
@@ -793,22 +1127,29 @@
                 `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
         }
         
-        // FUNGSI UNTUK HIGHLIGHT SHALAT AKTIF
         function updateActivePrayer(now) {
+            if (!currentPrayerTimes || Object.keys(currentPrayerTimes).length === 0) return;
+            
             const currentTime = now.getHours() * 60 + now.getMinutes();
             const prayerItems = document.querySelectorAll('.prayer-item');
             
             prayerItems.forEach((item, index) => {
                 item.classList.remove('active');
                 
-                const prayerName = prayerOrder[index];
-                const prayerTime = prayerTimes[prayerName];
+                const prayerName = CONFIG.PRAYER_ORDER[index];
+                const prayerTime = currentPrayerTimes[prayerName];
+                
+                if (!prayerTime || prayerTime === '--:--') return;
+                
                 const [prayerHour, prayerMinute] = prayerTime.split(':').map(Number);
                 const prayerTotalMinutes = prayerHour * 60 + prayerMinute;
                 
                 if (index > 0) {
-                    const prevPrayerName = prayerOrder[index - 1];
-                    const prevPrayerTime = prayerTimes[prevPrayerName];
+                    const prevPrayerName = CONFIG.PRAYER_ORDER[index - 1];
+                    const prevPrayerTime = currentPrayerTimes[prevPrayerName];
+                    
+                    if (!prevPrayerTime || prevPrayerTime === '--:--') return;
+                    
                     const [prevHour, prevMinute] = prevPrayerTime.split(':').map(Number);
                     const prevTotalMinutes = prevHour * 60 + prevMinute;
                     
@@ -819,94 +1160,40 @@
             });
         }
         
-        // FUNGSI UNTUK EFEK VISUAL COUNTDOWN
         function updateCountdownEffects() {
             const countdownTimer = document.getElementById('countdown-timer');
             const countdownText = countdownTimer.textContent;
+            
+            if (countdownText === '--:--:--') return;
+            
             const [h, m, s] = countdownText.split(':').map(Number);
             
             if (h === 0 && m < 5) {
                 countdownTimer.style.color = '#FFD700';
+                countdownTimer.style.animation = 'blink 1s infinite';
             } else {
                 countdownTimer.style.color = 'var(--text-light)';
+                countdownTimer.style.animation = 'none';
             }
         }
         
-        // FUNGSI UNTUK MEMBUAT ELEMEN JADWAL SHALAT
-        function createPrayerSchedule() {
-            const prayerGrid = document.getElementById('prayer-grid');
-            prayerGrid.innerHTML = '';
-            
-            prayerOrder.forEach(prayerName => {
-                const prayerTime = prayerTimes[prayerName];
-                
-                const prayerItem = document.createElement('div');
-                prayerItem.className = 'prayer-item';
-                prayerItem.id = `prayer-${prayerName.toLowerCase()}`;
-                
-                prayerItem.innerHTML = `
-                    <div class="prayer-name">${prayerName}</div>
-                    <div class="prayer-time">${prayerTime}</div>
-                `;
-                
-                prayerGrid.appendChild(prayerItem);
-            });
-        }
-        
-        // FUNGSI UNTUK UPDATE TANGGAL HIJRIYAH
+        // ==================== HIJRI DATE ====================
         function updateHijriDate() {
             const now = new Date();
             const hijriMonths = ["Muharram", "Safar", "Rabiul Awal", "Rabiul Akhir", 
                                 "Jumadil Awal", "Jumadil Akhir", "Rajab", "Sya'ban", 
                                 "Ramadhan", "Syawal", "Dzulqa'dah", "Dzulhijjah"];
             
+            // Approximate calculation (bisa diganti dengan API Hijriyah nanti)
             const hijriYear = 1445;
-            const hijriMonth = hijriMonths[8];
+            const hijriMonth = hijriMonths[8]; // Ramadhan
             const hijriDay = 17 + Math.floor(now.getDate() / 2);
             
             document.getElementById('hijri-date').textContent = 
                 `${hijriDay} ${hijriMonth} ${hijriYear} H`;
         }
         
-        // FUNGSI UNTUK MEMBUAT RUNNING TEXT ADAB
-        function createAdabMarquee() {
-            const marqueeTrack = document.getElementById('marquee-track');
-            marqueeTrack.innerHTML = '';
-            
-            // Tambahkan semua adab dengan spasi normal
-            adabs.forEach((adab, index) => {
-                const adabItem = document.createElement('div');
-                adabItem.className = 'adab-item';
-                
-                const icons = ['fas fa-door-open', 'fas fa-broom', 'fas fa-mobile-alt'];
-                adabItem.innerHTML = `<i class="${icons[index]}"></i> ${adab}`;
-                
-                marqueeTrack.appendChild(adabItem);
-                
-                // Tambahkan spasi besar antara item
-                const space = document.createElement('div');
-                space.style.padding = '0 100px';
-                marqueeTrack.appendChild(space);
-            });
-            
-            // Duplikat untuk looping smooth
-            adabs.forEach((adab, index) => {
-                const adabItem = document.createElement('div');
-                adabItem.className = 'adab-item';
-                
-                const icons = ['fas fa-door-open', 'fas fa-broom', 'fas fa-mobile-alt'];
-                adabItem.innerHTML = `<i class="${icons[index]}"></i> ${adab}`;
-                
-                marqueeTrack.appendChild(adabItem);
-                
-                const space = document.createElement('div');
-                space.style.padding = '0 100px';
-                marqueeTrack.appendChild(space);
-            });
-        }
-        
-        // FUNGSI UNTUK ROTASI HIKMAH & HADIS
-        let wisdomIndex = 0;
+        // ==================== WISDOM ROTATOR ====================
         function rotateWisdom() {
             const wisdomContent = document.getElementById('wisdom-content');
             
@@ -914,8 +1201,8 @@
             wisdomContent.style.opacity = 0;
             
             setTimeout(() => {
-                wisdomIndex = (wisdomIndex + 1) % wisdoms.length;
-                const wisdom = wisdoms[wisdomIndex];
+                wisdomIndex = (wisdomIndex + 1) % WISDOMS.length;
+                const wisdom = WISDOMS[wisdomIndex];
                 
                 document.getElementById('wisdom-text').textContent = wisdom.text;
                 document.getElementById('wisdom-reference').textContent = wisdom.reference;
@@ -927,8 +1214,7 @@
             }, 400);
         }
         
-        // FUNGSI UNTUK ROTASI WALLPAPER
-        let wallpaperIndex = 0;
+        // ==================== WALLPAPER ROTATOR ====================
         const wallpapers = document.querySelectorAll('.wallpaper-slide');
         
         function rotateWallpaper() {
@@ -942,7 +1228,46 @@
             wallpapers[wallpaperIndex].classList.add('active');
         }
         
-        // FUNGSI UNTUK MASUK FULLSCREEN OTOMATIS
+        // ==================== ADAB MARQUEE ====================
+        function createAdabMarquee() {
+            const marqueeTrack = document.getElementById('marquee-track');
+            marqueeTrack.innerHTML = '';
+            
+            // Tambahkan semua adab dengan spasi normal
+            ADABS.forEach((adab, index) => {
+                const adabItem = document.createElement('div');
+                adabItem.className = 'adab-item';
+                
+                const icons = ['fas fa-door-open', 'fas fa-broom', 'fas fa-mobile-alt', 
+                              'fas fa-walking', 'fas fa-book-quran'];
+                adabItem.innerHTML = `<i class="${icons[index]}"></i> ${adab}`;
+                
+                marqueeTrack.appendChild(adabItem);
+                
+                // Tambahkan spasi besar antara item
+                const space = document.createElement('div');
+                space.style.padding = '0 100px';
+                marqueeTrack.appendChild(space);
+            });
+            
+            // Duplikat untuk looping smooth
+            ADABS.forEach((adab, index) => {
+                const adabItem = document.createElement('div');
+                adabItem.className = 'adab-item';
+                
+                const icons = ['fas fa-door-open', 'fas fa-broom', 'fas fa-mobile-alt',
+                              'fas fa-walking', 'fas fa-book-quran'];
+                adabItem.innerHTML = `<i class="${icons[index]}"></i> ${adab}`;
+                
+                marqueeTrack.appendChild(adabItem);
+                
+                const space = document.createElement('div');
+                space.style.padding = '0 100px';
+                marqueeTrack.appendChild(space);
+            });
+        }
+        
+        // ==================== FULLSCREEN HANDLER ====================
         function enterFullscreen() {
             const elem = document.documentElement;
             
@@ -951,47 +1276,55 @@
             } else if (elem.mozRequestFullScreen) { /* Firefox */
                 elem.mozRequestFullScreen();
             } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
-                elem.webkitRequestfullscreen();
+                elem.webkitRequestFullscreen();
             } else if (elem.msRequestFullscreen) { /* IE/Edge */
                 elem.msRequestFullscreen();
             }
         }
         
-        // INISIALISASI SAAT HALAMAN DIMUAT
-        document.addEventListener('DOMContentLoaded', function() {
-            // Buat jadwal shalat
-            createPrayerSchedule();
+        // ==================== DAILY CHECK ====================
+        function checkDailyUpdate() {
+            const today = new Date().toDateString();
             
-            // Update tanggal hijriyah
+            if (lastUpdatedDate !== today) {
+                console.log('Hari baru, update jadwal...');
+                initializePrayerSchedule();
+            }
+        }
+        
+        // ==================== INITIALIZATION ====================
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('Display Masjid v1.0 - Initializing...');
+            
+            // Initialize semua komponen
             updateHijriDate();
-            
-            // Buat running text adab
             createAdabMarquee();
             
-            // Update waktu setiap detik
+            // Load jadwal sholat
+            await initializePrayerSchedule();
+            
+            // Start interval updates
             setInterval(updateDateTime, 1000);
-            updateDateTime(); // Panggil sekali di awal
+            updateDateTime(); // Initial call
             
-            // Rotasi hikmah setiap 30 detik
-            setInterval(rotateWisdom, 30000);
+            setInterval(rotateWisdom, 30000); // 30 detik
+            setInterval(rotateWallpaper, 60000); // 60 detik
+            setInterval(checkDailyUpdate, 60000); // Cek tiap menit
             
-            // Rotasi wallpaper setiap 60 detik
-            setInterval(rotateWallpaper, 60000);
-            
-            // Handler untuk tombol fullscreen
+            // Fullscreen handler
             document.getElementById('enter-fullscreen-btn').addEventListener('click', function() {
                 enterFullscreen();
                 document.getElementById('fullscreen-overlay').style.display = 'none';
             });
             
-            // Coba masuk fullscreen otomatis setelah 2 detik
+            // Auto fullscreen setelah 2 detik
             setTimeout(() => {
                 if (!document.fullscreenElement) {
                     document.getElementById('fullscreen-overlay').style.display = 'flex';
                 }
             }, 2000);
             
-            // Jika user klik di mana saja, coba masuk fullscreen
+            // Click anywhere to fullscreen
             document.addEventListener('click', function firstClick() {
                 if (!document.fullscreenElement) {
                     enterFullscreen();
@@ -999,6 +1332,50 @@
                 }
                 document.removeEventListener('click', firstClick);
             });
+            
+            // Handle fullscreen change
+            document.addEventListener('fullscreenchange', function() {
+                if (!document.fullscreenElement) {
+                    // Jika keluar fullscreen, tampilkan overlay lagi
+                    setTimeout(() => {
+                        if (!document.fullscreenElement) {
+                            document.getElementById('fullscreen-overlay').style.display = 'flex';
+                        }
+                    }, 1000);
+                }
+            });
+            
+            // Panggil admin data fetcher pertama kali setelah page load
+            setTimeout(fetchAdminData, 5000);
+            
+            // Update admin data setiap 30 detik
+            setInterval(fetchAdminData, 30000);
+            
+            console.log('Display Masjid v1.0 - Ready!');
+        });
+        
+        // ==================== ERROR HANDLING ====================
+        window.addEventListener('error', function(e) {
+            console.error('Global error:', e.error);
+            
+            const errorDiv = document.getElementById('error-message');
+            errorDiv.textContent = 'Terjadi kesalahan sistem. Silakan refresh halaman.';
+            errorDiv.style.display = 'block';
+        });
+        
+        // Offline detection
+        window.addEventListener('offline', function() {
+            const errorDiv = document.getElementById('error-message');
+            errorDiv.textContent = 'Koneksi internet terputus. Menggunakan data cache.';
+            errorDiv.style.display = 'block';
+        });
+        
+        window.addEventListener('online', function() {
+            document.getElementById('error-message').style.display = 'none';
+            
+            // Coba update data jika offline lama
+            checkDailyUpdate();
+            fetchAdminData(); // Juga coba update data admin
         });
     </script>
 </body>
