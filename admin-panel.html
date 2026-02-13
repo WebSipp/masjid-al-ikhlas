@@ -1701,22 +1701,17 @@
                 
                 if (result.success) {
                     showToast('Status berhasil diubah', 'success');
-                    
-                    // FORCE RELOAD DATA DARI SERVER
-                    await loadWisdoms();
                 } else {
                     wisdom.active = oldStatus;
                     showToast('Gagal: ' + result.error, 'error');
-                    renderWisdomsTable();
                 }
             } catch (error) {
                 wisdom.active = oldStatus;
                 showToast('Error: ' + error.message, 'error');
-                renderWisdomsTable();
             } finally {
-                // Enable kembali toggle
-                const newToggles = document.querySelectorAll('#wisdoms-tbody input[type="checkbox"]');
-                newToggles.forEach(t => t.disabled = false);
+                // Enable kembali & render ulang
+                toggles.forEach(t => t.disabled = false);
+                renderWisdomsTable();
             }
         }
         
@@ -1965,22 +1960,17 @@
                 
                 if (result.success) {
                     showToast('Status diubah', 'success');
-                    
-                    // FORCE RELOAD DATA DARI SERVER
-                    await loadWallpapers();
                 } else {
                     wallpaper.active = oldStatus;
                     showToast('Gagal: ' + result.error, 'error');
-                    renderWallpapersGrid();
                 }
             } catch (error) {
                 wallpaper.active = oldStatus;
                 showToast('Error: ' + error.message, 'error');
-                renderWallpapersGrid();
             } finally {
-                // Enable kembali toggle
-                const newToggles = document.querySelectorAll('#wallpapers-grid input[type="checkbox"]');
-                newToggles.forEach(t => t.disabled = false);
+                // Enable kembali & render ulang
+                toggles.forEach(t => t.disabled = false);
+                renderWallpapersGrid();
             }
         }
         
@@ -2153,22 +2143,17 @@
                 
                 if (result.success) {
                     showToast('Status diubah', 'success');
-                    
-                    // FORCE RELOAD DATA DARI SERVER
-                    await loadAdabsByType(type);
                 } else {
                     adab.active = oldStatus;
                     showToast('Gagal: ' + result.error, 'error');
-                    renderAdabsTable(type);
                 }
             } catch (error) {
                 adab.active = oldStatus;
                 showToast('Error: ' + error.message, 'error');
-                renderAdabsTable(type);
             } finally {
-                // Enable kembali toggle
-                const newToggles = document.querySelectorAll(`#adabs-${type}-tbody input[type="checkbox"]`);
-                newToggles.forEach(t => t.disabled = false);
+                // Enable kembali & render ulang
+                toggles.forEach(t => t.disabled = false);
+                renderAdabsTable(type);
             }
         }
         
@@ -2444,22 +2429,17 @@
                 
                 if (result.success) {
                     showToast('Status diubah', 'success');
-                    
-                    // FORCE RELOAD DATA DARI SERVER
-                    await loadAnnouncements();
                 } else {
                     announcement.active = oldStatus;
                     showToast('Gagal: ' + result.error, 'error');
-                    renderAnnouncementsGrid();
                 }
             } catch (error) {
                 announcement.active = oldStatus;
                 showToast('Error: ' + error.message, 'error');
-                renderAnnouncementsGrid();
             } finally {
-                // Enable kembali toggle
-                const newToggles = document.querySelectorAll('#announcements-grid input[type="checkbox"]');
-                newToggles.forEach(t => t.disabled = false);
+                // Enable kembali & render ulang
+                toggles.forEach(t => t.disabled = false);
+                renderAnnouncementsGrid();
             }
         }
         
@@ -2604,22 +2584,17 @@
                 
                 if (result.success) {
                     showToast('Status diubah', 'success');
-                    
-                    // FORCE RELOAD DATA DARI SERVER
-                    await loadFridayWisdoms();
                 } else {
                     wisdom.active = oldStatus;
                     showToast('Gagal: ' + result.error, 'error');
-                    renderFridayWisdomsTable();
                 }
             } catch (error) {
                 wisdom.active = oldStatus;
                 showToast('Error: ' + error.message, 'error');
-                renderFridayWisdomsTable();
             } finally {
-                // Enable kembali toggle
-                const newToggles = document.querySelectorAll('#friday-wisdoms-tbody input[type="checkbox"]');
-                newToggles.forEach(t => t.disabled = false);
+                // Enable kembali & render ulang
+                toggles.forEach(t => t.disabled = false);
+                renderFridayWisdomsTable();
             }
         }
         
