@@ -992,10 +992,10 @@
             
             <form id="login-form">
                 <div class="form-group">
-                    <input type="text" id="username" placeholder="Username" value="masjid" required>
+                    <input type="text" id="username" placeholder="Username">
                 </div>
                 <div class="form-group">
-                    <input type="password" id="password" placeholder="Password" value="Password321" required>
+                    <input type="password" id="password" placeholder="Password">
                 </div>
                 <button type="submit" id="btn-login">
                     <i class="fas fa-sign-in-alt"></i> Masuk
@@ -1282,7 +1282,7 @@
         // ========================================
         
         // GANTI DENGAN URL HASIL DEPLOY GAS LO!
-        const API_URL = "https://script.google.com/macros/s/AKfycbw58v_4TKSKQb0qI2nenO_pPI6_g-LVajqWsQu63byhWGrBYQT-aAvdJy3GXv1ge_2g2A/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbxw9B_MR00q-rgNYOvsPFM0SUyZPjgLIOS0ql4XroIqYcauwqYh_OB4XqJfon0DbTBkHw/exec";
         
         // Global variables
         let wisdomsData = [];
@@ -1701,17 +1701,22 @@
                 
                 if (result.success) {
                     showToast('Status berhasil diubah', 'success');
+                    
+                    // FORCE RELOAD DATA DARI SERVER
+                    await loadWisdoms();
                 } else {
                     wisdom.active = oldStatus;
                     showToast('Gagal: ' + result.error, 'error');
+                    renderWisdomsTable();
                 }
             } catch (error) {
                 wisdom.active = oldStatus;
                 showToast('Error: ' + error.message, 'error');
-            } finally {
-                // Enable kembali & render ulang
-                toggles.forEach(t => t.disabled = false);
                 renderWisdomsTable();
+            } finally {
+                // Enable kembali toggle
+                const newToggles = document.querySelectorAll('#wisdoms-tbody input[type="checkbox"]');
+                newToggles.forEach(t => t.disabled = false);
             }
         }
         
@@ -1960,17 +1965,22 @@
                 
                 if (result.success) {
                     showToast('Status diubah', 'success');
+                    
+                    // FORCE RELOAD DATA DARI SERVER
+                    await loadWallpapers();
                 } else {
                     wallpaper.active = oldStatus;
                     showToast('Gagal: ' + result.error, 'error');
+                    renderWallpapersGrid();
                 }
             } catch (error) {
                 wallpaper.active = oldStatus;
                 showToast('Error: ' + error.message, 'error');
-            } finally {
-                // Enable kembali & render ulang
-                toggles.forEach(t => t.disabled = false);
                 renderWallpapersGrid();
+            } finally {
+                // Enable kembali toggle
+                const newToggles = document.querySelectorAll('#wallpapers-grid input[type="checkbox"]');
+                newToggles.forEach(t => t.disabled = false);
             }
         }
         
@@ -2143,17 +2153,22 @@
                 
                 if (result.success) {
                     showToast('Status diubah', 'success');
+                    
+                    // FORCE RELOAD DATA DARI SERVER
+                    await loadAdabsByType(type);
                 } else {
                     adab.active = oldStatus;
                     showToast('Gagal: ' + result.error, 'error');
+                    renderAdabsTable(type);
                 }
             } catch (error) {
                 adab.active = oldStatus;
                 showToast('Error: ' + error.message, 'error');
-            } finally {
-                // Enable kembali & render ulang
-                toggles.forEach(t => t.disabled = false);
                 renderAdabsTable(type);
+            } finally {
+                // Enable kembali toggle
+                const newToggles = document.querySelectorAll(`#adabs-${type}-tbody input[type="checkbox"]`);
+                newToggles.forEach(t => t.disabled = false);
             }
         }
         
@@ -2429,17 +2444,22 @@
                 
                 if (result.success) {
                     showToast('Status diubah', 'success');
+                    
+                    // FORCE RELOAD DATA DARI SERVER
+                    await loadAnnouncements();
                 } else {
                     announcement.active = oldStatus;
                     showToast('Gagal: ' + result.error, 'error');
+                    renderAnnouncementsGrid();
                 }
             } catch (error) {
                 announcement.active = oldStatus;
                 showToast('Error: ' + error.message, 'error');
-            } finally {
-                // Enable kembali & render ulang
-                toggles.forEach(t => t.disabled = false);
                 renderAnnouncementsGrid();
+            } finally {
+                // Enable kembali toggle
+                const newToggles = document.querySelectorAll('#announcements-grid input[type="checkbox"]');
+                newToggles.forEach(t => t.disabled = false);
             }
         }
         
@@ -2584,17 +2604,22 @@
                 
                 if (result.success) {
                     showToast('Status diubah', 'success');
+                    
+                    // FORCE RELOAD DATA DARI SERVER
+                    await loadFridayWisdoms();
                 } else {
                     wisdom.active = oldStatus;
                     showToast('Gagal: ' + result.error, 'error');
+                    renderFridayWisdomsTable();
                 }
             } catch (error) {
                 wisdom.active = oldStatus;
                 showToast('Error: ' + error.message, 'error');
-            } finally {
-                // Enable kembali & render ulang
-                toggles.forEach(t => t.disabled = false);
                 renderFridayWisdomsTable();
+            } finally {
+                // Enable kembali toggle
+                const newToggles = document.querySelectorAll('#friday-wisdoms-tbody input[type="checkbox"]');
+                newToggles.forEach(t => t.disabled = false);
             }
         }
         
