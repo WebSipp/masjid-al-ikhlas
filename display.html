@@ -1372,15 +1372,20 @@
             }
             
             wallpapersData.forEach((wallpaper, index) => {
-                const slide = document.createElement('div');
-                slide.className = `wallpaper-slide ${index === 0 ? 'active' : ''}`;
-                slide.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('${wallpaper.image_url}')`;
-                slide.style.backgroundSize = 'cover';
-                slide.style.backgroundPosition = 'center';
-                container.appendChild(slide);
-            });
-            
-            wallpaperIndex = 0;
+    const slide = document.createElement('div');
+    slide.className = `wallpaper-slide ${index === 0 ? 'active' : ''}`;
+    
+    let imageUrl = wallpaper.image_url;
+    if (imageUrl && imageUrl.includes('id=')) {
+        const fileId = imageUrl.split('id=')[1].split('&')[0]; // ambil ID aja
+        imageUrl = `https://drive.google.com/thumbnail?id=${fileId}&sz=w1920`;
+    }
+    
+    slide.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('${imageUrl}')`;
+    slide.style.backgroundSize = 'cover';
+    slide.style.backgroundPosition = 'center';
+    container.appendChild(slide);
+});
         }
         
         // ========== ANNOUNCEMENTS ==========
