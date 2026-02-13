@@ -8,8 +8,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <style>
         /* ========================================
-           ADMIN PANEL - VERSION FINAL (MANUAL SAVE MODE)
+           ADMIN PANEL - VERSION FINAL FIXED
            100% SINKRON DENGAN GAS
+           BUG TOGGLE STATUS FIXED!
            ======================================== */
         
         :root {
@@ -393,59 +394,6 @@
             background: #c82333;
         }
         
-        /* ========== TOMBOL SUCCESS (HIJAU) ========== */
-        .btn-success {
-            background: #28a745;
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.2s;
-            margin: 0 2px;
-        }
-        
-        .btn-success:hover {
-            background: #218838;
-            transform: translateY(-1px);
-            box-shadow: 0 2px 5px rgba(40, 167, 69, 0.3);
-        }
-        
-        .btn-success:active {
-            transform: translateY(0);
-        }
-        
-        .btn-success:disabled {
-            background: #6c757d;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-        
-        /* ========== STATUS SELECT DROPDOWN ========== */
-        .status-select {
-            padding: 6px 10px;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            background: white;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            min-width: 100px;
-        }
-        
-        .status-select:focus {
-            outline: none;
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 0 3px rgba(46, 119, 187, 0.1);
-        }
-        
-        .status-select.changed {
-            border-color: #ffc107;
-            background-color: #fff3cd;
-        }
-        
         .quick-actions {
             display: flex;
             gap: 15px;
@@ -556,7 +504,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 900px;
+            min-width: 800px;
         }
         
         table thead {
@@ -573,7 +521,6 @@
         table td {
             padding: 15px;
             border-bottom: 1px solid var(--border);
-            vertical-align: middle;
         }
         
         table tbody tr:hover {
@@ -604,6 +551,52 @@
         .badge-hadith {
             background: #f3e5f5;
             color: #7b1fa2;
+        }
+        
+        /* ========== TOGGLE SWITCH ========== */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .2s;
+            border-radius: 24px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .2s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--success);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
         }
         
         /* ========== MODAL ========== */
@@ -705,7 +698,7 @@
         /* ========== IMAGE GRID ========== */
         .image-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 20px;
         }
         
@@ -746,14 +739,7 @@
         }
         
         .image-card-order input {
-            width: 70px;
-            padding: 5px;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-        }
-        
-        .order-input {
-            width: 70px;
+            width: 60px;
             padding: 5px;
             border: 1px solid var(--border);
             border-radius: 4px;
@@ -1007,10 +993,10 @@
             
             <form id="login-form">
                 <div class="form-group">
-                    <input type="text" id="username" placeholder="Username">
+                    <input type="text" id="username" placeholder="Username" required>
                 </div>
                 <div class="form-group">
-                    <input type="password" id="password" placeholder="Password">
+                    <input type="password" id="password" placeholder="Password" required>
                 </div>
                 <button type="submit" id="btn-login">
                     <i class="fas fa-sign-in-alt"></i> Masuk
@@ -1282,18 +1268,19 @@
     <!-- MODALS -->
     <div class="modal" id="wisdom-modal"><div class="modal-content"><span class="close" onclick="closeModal('wisdom-modal')">&times;</span><h2 id="wisdom-modal-title">Tambah Hikmah</h2><form id="wisdom-form"><input type="hidden" name="id"><div class="form-group"><label>Hari</label><select name="day" required><option value="monday">Senin</option><option value="tuesday">Selasa</option><option value="wednesday">Rabu</option><option value="thursday">Kamis</option><option value="friday">Jumat</option><option value="saturday">Sabtu</option><option value="sunday">Minggu</option></select></div><div class="form-group"><label>Urutan (1-3)</label><input type="number" name="order" min="1" max="3" required></div><div class="form-group"><label>Teks</label><textarea name="text" rows="4" required></textarea></div><div class="form-group"><label>Referensi</label><input type="text" name="reference" required></div><div class="form-group"><label>Tipe</label><div style="display: flex; gap: 20px;"><label><input type="radio" name="type" value="quran" checked> Quran</label><label><input type="radio" name="type" value="hadith"> Hadith</label></div></div><div class="form-group"><label><input type="checkbox" name="active" checked> Aktif</label></div><div class="modal-actions"><button type="submit" class="btn-primary"><i class="fas fa-save"></i> Simpan</button><button type="button" onclick="closeModal('wisdom-modal')" class="btn-secondary">Batal</button></div></form></div></div>
     
-    <div class="modal" id="upload-wallpaper-modal"><div class="modal-content"><span class="close" onclick="closeModal('upload-wallpaper-modal')">&times;</span><h2>Upload Wallpaper</h2><div class="upload-area" id="wallpaper-upload-area"><input type="file" id="wallpaper-file" accept="image/*" style="display:none"><i class="fas fa-cloud-upload-alt"></i><p>Drag & drop atau klik untuk browse</p><small>Format: JPG, PNG (Max 5MB)</small></div><div id="wallpaper-preview" style="display:none"><img id="wallpaper-preview-img" alt="Preview"><p id="wallpaper-filename"></p></div><div class="form-group"><label>Urutan</label><input type="number" id="wallpaper-order" value="1" min="1" class="order-input"></div><div id="upload-progress" style="display:none"><div class="progress-bar"><div class="progress-fill" id="upload-progress-fill"></div></div><p id="upload-progress-text">Uploading...</p></div><div class="modal-actions"><button onclick="uploadWallpaper()" class="btn-primary" id="btn-upload-wallpaper"><i class="fas fa-upload"></i> Upload</button><button onclick="closeModal('upload-wallpaper-modal')" class="btn-secondary">Batal</button></div></div></div>
+    <div class="modal" id="upload-wallpaper-modal"><div class="modal-content"><span class="close" onclick="closeModal('upload-wallpaper-modal')">&times;</span><h2>Upload Wallpaper</h2><div class="upload-area" id="wallpaper-upload-area"><input type="file" id="wallpaper-file" accept="image/*" style="display:none"><i class="fas fa-cloud-upload-alt"></i><p>Drag & drop atau klik untuk browse</p><small>Format: JPG, PNG (Max 5MB)</small></div><div id="wallpaper-preview" style="display:none"><img id="wallpaper-preview-img" alt="Preview"><p id="wallpaper-filename"></p></div><div class="form-group"><label>Urutan</label><input type="number" id="wallpaper-order" value="1" min="1"></div><div id="upload-progress" style="display:none"><div class="progress-bar"><div class="progress-fill" id="upload-progress-fill"></div></div><p id="upload-progress-text">Uploading...</p></div><div class="modal-actions"><button onclick="uploadWallpaper()" class="btn-primary" id="btn-upload-wallpaper"><i class="fas fa-upload"></i> Upload</button><button onclick="closeModal('upload-wallpaper-modal')" class="btn-secondary">Batal</button></div></div></div>
     
     <div class="modal" id="adab-modal"><div class="modal-content"><span class="close" onclick="closeModal('adab-modal')">&times;</span><h2 id="adab-modal-title">Tambah Adab</h2><form id="adab-form"><input type="hidden" name="id"><input type="hidden" name="type" id="adab-type"><div class="form-group"><label>Urutan</label><input type="number" name="order" min="1" max="10" required></div><div class="form-group"><label>Teks</label><textarea name="text" rows="3" required></textarea></div><div class="form-group"><label>Icon</label><select name="icon" required><option value="fas fa-door-open">🚪 Masuk Masjid</option><option value="fas fa-broom">🧹 Kebersihan</option><option value="fas fa-mobile-alt">📱 Silent HP</option><option value="fas fa-walking">🚶 Berjalan</option><option value="fas fa-hands-praying">🤲 Berdoa</option><option value="fas fa-shower">🚿 Mandi</option><option value="fas fa-tshirt">👕 Pakaian</option><option value="fas fa-clock">🕐 Waktu</option><option value="fas fa-volume-mute">🔇 Diam</option><option value="fas fa-pray">🕌 Shalat</option><option value="fas fa-book">📖 Quran</option><option value="fas fa-mosque">🕌 Masjid</option></select></div><div class="form-group"><label><input type="checkbox" name="active" checked> Aktif</label></div><div class="modal-actions"><button type="submit" class="btn-primary"><i class="fas fa-save"></i> Simpan</button><button type="button" onclick="closeModal('adab-modal')" class="btn-secondary">Batal</button></div></form></div></div>
     
-    <div class="modal" id="upload-announcement-modal"><div class="modal-content"><span class="close" onclick="closeModal('upload-announcement-modal')">&times;</span><h2>Upload Pengumuman</h2><div class="upload-area" id="announcement-upload-area"><input type="file" id="announcement-file" accept="image/*" style="display:none"><i class="fas fa-cloud-upload-alt"></i><p>Drag & drop atau klik</p><small>Format: JPG, PNG (Max 5MB)</small></div><div id="announcement-preview" style="display:none"><img id="announcement-preview-img" alt="Preview"><p id="announcement-filename"></p></div><div class="form-group"><label>Urutan</label><input type="number" id="announcement-order" value="1" min="1" class="order-input"></div><div id="announcement-upload-progress" style="display:none"><div class="progress-bar"><div class="progress-fill" id="announcement-progress-fill"></div></div><p id="announcement-progress-text">Uploading...</p></div><div class="modal-actions"><button onclick="uploadAnnouncement()" class="btn-primary" id="btn-upload-announcement"><i class="fas fa-upload"></i> Upload</button><button onclick="closeModal('upload-announcement-modal')" class="btn-secondary">Batal</button></div></div></div>
+    <div class="modal" id="upload-announcement-modal"><div class="modal-content"><span class="close" onclick="closeModal('upload-announcement-modal')">&times;</span><h2>Upload Pengumuman</h2><div class="upload-area" id="announcement-upload-area"><input type="file" id="announcement-file" accept="image/*" style="display:none"><i class="fas fa-cloud-upload-alt"></i><p>Drag & drop atau klik</p><small>Format: JPG, PNG (Max 5MB)</small></div><div id="announcement-preview" style="display:none"><img id="announcement-preview-img" alt="Preview"><p id="announcement-filename"></p></div><div class="form-group"><label>Urutan</label><input type="number" id="announcement-order" value="1" min="1"></div><div id="announcement-upload-progress" style="display:none"><div class="progress-bar"><div class="progress-fill" id="announcement-progress-fill"></div></div><p id="announcement-progress-text">Uploading...</p></div><div class="modal-actions"><button onclick="uploadAnnouncement()" class="btn-primary" id="btn-upload-announcement"><i class="fas fa-upload"></i> Upload</button><button onclick="closeModal('upload-announcement-modal')" class="btn-secondary">Batal</button></div></div></div>
     
     <div class="modal" id="friday-wisdom-modal"><div class="modal-content"><span class="close" onclick="closeModal('friday-wisdom-modal')">&times;</span><h2 id="friday-wisdom-modal-title">Tambah Hadis Jumat</h2><form id="friday-wisdom-form"><input type="hidden" name="id"><div class="form-group"><label>Urutan (1-5)</label><input type="number" name="order" min="1" max="5" required></div><div class="form-group"><label>Teks Hadis</label><textarea name="text" rows="4" required></textarea></div><div class="form-group"><label>Referensi</label><input type="text" name="reference" required></div><div class="form-group"><label><input type="checkbox" name="active" checked> Aktif</label></div><div class="modal-actions"><button type="submit" class="btn-primary"><i class="fas fa-save"></i> Simpan</button><button type="button" onclick="closeModal('friday-wisdom-modal')" class="btn-secondary">Batal</button></div></form></div></div>
 
     <script>
         // ========================================
-        // ADMIN PANEL - VERSION FINAL (MANUAL SAVE MODE)
+        // ADMIN PANEL - VERSION FINAL FIXED
         // 100% SINKRON DENGAN GAS
+        // BUG TOGGLE STATUS FIXED!
         // ========================================
         
         // GANTI DENGAN URL HASIL DEPLOY GAS LO!
@@ -1316,17 +1303,12 @@
         let selectedWallpaperFile = null;
         let selectedAnnouncementFile = null;
         
-        // Temporary storage for orders
-        let tempWallpaperOrders = {};
-        let tempAnnouncementOrders = {};
-        
         // ========================================
         // INITIALIZATION
         // ========================================
         document.addEventListener('DOMContentLoaded', function() {
             checkAuth();
             setupUploadAreas();
-            setupChangeDetection();
         });
         
         function checkAuth() {
@@ -1480,34 +1462,6 @@
         }
         
         // ========================================
-        // CHANGE DETECTION
-        // ========================================
-        function setupChangeDetection() {
-            document.addEventListener('change', function(e) {
-                if (e.target.classList.contains('status-select')) {
-                    const select = e.target;
-                    const original = select.getAttribute('data-original');
-                    const current = select.value;
-                    
-                    if (original !== current) {
-                        select.classList.add('changed');
-                    } else {
-                        select.classList.remove('changed');
-                    }
-                }
-                
-                if (e.target.classList.contains('order-input')) {
-                    const input = e.target;
-                    const id = input.getAttribute('data-id');
-                    if (id) {
-                        // Mark as changed (visual feedback)
-                        input.classList.add('changed');
-                    }
-                }
-            });
-        }
-        
-        // ========================================
         // DASHBOARD
         // ========================================
         async function loadDashboard() {
@@ -1614,7 +1568,7 @@
         });
         
         // ========================================
-        // WISDOMS (MANUAL SAVE)
+        // WISDOMS
         // ========================================
         async function loadWisdoms() {
             showLoading();
@@ -1650,23 +1604,8 @@
                     <td class="text-truncate" title="${w.text}">${w.text}</td>
                     <td>${w.reference}</td>
                     <td><span class="badge badge-${w.type}">${w.type === 'quran' ? 'Quran' : 'Hadith'}</span></td>
-                    <td>
-                        <select class="status-select" data-id="${w.id}" data-type="wisdom" data-original="${w.active}">
-                            <option value="true" ${w.active ? 'selected' : ''}>Aktif</option>
-                            <option value="false" ${!w.active ? 'selected' : ''}>Non-Aktif</option>
-                        </select>
-                    </td>
-                    <td>
-                        <button onclick="editWisdom(${w.id})" class="btn-icon" title="Edit">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button onclick="deleteWisdom(${w.id})" class="btn-icon btn-danger" title="Hapus">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                        <button onclick="saveWisdomStatus(${w.id})" class="btn-success" title="Simpan Status" id="save-wisdom-${w.id}">
-                            <i class="fas fa-save"></i>
-                        </button>
-                    </td>
+                    <td><label class="switch"><input type="checkbox" ${w.active ? 'checked' : ''} onchange="toggleWisdomStatus(${w.id}, this.checked)"><span class="slider"></span></label></td>
+                    <td><button onclick="editWisdom(${w.id})" class="btn-icon"><i class="fas fa-edit"></i></button><button onclick="deleteWisdom(${w.id})" class="btn-icon btn-danger"><i class="fas fa-trash"></i></button></td>
                 </tr>
             `).join('');
         }
@@ -1743,70 +1682,36 @@
             }
         });
         
-        // ========== MANUAL SAVE WISDOM ==========
-        async function saveWisdomStatus(id) {
-            const select = document.querySelector(`.status-select[data-id="${id}"][data-type="wisdom"]`);
-            if (!select) {
-                showToast('Select box tidak ditemukan', 'error');
-                return;
-            }
-            
-            const newActive = select.value === 'true';
-            
+        // ========================================
+        // TOGGLE WISDOM STATUS - FIXED VERSION
+        // ========================================
+        async function toggleWisdomStatus(id, active) {
             const wisdom = wisdomsData.find(w => w.id == id);
-            if (!wisdom) {
-                showToast('Data tidak ditemukan', 'error');
-                return;
-            }
+            if (!wisdom) return;
             
-            if (wisdom.active === newActive) {
-                showToast('Tidak ada perubahan status', 'info');
-                return;
-            }
-            
-            wisdom.active = newActive;
-            
-            const btn = document.getElementById(`save-wisdom-${id}`);
-            const originalHTML = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-            btn.disabled = true;
+            const oldStatus = wisdom.active;
+            wisdom.active = active;
             
             try {
-                console.log('Menyimpan wisdom:', { id, active: newActive, wisdom });
-                
                 const response = await fetch(`${API_URL}?path=wisdom&action=update`, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
                     body: JSON.stringify(wisdom)
                 });
                 
                 const result = await response.json();
-                console.log('Response:', result);
                 
                 if (result.success) {
-                    showToast('✅ Status berhasil disimpan!', 'success');
-                    
-                    select.setAttribute('data-original', newActive);
-                    select.classList.remove('changed');
-                    
+                    showToast('Status berhasil diubah', 'success');
                     await loadWisdoms();
                 } else {
-                    showToast('❌ Gagal: ' + (result.error || 'Unknown error'), 'error');
-                    
-                    wisdom.active = !newActive;
-                    select.value = wisdom.active ? 'true' : 'false';
+                    wisdom.active = oldStatus;
+                    showToast('Gagal: ' + result.error, 'error');
+                    renderWisdomsTable();
                 }
             } catch (error) {
-                console.error('Error:', error);
-                showToast('❌ Error: ' + error.message, 'error');
-                
-                wisdom.active = !newActive;
-                select.value = wisdom.active ? 'true' : 'false';
-            } finally {
-                btn.innerHTML = originalHTML;
-                btn.disabled = false;
+                wisdom.active = oldStatus;
+                showToast('Error: ' + error.message, 'error');
+                renderWisdomsTable();
             }
         }
         
@@ -1829,7 +1734,7 @@
         }
         
         // ========================================
-        // WALLPAPERS (MANUAL SAVE)
+        // WALLPAPERS
         // ========================================
         async function loadWallpapers() {
             showLoading();
@@ -1856,37 +1761,19 @@
             
             wallpapersData.sort((a, b) => a.order - b.order);
             
-            grid.innerHTML = wallpapersData.map(w => {
-                const tempOrder = tempWallpaperOrders[w.id] || w.order;
-                return `
+            grid.innerHTML = wallpapersData.map(w => `
                 <div class="image-card">
                     <img src="${w.image_url}" alt="Wallpaper" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22><rect fill=%22%23ddd%22 width=%22200%22 height=%22200%22/><text fill=%22%23999%22 x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dy=%22.3em%22>Error</text></svg>'">
                     <div class="image-card-info">
                         <div class="image-card-order">
                             <label>Urutan:</label>
-                            <input type="number" value="${tempOrder}" onchange="updateWallpaperOrderTemp(${w.id}, this.value)" class="order-input" data-id="${w.id}" min="1">
+                            <input type="number" value="${w.order}" onchange="updateWallpaperOrder(${w.id}, this.value)">
                         </div>
-                        <select class="status-select" data-id="${w.id}" data-type="wallpaper" data-original="${w.active}">
-                            <option value="true" ${w.active ? 'selected' : ''}>Aktif</option>
-                            <option value="false" ${!w.active ? 'selected' : ''}>Non-Aktif</option>
-                        </select>
-                        <button onclick="deleteWallpaper(${w.id})" class="btn-icon btn-danger" title="Hapus">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                        <button onclick="saveWallpaperStatus(${w.id})" class="btn-success" title="Simpan Perubahan" id="save-wallpaper-${w.id}">
-                            <i class="fas fa-save"></i>
-                        </button>
+                        <label class="switch"><input type="checkbox" ${w.active ? 'checked' : ''} onchange="toggleWallpaperStatus(${w.id}, this.checked)"><span class="slider"></span></label>
+                        <button onclick="deleteWallpaper(${w.id})" class="btn-icon btn-danger"><i class="fas fa-trash"></i></button>
                     </div>
                 </div>
-            `}).join('');
-        }
-        
-        function updateWallpaperOrderTemp(id, newOrder) {
-            tempWallpaperOrders[id] = parseInt(newOrder);
-            const input = document.querySelector(`.order-input[data-id="${id}"]`);
-            if (input) {
-                input.classList.add('changed');
-            }
+            `).join('');
         }
         
         function showUploadWallpaperModal() {
@@ -1969,16 +1856,19 @@
             progressText.textContent = 'Memulai upload...';
             
             try {
+                // Step 1: Resize (20%)
                 progressText.textContent = 'Memproses gambar (20%)...';
                 progressFill.style.width = '20%';
                 
                 const resizedFile = await resizeImage(selectedWallpaperFile, 1920, 1080);
                 
+                // Step 2: Convert to base64 (40%)
                 progressText.textContent = 'Mengkonversi (40%)...';
                 progressFill.style.width = '40%';
                 
                 const base64 = await fileToBase64(resizedFile);
                 
+                // Step 3: Upload (60%)
                 progressText.textContent = 'Mengupload ke Drive (60%)...';
                 progressFill.style.width = '60%';
                 
@@ -1994,6 +1884,7 @@
                 const uploadResult = await uploadResponse.json();
                 if (!uploadResult.success) throw new Error(uploadResult.error);
                 
+                // Step 4: Save to database (80%)
                 progressText.textContent = 'Menyimpan ke database (80%)...';
                 progressFill.style.width = '80%';
                 
@@ -2010,6 +1901,7 @@
                 const saveResult = await saveResponse.json();
                 if (!saveResult.success) throw new Error(saveResult.error);
                 
+                // Step 5: Selesai (100%)
                 progressFill.style.width = '100%';
                 progressText.textContent = 'Selesai!';
                 
@@ -2029,79 +1921,54 @@
             }
         }
         
-        // ========== MANUAL SAVE WALLPAPER ==========
-        async function saveWallpaperStatus(id) {
-            const select = document.querySelector(`.status-select[data-id="${id}"][data-type="wallpaper"]`);
-            
-            if (!select) {
-                showToast('Select box tidak ditemukan', 'error');
-                return;
-            }
-            
-            const newActive = select.value === 'true';
-            const newOrder = tempWallpaperOrders[id] || wallpapersData.find(w => w.id == id).order;
-            
+        async function updateWallpaperOrder(id, newOrder) {
             const wallpaper = wallpapersData.find(w => w.id == id);
-            if (!wallpaper) {
-                showToast('Data tidak ditemukan', 'error');
-                return;
+            if (!wallpaper) return;
+            
+            wallpaper.order = parseInt(newOrder);
+            
+            try {
+                await fetch(`${API_URL}?path=wallpaper&action=update`, {
+                    method: 'POST',
+                    body: JSON.stringify(wallpaper)
+                });
+                showToast('Urutan diubah', 'success');
+                loadWallpapers();
+            } catch (error) {
+                showToast('Error: ' + error.message, 'error');
             }
+        }
+        
+        // ========================================
+        // TOGGLE WALLPAPER STATUS - FIXED VERSION
+        // ========================================
+        async function toggleWallpaperStatus(id, active) {
+            const wallpaper = wallpapersData.find(w => w.id == id);
+            if (!wallpaper) return;
             
-            const activeChanged = wallpaper.active !== newActive;
-            const orderChanged = wallpaper.order !== newOrder;
-            
-            if (!activeChanged && !orderChanged) {
-                showToast('Tidak ada perubahan', 'info');
-                return;
-            }
-            
-            const oldActive = wallpaper.active;
-            const oldOrder = wallpaper.order;
-            
-            wallpaper.active = newActive;
-            wallpaper.order = newOrder;
-            
-            const btn = document.getElementById(`save-wallpaper-${id}`);
-            const originalHTML = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-            btn.disabled = true;
+            const oldStatus = wallpaper.active;
+            wallpaper.active = active;
             
             try {
                 const response = await fetch(`${API_URL}?path=wallpaper&action=update`, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
                     body: JSON.stringify(wallpaper)
                 });
                 
                 const result = await response.json();
                 
                 if (result.success) {
-                    showToast('✅ Wallpaper berhasil diupdate!', 'success');
-                    
-                    select.setAttribute('data-original', newActive);
-                    select.classList.remove('changed');
-                    
-                    delete tempWallpaperOrders[id];
-                    
+                    showToast('Status diubah', 'success');
                     await loadWallpapers();
                 } else {
-                    showToast('❌ Gagal: ' + (result.error || 'Unknown error'), 'error');
-                    
-                    wallpaper.active = oldActive;
-                    wallpaper.order = oldOrder;
-                    select.value = oldActive ? 'true' : 'false';
+                    wallpaper.active = oldStatus;
+                    showToast('Gagal: ' + result.error, 'error');
+                    renderWallpapersGrid();
                 }
             } catch (error) {
-                showToast('❌ Error: ' + error.message, 'error');
-                
-                wallpaper.active = oldActive;
-                wallpaper.order = oldOrder;
-                select.value = oldActive ? 'true' : 'false';
-            } finally {
-                btn.innerHTML = originalHTML;
-                btn.disabled = false;
+                wallpaper.active = oldStatus;
+                showToast('Error: ' + error.message, 'error');
+                renderWallpapersGrid();
             }
         }
         
@@ -2167,23 +2034,8 @@
                     <td>${a.order}</td>
                     <td>${a.text}</td>
                     <td><i class="${a.icon}"></i> ${a.icon}</td>
-                    <td>
-                        <select class="status-select" data-id="${a.id}" data-type="adab-${type}" data-original="${a.active}">
-                            <option value="true" ${a.active ? 'selected' : ''}>Aktif</option>
-                            <option value="false" ${!a.active ? 'selected' : ''}>Non-Aktif</option>
-                        </select>
-                    </td>
-                    <td>
-                        <button onclick="editAdab(${a.id}, '${type}')" class="btn-icon" title="Edit">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button onclick="deleteAdab(${a.id}, '${type}')" class="btn-icon btn-danger" title="Hapus">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                        <button onclick="saveAdabStatus(${a.id}, '${type}')" class="btn-success" title="Simpan Status" id="save-adab-${a.id}">
-                            <i class="fas fa-save"></i>
-                        </button>
-                    </td>
+                    <td><label class="switch"><input type="checkbox" ${a.active ? 'checked' : ''} onchange="toggleAdabStatus(${a.id}, this.checked, '${type}')"><span class="slider"></span></label></td>
+                    <td><button onclick="editAdab(${a.id}, '${type}')" class="btn-icon"><i class="fas fa-edit"></i></button><button onclick="deleteAdab(${a.id}, '${type}')" class="btn-icon btn-danger"><i class="fas fa-trash"></i></button></td>
                 </tr>
             `).join('');
         }
@@ -2267,34 +2119,16 @@
             }
         });
         
-        // ========== MANUAL SAVE ADAB ==========
-        async function saveAdabStatus(id, type) {
-            const select = document.querySelector(`.status-select[data-id="${id}"][data-type="adab-${type}"]`);
-            if (!select) {
-                showToast('Select box tidak ditemukan', 'error');
-                return;
-            }
-            
-            const newActive = select.value === 'true';
-            
+        // ========================================
+        // TOGGLE ADAB STATUS - FIXED VERSION
+        // ========================================
+        async function toggleAdabStatus(id, active, type) {
             const data = type === 'normal' ? adabsNormalData : adabsFridayData;
             const adab = data.find(a => a.id == id);
-            if (!adab) {
-                showToast('Data tidak ditemukan', 'error');
-                return;
-            }
+            if (!adab) return;
             
-            if (adab.active === newActive) {
-                showToast('Tidak ada perubahan status', 'info');
-                return;
-            }
-            
-            adab.active = newActive;
-            
-            const btn = document.getElementById(`save-adab-${id}`);
-            const originalHTML = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-            btn.disabled = true;
+            const oldStatus = adab.active;
+            adab.active = active;
             
             try {
                 const response = await fetch(`${API_URL}?path=adab&action=update`, {
@@ -2305,26 +2139,17 @@
                 const result = await response.json();
                 
                 if (result.success) {
-                    showToast('✅ Status adab berhasil disimpan!', 'success');
-                    
-                    select.setAttribute('data-original', newActive);
-                    select.classList.remove('changed');
-                    
-                    loadAdabsByType(type);
+                    showToast('Status diubah', 'success');
+                    await loadAdabsByType(type);
                 } else {
-                    showToast('❌ Gagal: ' + (result.error || 'Unknown error'), 'error');
-                    
-                    adab.active = !newActive;
-                    select.value = adab.active ? 'true' : 'false';
+                    adab.active = oldStatus;
+                    showToast('Gagal: ' + result.error, 'error');
+                    renderAdabsTable(type);
                 }
             } catch (error) {
-                showToast('❌ Error: ' + error.message, 'error');
-                
-                adab.active = !newActive;
-                select.value = adab.active ? 'true' : 'false';
-            } finally {
-                btn.innerHTML = originalHTML;
-                btn.disabled = false;
+                adab.active = oldStatus;
+                showToast('Error: ' + error.message, 'error');
+                renderAdabsTable(type);
             }
         }
         
@@ -2403,7 +2228,7 @@
         });
         
         // ========================================
-        // ANNOUNCEMENTS (MANUAL SAVE)
+        // ANNOUNCEMENTS
         // ========================================
         async function loadAnnouncements() {
             showLoading();
@@ -2430,37 +2255,19 @@
             
             announcementsData.sort((a, b) => a.order - b.order);
             
-            grid.innerHTML = announcementsData.map(a => {
-                const tempOrder = tempAnnouncementOrders[a.id] || a.order;
-                return `
+            grid.innerHTML = announcementsData.map(a => `
                 <div class="image-card">
                     <img src="${a.image_url}" alt="Pengumuman" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22><rect fill=%22%23ddd%22 width=%22200%22 height=%22200%22/><text fill=%22%23999%22 x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dy=%22.3em%22>Error</text></svg>'">
                     <div class="image-card-info">
                         <div class="image-card-order">
                             <label>Urutan:</label>
-                            <input type="number" value="${tempOrder}" onchange="updateAnnouncementOrderTemp(${a.id}, this.value)" class="order-input" data-id="${a.id}" min="1">
+                            <input type="number" value="${a.order}" onchange="updateAnnouncementOrder(${a.id}, this.value)">
                         </div>
-                        <select class="status-select" data-id="${a.id}" data-type="announcement" data-original="${a.active}">
-                            <option value="true" ${a.active ? 'selected' : ''}>Aktif</option>
-                            <option value="false" ${!a.active ? 'selected' : ''}>Non-Aktif</option>
-                        </select>
-                        <button onclick="deleteAnnouncement(${a.id})" class="btn-icon btn-danger" title="Hapus">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                        <button onclick="saveAnnouncementStatus(${a.id})" class="btn-success" title="Simpan Perubahan" id="save-announcement-${a.id}">
-                            <i class="fas fa-save"></i>
-                        </button>
+                        <label class="switch"><input type="checkbox" ${a.active ? 'checked' : ''} onchange="toggleAnnouncementStatus(${a.id}, this.checked)"><span class="slider"></span></label>
+                        <button onclick="deleteAnnouncement(${a.id})" class="btn-icon btn-danger"><i class="fas fa-trash"></i></button>
                     </div>
                 </div>
-            `}).join('');
-        }
-        
-        function updateAnnouncementOrderTemp(id, newOrder) {
-            tempAnnouncementOrders[id] = parseInt(newOrder);
-            const input = document.querySelector(`.order-input[data-id="${id}"]`);
-            if (input) {
-                input.classList.add('changed');
-            }
+            `).join('');
         }
         
         function showUploadAnnouncementModal() {
@@ -2513,16 +2320,19 @@
             progressText.textContent = 'Memulai upload...';
             
             try {
+                // Step 1: Resize
                 progressText.textContent = 'Memproses gambar (20%)...';
                 progressFill.style.width = '20%';
                 
                 const resizedFile = await resizeImage(selectedAnnouncementFile, 1920, 1080);
                 
+                // Step 2: Convert
                 progressText.textContent = 'Mengkonversi (40%)...';
                 progressFill.style.width = '40%';
                 
                 const base64 = await fileToBase64(resizedFile);
                 
+                // Step 3: Upload
                 progressText.textContent = 'Mengupload ke Drive (60%)...';
                 progressFill.style.width = '60%';
                 
@@ -2538,6 +2348,7 @@
                 const uploadResult = await uploadResponse.json();
                 if (!uploadResult.success) throw new Error(uploadResult.error);
                 
+                // Step 4: Save
                 progressText.textContent = 'Menyimpan ke database (80%)...';
                 progressFill.style.width = '80%';
                 
@@ -2555,6 +2366,7 @@
                 const saveResult = await saveResponse.json();
                 if (!saveResult.success) throw new Error(saveResult.error);
                 
+                // Step 5: Selesai
                 progressFill.style.width = '100%';
                 progressText.textContent = 'Selesai!';
                 
@@ -2574,79 +2386,54 @@
             }
         }
         
-        // ========== MANUAL SAVE ANNOUNCEMENT ==========
-        async function saveAnnouncementStatus(id) {
-            const select = document.querySelector(`.status-select[data-id="${id}"][data-type="announcement"]`);
-            
-            if (!select) {
-                showToast('Select box tidak ditemukan', 'error');
-                return;
-            }
-            
-            const newActive = select.value === 'true';
-            const newOrder = tempAnnouncementOrders[id] || announcementsData.find(a => a.id == id).order;
-            
+        async function updateAnnouncementOrder(id, newOrder) {
             const announcement = announcementsData.find(a => a.id == id);
-            if (!announcement) {
-                showToast('Data tidak ditemukan', 'error');
-                return;
+            if (!announcement) return;
+            
+            announcement.order = parseInt(newOrder);
+            
+            try {
+                await fetch(`${API_URL}?path=announcement&action=update`, {
+                    method: 'POST',
+                    body: JSON.stringify(announcement)
+                });
+                showToast('Urutan diubah', 'success');
+                loadAnnouncements();
+            } catch (error) {
+                showToast('Error: ' + error.message, 'error');
             }
+        }
+        
+        // ========================================
+        // TOGGLE ANNOUNCEMENT STATUS - FIXED VERSION
+        // ========================================
+        async function toggleAnnouncementStatus(id, active) {
+            const announcement = announcementsData.find(a => a.id == id);
+            if (!announcement) return;
             
-            const activeChanged = announcement.active !== newActive;
-            const orderChanged = announcement.order !== newOrder;
-            
-            if (!activeChanged && !orderChanged) {
-                showToast('Tidak ada perubahan', 'info');
-                return;
-            }
-            
-            const oldActive = announcement.active;
-            const oldOrder = announcement.order;
-            
-            announcement.active = newActive;
-            announcement.order = newOrder;
-            
-            const btn = document.getElementById(`save-announcement-${id}`);
-            const originalHTML = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-            btn.disabled = true;
+            const oldStatus = announcement.active;
+            announcement.active = active;
             
             try {
                 const response = await fetch(`${API_URL}?path=announcement&action=update`, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
                     body: JSON.stringify(announcement)
                 });
                 
                 const result = await response.json();
                 
                 if (result.success) {
-                    showToast('✅ Pengumuman berhasil diupdate!', 'success');
-                    
-                    select.setAttribute('data-original', newActive);
-                    select.classList.remove('changed');
-                    
-                    delete tempAnnouncementOrders[id];
-                    
+                    showToast('Status diubah', 'success');
                     await loadAnnouncements();
                 } else {
-                    showToast('❌ Gagal: ' + (result.error || 'Unknown error'), 'error');
-                    
-                    announcement.active = oldActive;
-                    announcement.order = oldOrder;
-                    select.value = oldActive ? 'true' : 'false';
+                    announcement.active = oldStatus;
+                    showToast('Gagal: ' + result.error, 'error');
+                    renderAnnouncementsGrid();
                 }
             } catch (error) {
-                showToast('❌ Error: ' + error.message, 'error');
-                
-                announcement.active = oldActive;
-                announcement.order = oldOrder;
-                select.value = oldActive ? 'true' : 'false';
-            } finally {
-                btn.innerHTML = originalHTML;
-                btn.disabled = false;
+                announcement.active = oldStatus;
+                showToast('Error: ' + error.message, 'error');
+                renderAnnouncementsGrid();
             }
         }
         
@@ -2669,7 +2456,7 @@
         }
         
         // ========================================
-        // FRIDAY WISDOMS (MANUAL SAVE)
+        // FRIDAY WISDOMS
         // ========================================
         async function loadFridayWisdoms() {
             showLoading();
@@ -2701,23 +2488,8 @@
                     <td>${w.order}</td>
                     <td class="text-truncate" title="${w.text}">${w.text}</td>
                     <td>${w.reference}</td>
-                    <td>
-                        <select class="status-select" data-id="${w.id}" data-type="friday-wisdom" data-original="${w.active}">
-                            <option value="true" ${w.active ? 'selected' : ''}>Aktif</option>
-                            <option value="false" ${!w.active ? 'selected' : ''}>Non-Aktif</option>
-                        </select>
-                    </td>
-                    <td>
-                        <button onclick="editFridayWisdom(${w.id})" class="btn-icon" title="Edit">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button onclick="deleteFridayWisdom(${w.id})" class="btn-icon btn-danger" title="Hapus">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                        <button onclick="saveFridayWisdomStatus(${w.id})" class="btn-success" title="Simpan Status" id="save-friday-${w.id}">
-                            <i class="fas fa-save"></i>
-                        </button>
-                    </td>
+                    <td><label class="switch"><input type="checkbox" ${w.active ? 'checked' : ''} onchange="toggleFridayWisdomStatus(${w.id}, this.checked)"><span class="slider"></span></label></td>
+                    <td><button onclick="editFridayWisdom(${w.id})" class="btn-icon"><i class="fas fa-edit"></i></button><button onclick="deleteFridayWisdom(${w.id})" class="btn-icon btn-danger"><i class="fas fa-trash"></i></button></td>
                 </tr>
             `).join('');
         }
@@ -2785,65 +2557,36 @@
             }
         });
         
-        // ========== MANUAL SAVE FRIDAY WISDOM ==========
-        async function saveFridayWisdomStatus(id) {
-            const select = document.querySelector(`.status-select[data-id="${id}"][data-type="friday-wisdom"]`);
-            
-            if (!select) {
-                showToast('Select box tidak ditemukan', 'error');
-                return;
-            }
-            
-            const newActive = select.value === 'true';
-            
+        // ========================================
+        // TOGGLE FRIDAY WISDOM STATUS - FIXED VERSION
+        // ========================================
+        async function toggleFridayWisdomStatus(id, active) {
             const wisdom = fridayWisdomsData.find(w => w.id == id);
-            if (!wisdom) {
-                showToast('Data tidak ditemukan', 'error');
-                return;
-            }
+            if (!wisdom) return;
             
-            if (wisdom.active === newActive) {
-                showToast('Tidak ada perubahan', 'info');
-                return;
-            }
-            
-            wisdom.active = newActive;
-            
-            const btn = document.getElementById(`save-friday-${id}`);
-            const originalHTML = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-            btn.disabled = true;
+            const oldStatus = wisdom.active;
+            wisdom.active = active;
             
             try {
                 const response = await fetch(`${API_URL}?path=friday-wisdom&action=update`, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
                     body: JSON.stringify(wisdom)
                 });
                 
                 const result = await response.json();
                 
                 if (result.success) {
-                    showToast('✅ Hadis berhasil diupdate!', 'success');
-                    
-                    select.setAttribute('data-original', newActive);
-                    select.classList.remove('changed');
+                    showToast('Status diubah', 'success');
+                    await loadFridayWisdoms();
                 } else {
-                    showToast('❌ Gagal: ' + (result.error || 'Unknown error'), 'error');
-                    
-                    wisdom.active = !newActive;
-                    select.value = wisdom.active ? 'true' : 'false';
+                    wisdom.active = oldStatus;
+                    showToast('Gagal: ' + result.error, 'error');
+                    renderFridayWisdomsTable();
                 }
             } catch (error) {
-                showToast('❌ Error: ' + error.message, 'error');
-                
-                wisdom.active = !newActive;
-                select.value = wisdom.active ? 'true' : 'false';
-            } finally {
-                btn.innerHTML = originalHTML;
-                btn.disabled = false;
+                wisdom.active = oldStatus;
+                showToast('Error: ' + error.message, 'error');
+                renderFridayWisdomsTable();
             }
         }
         
