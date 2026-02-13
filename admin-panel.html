@@ -8,9 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <style>
         /* ========================================
-           ADMIN PANEL - VERSION FINAL FIXED
+           ADMIN PANEL - VERSION FINAL
            100% SINKRON DENGAN GAS
-           BUG TOGGLE STATUS FIXED!
            ======================================== */
         
         :root {
@@ -993,10 +992,10 @@
             
             <form id="login-form">
                 <div class="form-group">
-                    <input type="text" id="username" placeholder="Username" required>
+                    <input type="text" id="username" placeholder="Username" value="masjid" required>
                 </div>
                 <div class="form-group">
-                    <input type="password" id="password" placeholder="Password" required>
+                    <input type="password" id="password" placeholder="Password" value="Password321" required>
                 </div>
                 <button type="submit" id="btn-login">
                     <i class="fas fa-sign-in-alt"></i> Masuk
@@ -1083,8 +1082,8 @@
                             <div class="form-group"><label>Nama Masjid</label><input type="text" name="masjid_name" required></div>
                             <div class="form-group"><label>Alamat Masjid</label><textarea name="masjid_address" rows="3" required></textarea></div>
                             <div class="form-row">
-                                <div class="form-group"><label>Latitude</label><input type="text" name="latitude" required placeholder="-6.5456"><small class="error-message" id="error-latitude"></small></div>
-                                <div class="form-group"><label>Longitude</label><input type="text" name="longitude" required placeholder="106.7367"><small class="error-message" id="error-longitude"></small></div>
+                                <div class="form-group"><label>Latitude</label><input type="text" name="latitude" required pattern="-?\d+\.?\d*" placeholder="-6.5456" title="Contoh: -6.5456"><small class="error-message" id="error-latitude"></small></div>
+                                <div class="form-group"><label>Longitude</label><input type="text" name="longitude" required pattern="-?\d+\.?\d*" placeholder="106.7367" title="Contoh: 106.7367"><small class="error-message" id="error-longitude"></small></div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group"><label>Timezone</label><select name="timezone" required><option value="Asia/Jakarta">Asia/Jakarta (WIB)</option><option value="Asia/Makassar">Asia/Makassar (WITA)</option><option value="Asia/Jayapura">Asia/Jayapura (WIT)</option></select></div>
@@ -1278,13 +1277,12 @@
 
     <script>
         // ========================================
-        // ADMIN PANEL - VERSION FINAL FIXED
+        // ADMIN PANEL - VERSION FINAL
         // 100% SINKRON DENGAN GAS
-        // BUG TOGGLE STATUS FIXED!
         // ========================================
         
         // GANTI DENGAN URL HASIL DEPLOY GAS LO!
-        const API_URL = "https://script.google.com/macros/s/AKfycbygiZUvfqtLEFEpRCEjaFI3ShzD3tzlFysH7t-jK6kxgv-12dqEOQAIF3FbOUwRMVkE0A/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbw58v_4TKSKQb0qI2nenO_pPI6_g-LVajqWsQu63byhWGrBYQT-aAvdJy3GXv1ge_2g2A/exec";
         
         // Global variables
         let wisdomsData = [];
@@ -1682,12 +1680,13 @@
             }
         });
         
-        // ========================================
-        // TOGGLE WISDOM STATUS - FIXED VERSION
-        // ========================================
         async function toggleWisdomStatus(id, active) {
             const wisdom = wisdomsData.find(w => w.id == id);
             if (!wisdom) return;
+            
+            // Disable semua toggle selama update
+            const toggles = document.querySelectorAll('#wisdoms-tbody input[type="checkbox"]');
+            toggles.forEach(t => t.disabled = true);
             
             const oldStatus = wisdom.active;
             wisdom.active = active;
@@ -1702,15 +1701,16 @@
                 
                 if (result.success) {
                     showToast('Status berhasil diubah', 'success');
-                    await loadWisdoms();
                 } else {
                     wisdom.active = oldStatus;
                     showToast('Gagal: ' + result.error, 'error');
-                    renderWisdomsTable();
                 }
             } catch (error) {
                 wisdom.active = oldStatus;
                 showToast('Error: ' + error.message, 'error');
+            } finally {
+                // Enable kembali & render ulang
+                toggles.forEach(t => t.disabled = false);
                 renderWisdomsTable();
             }
         }
@@ -1939,12 +1939,13 @@
             }
         }
         
-        // ========================================
-        // TOGGLE WALLPAPER STATUS - FIXED VERSION
-        // ========================================
         async function toggleWallpaperStatus(id, active) {
             const wallpaper = wallpapersData.find(w => w.id == id);
             if (!wallpaper) return;
+            
+            // Disable semua toggle selama update
+            const toggles = document.querySelectorAll('#wallpapers-grid input[type="checkbox"]');
+            toggles.forEach(t => t.disabled = true);
             
             const oldStatus = wallpaper.active;
             wallpaper.active = active;
@@ -1959,15 +1960,16 @@
                 
                 if (result.success) {
                     showToast('Status diubah', 'success');
-                    await loadWallpapers();
                 } else {
                     wallpaper.active = oldStatus;
                     showToast('Gagal: ' + result.error, 'error');
-                    renderWallpapersGrid();
                 }
             } catch (error) {
                 wallpaper.active = oldStatus;
                 showToast('Error: ' + error.message, 'error');
+            } finally {
+                // Enable kembali & render ulang
+                toggles.forEach(t => t.disabled = false);
                 renderWallpapersGrid();
             }
         }
@@ -2119,13 +2121,14 @@
             }
         });
         
-        // ========================================
-        // TOGGLE ADAB STATUS - FIXED VERSION
-        // ========================================
         async function toggleAdabStatus(id, active, type) {
             const data = type === 'normal' ? adabsNormalData : adabsFridayData;
             const adab = data.find(a => a.id == id);
             if (!adab) return;
+            
+            // Disable semua toggle selama update
+            const toggles = document.querySelectorAll(`#adabs-${type}-tbody input[type="checkbox"]`);
+            toggles.forEach(t => t.disabled = true);
             
             const oldStatus = adab.active;
             adab.active = active;
@@ -2140,15 +2143,16 @@
                 
                 if (result.success) {
                     showToast('Status diubah', 'success');
-                    await loadAdabsByType(type);
                 } else {
                     adab.active = oldStatus;
                     showToast('Gagal: ' + result.error, 'error');
-                    renderAdabsTable(type);
                 }
             } catch (error) {
                 adab.active = oldStatus;
                 showToast('Error: ' + error.message, 'error');
+            } finally {
+                // Enable kembali & render ulang
+                toggles.forEach(t => t.disabled = false);
                 renderAdabsTable(type);
             }
         }
@@ -2404,12 +2408,13 @@
             }
         }
         
-        // ========================================
-        // TOGGLE ANNOUNCEMENT STATUS - FIXED VERSION
-        // ========================================
         async function toggleAnnouncementStatus(id, active) {
             const announcement = announcementsData.find(a => a.id == id);
             if (!announcement) return;
+            
+            // Disable semua toggle selama update
+            const toggles = document.querySelectorAll('#announcements-grid input[type="checkbox"]');
+            toggles.forEach(t => t.disabled = true);
             
             const oldStatus = announcement.active;
             announcement.active = active;
@@ -2424,15 +2429,16 @@
                 
                 if (result.success) {
                     showToast('Status diubah', 'success');
-                    await loadAnnouncements();
                 } else {
                     announcement.active = oldStatus;
                     showToast('Gagal: ' + result.error, 'error');
-                    renderAnnouncementsGrid();
                 }
             } catch (error) {
                 announcement.active = oldStatus;
                 showToast('Error: ' + error.message, 'error');
+            } finally {
+                // Enable kembali & render ulang
+                toggles.forEach(t => t.disabled = false);
                 renderAnnouncementsGrid();
             }
         }
@@ -2557,12 +2563,13 @@
             }
         });
         
-        // ========================================
-        // TOGGLE FRIDAY WISDOM STATUS - FIXED VERSION
-        // ========================================
         async function toggleFridayWisdomStatus(id, active) {
             const wisdom = fridayWisdomsData.find(w => w.id == id);
             if (!wisdom) return;
+            
+            // Disable semua toggle selama update
+            const toggles = document.querySelectorAll('#friday-wisdoms-tbody input[type="checkbox"]');
+            toggles.forEach(t => t.disabled = true);
             
             const oldStatus = wisdom.active;
             wisdom.active = active;
@@ -2577,15 +2584,16 @@
                 
                 if (result.success) {
                     showToast('Status diubah', 'success');
-                    await loadFridayWisdoms();
                 } else {
                     wisdom.active = oldStatus;
                     showToast('Gagal: ' + result.error, 'error');
-                    renderFridayWisdomsTable();
                 }
             } catch (error) {
                 wisdom.active = oldStatus;
                 showToast('Error: ' + error.message, 'error');
+            } finally {
+                // Enable kembali & render ulang
+                toggles.forEach(t => t.disabled = false);
                 renderFridayWisdomsTable();
             }
         }
