@@ -6,10 +6,16 @@
     <title>Admin Panel - Masjid Baiturrahman STMIK Tazkia</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- ANTI CACHE HEADERS -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
     <style>
         /* ========================================
-           ADMIN PANEL - VERSION FINAL (MANUAL SAVE MODE)
-           100% SINKRON DENGAN GAS
+           ADMIN PANEL - VERSION FINAL
+           ANTI CACHE + MANUAL SAVE
            ======================================== */
         
         :root {
@@ -1297,8 +1303,8 @@
 
     <script>
         // ========================================
-        // ADMIN PANEL - VERSION FINAL (MANUAL SAVE MODE)
-        // 100% SINKRON DENGAN GAS
+        // ADMIN PANEL - VERSION FINAL
+        // ANTI CACHE + MANUAL SAVE
         // ========================================
         
         // GANTI DENGAN URL HASIL DEPLOY GAS LO!
@@ -1364,7 +1370,7 @@
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
             
             try {
-                const response = await fetch(`${API_URL}?path=login&username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`);
+                const response = await fetch(`${API_URL}?path=login&username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}&t=${Date.now()}`);
                 const result = await response.json();
                 
                 if (result.success) {
@@ -1440,7 +1446,7 @@
         async function forcePrayerUpdate() {
             showLoading();
             try {
-                const response = await fetch(`${API_URL}?path=prayer-times&force=1`);
+                const response = await fetch(`${API_URL}?path=prayer-times&force=1&t=${Date.now()}`);
                 const result = await response.json();
                 if (result.success) showToast('Jadwal shalat berhasil diupdate!', 'success');
                 else showToast('Gagal: ' + result.error, 'error');
@@ -1514,7 +1520,7 @@
         async function loadDashboard() {
             showLoading();
             try {
-                const configRes = await fetch(`${API_URL}?path=config`);
+                const configRes = await fetch(`${API_URL}?path=config&t=${Date.now()}`);
                 const configResult = await configRes.json();
                 if (configResult.success) {
                     configData = configResult.data;
@@ -1523,11 +1529,11 @@
                     document.getElementById('info-masjid-address').textContent = configData.masjid_address || '-';
                 }
                 
-                const wisdomsRes = await fetch(`${API_URL}?path=wisdoms`);
+                const wisdomsRes = await fetch(`${API_URL}?path=wisdoms&t=${Date.now()}`);
                 const wisdomsResult = await wisdomsRes.json();
                 if (wisdomsResult.success) document.getElementById('total-wisdoms').textContent = wisdomsResult.data.length;
                 
-                const wallpapersRes = await fetch(`${API_URL}?path=wallpapers`);
+                const wallpapersRes = await fetch(`${API_URL}?path=wallpapers&t=${Date.now()}`);
                 const wallpapersResult = await wallpapersRes.json();
                 if (wallpapersResult.success) {
                     const active = wallpapersResult.data.filter(w => w.active);
@@ -1548,7 +1554,7 @@
         async function loadConfig() {
             showLoading();
             try {
-                const response = await fetch(`${API_URL}?path=config`);
+                const response = await fetch(`${API_URL}?path=config&t=${Date.now()}`);
                 const result = await response.json();
                 if (result.success) {
                     configData = result.data;
@@ -1594,7 +1600,7 @@
             showLoading();
             
             try {
-                const response = await fetch(`${API_URL}?path=config&action=update-multiple`, {
+                const response = await fetch(`${API_URL}?path=config&action=update-multiple&t=${Date.now()}`, {
                     method: 'POST',
                     body: JSON.stringify(config)
                 });
@@ -1620,7 +1626,7 @@
         async function loadWisdoms() {
             showLoading();
             try {
-                const response = await fetch(`${API_URL}?path=wisdoms`);
+                const response = await fetch(`${API_URL}?path=wisdoms&t=${Date.now()}`);
                 const result = await response.json();
                 if (result.success) {
                     wisdomsData = result.data;
@@ -1723,7 +1729,7 @@
             showLoading();
             
             try {
-                const response = await fetch(`${API_URL}?path=wisdom&action=${action}`, {
+                const response = await fetch(`${API_URL}?path=wisdom&action=${action}&t=${Date.now()}`, {
                     method: 'POST',
                     body: JSON.stringify(wisdom)
                 });
@@ -1744,7 +1750,6 @@
             }
         });
         
-        // ========== MANUAL SAVE WISDOM ==========
         async function saveWisdomStatus(id) {
             const select = document.querySelector(`.status-select[data-id="${id}"][data-type="wisdom"]`);
             if (!select) {
@@ -1773,18 +1778,25 @@
             btn.disabled = true;
             
             try {
-                console.log('Menyimpan wisdom:', { id, active: newActive, wisdom });
+                const dataToSend = {
+                    id: Number(id),
+                    day: wisdom.day,
+                    order: wisdom.order,
+                    text: wisdom.text,
+                    reference: wisdom.reference,
+                    type: wisdom.type,
+                    active: newActive
+                };
                 
-                const response = await fetch(`${API_URL}?path=wisdom&action=update`, {
+                const response = await fetch(`${API_URL}?path=wisdom&action=update&t=${Date.now()}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(wisdom)
+                    body: JSON.stringify(dataToSend)
                 });
                 
                 const result = await response.json();
-                console.log('Response:', result);
                 
                 if (result.success) {
                     showToast('✅ Status berhasil disimpan!', 'success');
@@ -1792,7 +1804,15 @@
                     select.setAttribute('data-original', newActive);
                     select.classList.remove('changed');
                     
-                    await loadWisdoms();
+                    const index = wisdomsData.findIndex(w => w.id == id);
+                    if (index !== -1) {
+                        wisdomsData[index].active = newActive;
+                    }
+                    
+                    renderWisdomsTable();
+                    
+                    setTimeout(() => loadWisdoms(), 500);
+                    
                 } else {
                     showToast('❌ Gagal: ' + (result.error || 'Unknown error'), 'error');
                     
@@ -1800,7 +1820,6 @@
                     select.value = wisdom.active ? 'true' : 'false';
                 }
             } catch (error) {
-                console.error('Error:', error);
                 showToast('❌ Error: ' + error.message, 'error');
                 
                 wisdom.active = !newActive;
@@ -1816,9 +1835,9 @@
             
             showLoading();
             try {
-                await fetch(`${API_URL}?path=wisdom&action=delete`, {
+                await fetch(`${API_URL}?path=wisdom&action=delete&t=${Date.now()}`, {
                     method: 'POST',
-                    body: JSON.stringify({ id })
+                    body: JSON.stringify({ id: Number(id) })
                 });
                 showToast('Hikmah dihapus!', 'success');
                 loadWisdoms();
@@ -1830,12 +1849,12 @@
         }
         
         // ========================================
-        // WALLPAPERS (MANUAL SAVE)
+        // WALLPAPERS (MANUAL SAVE) - FIXED
         // ========================================
         async function loadWallpapers() {
             showLoading();
             try {
-                const response = await fetch(`${API_URL}?path=wallpapers`);
+                const response = await fetch(`${API_URL}?path=wallpapers&t=${Date.now()}`);
                 const result = await response.json();
                 if (result.success) {
                     wallpapersData = result.data;
@@ -1858,19 +1877,19 @@
             wallpapersData.sort((a, b) => a.order - b.order);
             
             grid.innerHTML = wallpapersData.map(w => {
-                const tempOrder = tempWallpaperOrders[w.id] || w.order;
                 let imageUrl = w.image_url;
                 if (imageUrl && imageUrl.includes('id=')) {
                     const fileId = imageUrl.split('id=')[1].split('&')[0];
                     imageUrl = `https://drive.google.com/thumbnail?id=${fileId}&sz=w500`;
                 }
+                
                 return `
                 <div class="image-card">
                     <img src="${imageUrl}" alt="Wallpaper" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22><rect fill=%22%23ddd%22 width=%22200%22 height=%22200%22/><text fill=%22%23999%22 x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dy=%22.3em%22>Error</text></svg>'">
                     <div class="image-card-info">
                         <div class="image-card-order">
                             <label>Urutan:</label>
-                            <input type="number" value="${tempOrder}" onchange="updateWallpaperOrderTemp(${w.id}, this.value)" class="order-input" data-id="${w.id}" min="1">
+                            <input type="number" value="${w.order}" onchange="updateWallpaperOrderTemp(${w.id}, this.value)" class="order-input" data-id="${w.id}" min="1">
                         </div>
                         <select class="status-select" data-id="${w.id}" data-type="wallpaper" data-original="${w.active}">
                             <option value="true" ${w.active ? 'selected' : ''}>Aktif</option>
@@ -1905,7 +1924,6 @@
         }
         
         function setupUploadAreas() {
-            // Wallpaper upload area
             const wallpaperArea = document.getElementById('wallpaper-upload-area');
             wallpaperArea.addEventListener('click', () => document.getElementById('wallpaper-file').click());
             wallpaperArea.addEventListener('dragover', (e) => e.preventDefault());
@@ -1919,7 +1937,6 @@
                 handleWallpaperFile(e.target.files[0]);
             });
             
-            // Announcement upload area
             const announcementArea = document.getElementById('announcement-upload-area');
             announcementArea.addEventListener('click', () => document.getElementById('announcement-file').click());
             announcementArea.addEventListener('dragover', (e) => e.preventDefault());
@@ -1988,7 +2005,7 @@
                 progressText.textContent = 'Mengupload ke Drive (60%)...';
                 progressFill.style.width = '60%';
                 
-                const uploadResponse = await fetch(`${API_URL}?path=upload`, {
+                const uploadResponse = await fetch(`${API_URL}?path=upload&t=${Date.now()}`, {
                     method: 'POST',
                     body: JSON.stringify({
                         fileName: selectedWallpaperFile.name,
@@ -2003,7 +2020,7 @@
                 progressText.textContent = 'Menyimpan ke database (80%)...';
                 progressFill.style.width = '80%';
                 
-                const saveResponse = await fetch(`${API_URL}?path=wallpaper&action=add`, {
+                const saveResponse = await fetch(`${API_URL}?path=wallpaper&action=add&t=${Date.now()}`, {
                     method: 'POST',
                     body: JSON.stringify({
                         order: parseInt(order),
@@ -2035,7 +2052,6 @@
             }
         }
         
-        // ========== MANUAL SAVE WALLPAPER ==========
         async function saveWallpaperStatus(id) {
             const select = document.querySelector(`.status-select[data-id="${id}"][data-type="wallpaper"]`);
             
@@ -2073,12 +2089,20 @@
             btn.disabled = true;
             
             try {
-                const response = await fetch(`${API_URL}?path=wallpaper&action=update`, {
+                const dataToSend = {
+                    id: Number(id),
+                    order: newOrder,
+                    image_url: wallpaper.image_url,
+                    drive_file_id: wallpaper.drive_file_id,
+                    active: newActive
+                };
+                
+                const response = await fetch(`${API_URL}?path=wallpaper&action=update&t=${Date.now()}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(wallpaper)
+                    body: JSON.stringify(dataToSend)
                 });
                 
                 const result = await response.json();
@@ -2091,7 +2115,16 @@
                     
                     delete tempWallpaperOrders[id];
                     
-                    await loadWallpapers();
+                    const index = wallpapersData.findIndex(w => w.id == id);
+                    if (index !== -1) {
+                        wallpapersData[index].active = newActive;
+                        wallpapersData[index].order = newOrder;
+                    }
+                    
+                    renderWallpapersGrid();
+                    
+                    setTimeout(() => loadWallpapers(), 500);
+                    
                 } else {
                     showToast('❌ Gagal: ' + (result.error || 'Unknown error'), 'error');
                     
@@ -2116,9 +2149,9 @@
             
             showLoading();
             try {
-                await fetch(`${API_URL}?path=wallpaper&action=delete`, {
+                await fetch(`${API_URL}?path=wallpaper&action=delete&t=${Date.now()}`, {
                     method: 'POST',
-                    body: JSON.stringify({ id })
+                    body: JSON.stringify({ id: Number(id) })
                 });
                 showToast('Wallpaper dihapus!', 'success');
                 loadWallpapers();
@@ -2144,7 +2177,7 @@
         }
         
         async function loadAdabsByType(type) {
-            const response = await fetch(`${API_URL}?path=adabs&type=${type}`);
+            const response = await fetch(`${API_URL}?path=adabs&type=${type}&t=${Date.now()}`);
             const result = await response.json();
             if (result.success) {
                 if (type === 'normal') {
@@ -2252,7 +2285,7 @@
             showLoading();
             
             try {
-                const response = await fetch(`${API_URL}?path=adab&action=${action}`, {
+                const response = await fetch(`${API_URL}?path=adab&action=${action}&t=${Date.now()}`, {
                     method: 'POST',
                     body: JSON.stringify(adab)
                 });
@@ -2273,7 +2306,6 @@
             }
         });
         
-        // ========== MANUAL SAVE ADAB ==========
         async function saveAdabStatus(id, type) {
             const select = document.querySelector(`.status-select[data-id="${id}"][data-type="adab-${type}"]`);
             if (!select) {
@@ -2303,9 +2335,18 @@
             btn.disabled = true;
             
             try {
-                const response = await fetch(`${API_URL}?path=adab&action=update`, {
+                const dataToSend = {
+                    id: Number(id),
+                    type: adab.type,
+                    order: adab.order,
+                    text: adab.text,
+                    icon: adab.icon,
+                    active: newActive
+                };
+                
+                const response = await fetch(`${API_URL}?path=adab&action=update&t=${Date.now()}`, {
                     method: 'POST',
-                    body: JSON.stringify(adab)
+                    body: JSON.stringify(dataToSend)
                 });
                 
                 const result = await response.json();
@@ -2316,7 +2357,15 @@
                     select.setAttribute('data-original', newActive);
                     select.classList.remove('changed');
                     
-                    loadAdabsByType(type);
+                    const index = data.findIndex(a => a.id == id);
+                    if (index !== -1) {
+                        data[index].active = newActive;
+                    }
+                    
+                    renderAdabsTable(type);
+                    
+                    setTimeout(() => loadAdabsByType(type), 500);
+                    
                 } else {
                     showToast('❌ Gagal: ' + (result.error || 'Unknown error'), 'error');
                     
@@ -2339,9 +2388,9 @@
             
             showLoading();
             try {
-                await fetch(`${API_URL}?path=adab&action=delete`, {
+                await fetch(`${API_URL}?path=adab&action=delete&t=${Date.now()}`, {
                     method: 'POST',
-                    body: JSON.stringify({ id, type })
+                    body: JSON.stringify({ id: Number(id), type })
                 });
                 showToast('Adab dihapus!', 'success');
                 loadAdabsByType(type);
@@ -2358,7 +2407,7 @@
         async function loadFridaySchedule() {
             showLoading();
             try {
-                const response = await fetch(`${API_URL}?path=friday-schedule`);
+                const response = await fetch(`${API_URL}?path=friday-schedule&t=${Date.now()}`);
                 const result = await response.json();
                 if (result.success) {
                     fridayScheduleData = result.data;
@@ -2389,7 +2438,7 @@
             showLoading();
             
             try {
-                const response = await fetch(`${API_URL}?path=friday-schedule&action=update`, {
+                const response = await fetch(`${API_URL}?path=friday-schedule&action=update&t=${Date.now()}`, {
                     method: 'POST',
                     body: JSON.stringify(schedule)
                 });
@@ -2414,7 +2463,7 @@
         async function loadAnnouncements() {
             showLoading();
             try {
-                const response = await fetch(`${API_URL}?path=announcements`);
+                const response = await fetch(`${API_URL}?path=announcements&t=${Date.now()}`);
                 const result = await response.json();
                 if (result.success) {
                     announcementsData = result.data;
@@ -2537,7 +2586,7 @@
                 progressText.textContent = 'Mengupload ke Drive (60%)...';
                 progressFill.style.width = '60%';
                 
-                const uploadResponse = await fetch(`${API_URL}?path=upload`, {
+                const uploadResponse = await fetch(`${API_URL}?path=upload&t=${Date.now()}`, {
                     method: 'POST',
                     body: JSON.stringify({
                         fileName: selectedAnnouncementFile.name,
@@ -2552,7 +2601,7 @@
                 progressText.textContent = 'Menyimpan ke database (80%)...';
                 progressFill.style.width = '80%';
                 
-                const saveResponse = await fetch(`${API_URL}?path=announcement&action=add`, {
+                const saveResponse = await fetch(`${API_URL}?path=announcement&action=add&t=${Date.now()}`, {
                     method: 'POST',
                     body: JSON.stringify({
                         order: parseInt(order),
@@ -2585,7 +2634,6 @@
             }
         }
         
-        // ========== MANUAL SAVE ANNOUNCEMENT ==========
         async function saveAnnouncementStatus(id) {
             const select = document.querySelector(`.status-select[data-id="${id}"][data-type="announcement"]`);
             
@@ -2623,12 +2671,21 @@
             btn.disabled = true;
             
             try {
-                const response = await fetch(`${API_URL}?path=announcement&action=update`, {
+                const dataToSend = {
+                    id: Number(id),
+                    order: newOrder,
+                    text: announcement.text,
+                    image_url: announcement.image_url,
+                    drive_file_id: announcement.drive_file_id,
+                    active: newActive
+                };
+                
+                const response = await fetch(`${API_URL}?path=announcement&action=update&t=${Date.now()}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(announcement)
+                    body: JSON.stringify(dataToSend)
                 });
                 
                 const result = await response.json();
@@ -2641,7 +2698,16 @@
                     
                     delete tempAnnouncementOrders[id];
                     
-                    await loadAnnouncements();
+                    const index = announcementsData.findIndex(a => a.id == id);
+                    if (index !== -1) {
+                        announcementsData[index].active = newActive;
+                        announcementsData[index].order = newOrder;
+                    }
+                    
+                    renderAnnouncementsGrid();
+                    
+                    setTimeout(() => loadAnnouncements(), 500);
+                    
                 } else {
                     showToast('❌ Gagal: ' + (result.error || 'Unknown error'), 'error');
                     
@@ -2666,9 +2732,9 @@
             
             showLoading();
             try {
-                await fetch(`${API_URL}?path=announcement&action=delete`, {
+                await fetch(`${API_URL}?path=announcement&action=delete&t=${Date.now()}`, {
                     method: 'POST',
-                    body: JSON.stringify({ id })
+                    body: JSON.stringify({ id: Number(id) })
                 });
                 showToast('Pengumuman dihapus!', 'success');
                 loadAnnouncements();
@@ -2685,7 +2751,7 @@
         async function loadFridayWisdoms() {
             showLoading();
             try {
-                const response = await fetch(`${API_URL}?path=friday-wisdoms`);
+                const response = await fetch(`${API_URL}?path=friday-wisdoms&t=${Date.now()}`);
                 const result = await response.json();
                 if (result.success) {
                     fridayWisdomsData = result.data;
@@ -2775,7 +2841,7 @@
             showLoading();
             
             try {
-                const response = await fetch(`${API_URL}?path=friday-wisdom&action=${action}`, {
+                const response = await fetch(`${API_URL}?path=friday-wisdom&action=${action}&t=${Date.now()}`, {
                     method: 'POST',
                     body: JSON.stringify(wisdom)
                 });
@@ -2796,7 +2862,6 @@
             }
         });
         
-        // ========== MANUAL SAVE FRIDAY WISDOM ==========
         async function saveFridayWisdomStatus(id) {
             const select = document.querySelector(`.status-select[data-id="${id}"][data-type="friday-wisdom"]`);
             
@@ -2826,12 +2891,20 @@
             btn.disabled = true;
             
             try {
-                const response = await fetch(`${API_URL}?path=friday-wisdom&action=update`, {
+                const dataToSend = {
+                    id: Number(id),
+                    order: wisdom.order,
+                    text: wisdom.text,
+                    reference: wisdom.reference,
+                    active: newActive
+                };
+                
+                const response = await fetch(`${API_URL}?path=friday-wisdom&action=update&t=${Date.now()}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(wisdom)
+                    body: JSON.stringify(dataToSend)
                 });
                 
                 const result = await response.json();
@@ -2842,7 +2915,15 @@
                     select.setAttribute('data-original', newActive);
                     select.classList.remove('changed');
                     
-                    await loadFridayWisdoms();
+                    const index = fridayWisdomsData.findIndex(w => w.id == id);
+                    if (index !== -1) {
+                        fridayWisdomsData[index].active = newActive;
+                    }
+                    
+                    renderFridayWisdomsTable();
+                    
+                    setTimeout(() => loadFridayWisdoms(), 500);
+                    
                 } else {
                     showToast('❌ Gagal: ' + (result.error || 'Unknown error'), 'error');
                     
@@ -2865,9 +2946,9 @@
             
             showLoading();
             try {
-                await fetch(`${API_URL}?path=friday-wisdom&action=delete`, {
+                await fetch(`${API_URL}?path=friday-wisdom&action=delete&t=${Date.now()}`, {
                     method: 'POST',
-                    body: JSON.stringify({ id })
+                    body: JSON.stringify({ id: Number(id) })
                 });
                 showToast('Hadis dihapus!', 'success');
                 loadFridayWisdoms();
