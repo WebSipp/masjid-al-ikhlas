@@ -1,21 +1,20 @@
+<!-- FILE 3: admin-panel.html - DENGAN HALAMAN ANNOUNCEMENTS (FIXED) -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Masjid Baiturrahman STMIK Tazkia</title>
+    <title>Admin Panel - Display Masjid Digital</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* ========================================
-           ADMIN PANEL - VERSION FINAL
-           100% SINKRON DENGAN GAS
-           ======================================== */
-        
         :root {
-            --primary-dark: #1A4D8C;
-            --primary-light: #5D8DC0;
-            --accent-blue: #2E77BB;
+            --primary-dark: #0F2F55;
+            --primary: #1A4D8C;
+            --primary-light: #4A90E2;
+            --gold: #D4AF37;
+            --gold-light: #F5E7B2;
+            --gold-dark: #8B6B3D;
             --text-dark: #2C3E50;
             --text-light: #F8F9FA;
             --bg-white: #FFFFFF;
@@ -48,7 +47,7 @@
             align-items: center;
             min-height: 100vh;
             padding: 20px;
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--accent-blue) 100%);
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
         }
         
         .login-box {
@@ -63,7 +62,7 @@
         
         .login-box h1 {
             font-family: 'Montserrat', sans-serif;
-            color: var(--primary-dark);
+            color: var(--primary);
             margin-bottom: 10px;
             font-size: 1.8rem;
         }
@@ -90,14 +89,14 @@
         
         .login-box input:focus {
             outline: none;
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 0 3px rgba(46, 119, 187, 0.1);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(26, 77, 140, 0.1);
         }
         
         .login-box button {
             width: 100%;
             padding: 12px;
-            background: var(--accent-blue);
+            background: var(--primary);
             color: white;
             border: none;
             border-radius: 8px;
@@ -184,14 +183,14 @@
         
         .sidebar-menu a:hover {
             background: var(--bg-light);
-            color: var(--accent-blue);
-            border-left-color: var(--accent-blue);
+            color: var(--primary);
+            border-left-color: var(--primary);
         }
         
         .sidebar-menu a.active {
-            background: var(--accent-blue);
+            background: var(--primary);
             color: white;
-            border-left-color: white;
+            border-left-color: var(--gold);
         }
         
         .sidebar-menu a i {
@@ -250,13 +249,13 @@
             background: none;
             border: none;
             font-size: 1.5rem;
-            color: var(--primary-dark);
+            color: var(--primary);
             cursor: pointer;
         }
         
         .top-bar h2 {
             font-family: 'Montserrat', sans-serif;
-            color: var(--primary-dark);
+            color: var(--primary);
             font-size: 1.5rem;
         }
         
@@ -276,7 +275,7 @@
         }
         
         .user-info i {
-            color: var(--accent-blue);
+            color: var(--primary);
         }
         
         .content-area {
@@ -313,7 +312,7 @@
         
         .stat-card i {
             font-size: 2.5rem;
-            color: var(--accent-blue);
+            color: var(--primary);
         }
         
         .stat-card-info h3 {
@@ -331,7 +330,7 @@
         /* ========== BUTTONS ========== */
         .btn-primary {
             padding: 10px 20px;
-            background: var(--accent-blue);
+            background: var(--primary);
             color: white;
             border: none;
             border-radius: 6px;
@@ -341,12 +340,11 @@
             align-items: center;
             gap: 8px;
             transition: background 0.2s;
-            box-shadow: 0 2px 4px rgba(46, 119, 187, 0.2);
+            box-shadow: 0 2px 4px rgba(26, 77, 140, 0.2);
         }
         
         .btn-primary:hover {
             background: var(--primary-dark);
-            box-shadow: 0 3px 6px rgba(46, 119, 187, 0.3);
         }
         
         .btn-primary:disabled {
@@ -371,7 +369,7 @@
         
         .btn-icon {
             padding: 8px 12px;
-            background: var(--accent-blue);
+            background: var(--primary);
             color: white;
             border: none;
             border-radius: 4px;
@@ -412,7 +410,7 @@
         
         .form-section h3 {
             font-family: 'Montserrat', sans-serif;
-            color: var(--primary-dark);
+            color: var(--primary);
             margin-bottom: 20px;
             padding-bottom: 10px;
             border-bottom: 1px solid var(--bg-light);
@@ -445,14 +443,8 @@
         .form-group textarea:focus,
         .form-group select:focus {
             outline: none;
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 0 3px rgba(46, 119, 187, 0.1);
-        }
-        
-        .form-group input.error,
-        .form-group textarea.error,
-        .form-group select.error {
-            border-color: var(--danger);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(26, 77, 140, 0.1);
         }
         
         .form-row {
@@ -479,7 +471,7 @@
         
         .page-header h2 {
             font-family: 'Montserrat', sans-serif;
-            color: var(--primary-dark);
+            color: var(--primary);
         }
         
         .page-actions {
@@ -645,7 +637,7 @@
         
         .modal-content h2 {
             font-family: 'Montserrat', sans-serif;
-            color: var(--primary-dark);
+            color: var(--primary);
             margin-bottom: 20px;
         }
         
@@ -654,44 +646,6 @@
             gap: 10px;
             margin-top: 20px;
             justify-content: flex-end;
-        }
-        
-        /* ========== TABS ========== */
-        .tabs {
-            display: flex;
-            gap: 5px;
-            margin-bottom: 25px;
-            background: white;
-            padding: 5px;
-            border-radius: 8px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-        }
-        
-        .tab {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            background: transparent;
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text-dark);
-            cursor: pointer;
-            border-radius: 6px;
-            transition: all 0.2s;
-        }
-        
-        .tab.active {
-            background: var(--accent-blue);
-            color: white;
-        }
-        
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
         }
         
         /* ========== IMAGE GRID ========== */
@@ -757,13 +711,13 @@
         
         .upload-area:hover,
         .upload-area.drag-over {
-            border-color: var(--accent-blue);
+            border-color: var(--primary);
             background: var(--bg-light);
         }
         
         .upload-area i {
             font-size: 3rem;
-            color: var(--accent-blue);
+            color: var(--primary);
             margin-bottom: 15px;
         }
         
@@ -778,13 +732,17 @@
         }
         
         #wallpaper-preview,
-        #announcement-preview {
+        #announcement-preview,
+        #qr-preview,
+        #bg-preview {
             text-align: center;
             margin-bottom: 20px;
         }
         
         #wallpaper-preview img,
-        #announcement-preview img {
+        #announcement-preview img,
+        #qr-preview img,
+        #bg-preview img {
             max-width: 100%;
             max-height: 300px;
             border-radius: 8px;
@@ -803,7 +761,7 @@
         
         .progress-fill {
             height: 100%;
-            background: var(--accent-blue);
+            background: var(--primary);
             transition: width 0.3s;
             width: 0%;
         }
@@ -830,7 +788,7 @@
             width: 60px;
             height: 60px;
             border: 6px solid #f3f3f3;
-            border-top: 6px solid var(--accent-blue);
+            border-top: 6px solid var(--primary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -885,11 +843,11 @@
         }
         
         .toast-info {
-            border-left: 4px solid var(--accent-blue);
+            border-left: 4px solid var(--primary);
         }
         
         .toast-info i {
-            color: var(--accent-blue);
+            color: var(--primary);
         }
         
         /* ========== RESPONSIVE ========== */
@@ -963,17 +921,6 @@
                 min-width: auto;
             }
         }
-        
-        @media (max-width: 480px) {
-            .stat-card {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            table {
-                min-width: 600px;
-            }
-        }
     </style>
 </head>
 <body>
@@ -986,16 +933,16 @@
     <div class="login-container" id="login-page">
         <div class="login-box">
             <h1><i class="fas fa-mosque"></i> Admin Panel</h1>
-            <h2>Masjid Baiturrahman STMIK Tazkia</h2>
+            <h2>Display Digital Masjid</h2>
             
             <div id="login-error" style="color: var(--danger); margin-bottom: 15px; display: none;"></div>
             
             <form id="login-form">
                 <div class="form-group">
-                    <input type="text" id="username" placeholder="Username" value="masjid" required>
+                    <input type="text" id="username" placeholder="Username">
                 </div>
                 <div class="form-group">
-                    <input type="password" id="password" placeholder="Password" value="Password321" required>
+                    <input type="password" id="password" placeholder="Password">
                 </div>
                 <button type="submit" id="btn-login">
                     <i class="fas fa-sign-in-alt"></i> Masuk
@@ -1019,9 +966,8 @@
                 <li><a href="#" onclick="switchPage('wisdoms')" data-page="wisdoms"><i class="fas fa-book"></i> Konten Hikmah</a></li>
                 <li><a href="#" onclick="switchPage('wallpapers')" data-page="wallpapers"><i class="fas fa-image"></i> Wallpaper</a></li>
                 <li><a href="#" onclick="switchPage('adabs')" data-page="adabs"><i class="fas fa-hands-praying"></i> Adab Islam</a></li>
-                <li><a href="#" onclick="switchPage('friday-schedule')" data-page="friday-schedule"><i class="fas fa-calendar-week"></i> Jadwal Jumat</a></li>
-                <li><a href="#" onclick="switchPage('announcements')" data-page="announcements"><i class="fas fa-bullhorn"></i> Pengumuman Jumat</a></li>
-                <li><a href="#" onclick="switchPage('friday-wisdoms')" data-page="friday-wisdoms"><i class="fas fa-star"></i> Hadis Jumat</a></li>
+                <li><a href="#" onclick="switchPage('announcements')" data-page="announcements"><i class="fas fa-bullhorn"></i> Pengumuman</a></li>
+                <li><a href="#" onclick="switchPage('donation')" data-page="donation"><i class="fas fa-hand-holding-heart"></i> Donasi</a></li>
             </ul>
             
             <div class="sidebar-footer">
@@ -1056,8 +1002,8 @@
                     <div class="stats-grid">
                         <div class="stat-card"><i class="fas fa-book"></i><div class="stat-card-info"><h3 id="total-wisdoms">0</h3><p>Konten Hikmah</p></div></div>
                         <div class="stat-card"><i class="fas fa-image"></i><div class="stat-card-info"><h3 id="total-wallpapers">0</h3><p>Wallpaper Aktif</p></div></div>
-                        <div class="stat-card"><i class="fas fa-mosque"></i><div class="stat-card-info"><h3 id="masjid-name-display">Loading...</h3><p>Nama Masjid</p></div></div>
-                        <div class="stat-card"><i class="fas fa-check-circle"></i><div class="stat-card-info"><h3 style="color: var(--success);">Online</h3><p>Status API</p></div></div>
+                        <div class="stat-card"><i class="fas fa-hands-praying"></i><div class="stat-card-info"><h3 id="total-adabs">0</h3><p>Adab Islam</p></div></div>
+                        <div class="stat-card"><i class="fas fa-bullhorn"></i><div class="stat-card-info"><h3 id="total-announcements">0</h3><p>Pengumuman</p></div></div>
                     </div>
                     
                     <div class="quick-actions">
@@ -1082,8 +1028,8 @@
                             <div class="form-group"><label>Nama Masjid</label><input type="text" name="masjid_name" required></div>
                             <div class="form-group"><label>Alamat Masjid</label><textarea name="masjid_address" rows="3" required></textarea></div>
                             <div class="form-row">
-                                <div class="form-group"><label>Latitude</label><input type="text" name="latitude" required pattern="-?\d+\.?\d*" placeholder="-6.5456" title="Contoh: -6.5456"><small class="error-message" id="error-latitude"></small></div>
-                                <div class="form-group"><label>Longitude</label><input type="text" name="longitude" required pattern="-?\d+\.?\d*" placeholder="106.7367" title="Contoh: 106.7367"><small class="error-message" id="error-longitude"></small></div>
+                                <div class="form-group"><label>Latitude</label><input type="text" name="latitude" required placeholder="-6.9407771"><small class="error-message" id="error-latitude"></small></div>
+                                <div class="form-group"><label>Longitude</label><input type="text" name="longitude" required placeholder="113.4820389"><small class="error-message" id="error-longitude"></small></div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group"><label>Timezone</label><select name="timezone" required><option value="Asia/Jakarta">Asia/Jakarta (WIB)</option><option value="Asia/Makassar">Asia/Makassar (WITA)</option><option value="Asia/Jayapura">Asia/Jayapura (WIT)</option></select></div>
@@ -1094,35 +1040,23 @@
                         <div class="form-section">
                             <h3><i class="fas fa-clock"></i> Durasi Tampilan (detik)</h3>
                             <div class="form-row">
-                                <div class="form-group"><label>Durasi Hikmah</label><input type="number" name="wisdom_duration" min="10" max="300" required></div>
-                                <div class="form-group"><label>Durasi Wallpaper</label><input type="number" name="wallpaper_duration" min="10" max="120" required></div>
-                                <div class="form-group"><label>Durasi Pengumuman</label><input type="number" name="announcement_duration" min="10" max="120" required></div>
+                                <div class="form-group"><label>Durasi per Slide</label><input type="number" name="slide_duration" min="10" max="120" required></div>
+                                <div class="form-group"><label>Durasi Wallpaper</label><input type="number" name="wallpaper_duration" min="5" max="30" required></div>
+                                <div class="form-group"><label>Durasi Hikmah</label><input type="number" name="wisdom_duration" min="5" max="30" required></div>
                             </div>
                         </div>
                         
                         <div class="form-section">
-                            <h3><i class="fas fa-scroll"></i> Running Text (detik)</h3>
-                            <div class="form-row">
-                                <div class="form-group"><label>Kecepatan Normal</label><input type="number" name="marquee_speed" min="100" max="600" required></div>
-                                <div class="form-group"><label>Kecepatan Jumat</label><input type="number" name="marquee_speed_friday" min="100" max="600" required></div>
-                            </div>
+                            <h3><i class="fas fa-scroll"></i> Running Text</h3>
+                            <div class="form-group"><label>Kecepatan (detik untuk 1 putaran)</label><input type="number" name="marquee_speed" min="100" max="600" required></div>
                         </div>
                         
                         <div class="form-section">
                             <h3><i class="fas fa-pray"></i> Mode Azan & Shalat (detik)</h3>
                             <div class="form-row">
-                                <div class="form-group"><label>Countdown Azan</label><input type="number" name="azan_countdown" min="10" max="120" required></div>
-                                <div class="form-group"><label>Countdown Iqamah</label><input type="number" name="iqamah_countdown" min="60" max="600" required></div>
+                                <div class="form-group"><label>Durasi Azan</label><input type="number" name="azan_duration" min="60" max="300" required></div>
+                                <div class="form-group"><label>Durasi Nunggu Iqamah</label><input type="number" name="iqamah_duration" min="60" max="600" required></div>
                                 <div class="form-group"><label>Durasi Shalat</label><input type="number" name="salah_duration" min="300" max="900" required></div>
-                            </div>
-                        </div>
-                        
-                        <div class="form-section">
-                            <h3><i class="fas fa-calendar-week"></i> Mode Jumat</h3>
-                            <div class="form-row">
-                                <div class="form-group"><label>Jam Mulai (0-23)</label><input type="number" name="friday_start_hour" min="0" max="23" required></div>
-                                <div class="form-group"><label>Jam Selesai (0-23)</label><input type="number" name="friday_end_hour" min="0" max="23" required></div>
-                                <div class="form-group"><label>Countdown (detik)</label><input type="number" name="friday_countdown" min="10" max="300" required></div>
                             </div>
                         </div>
                         
@@ -1171,135 +1105,251 @@
                 
                 <!-- ADAB ISLAM -->
                 <section class="page-section" id="page-adabs">
-                    <div class="tabs">
-                        <button class="tab active" onclick="switchAdabTab(event, 'normal')">Adab Normal</button>
-                        <button class="tab" onclick="switchAdabTab(event, 'friday')">Adab Jumat</button>
+                    <div class="page-header">
+                        <h2>Adab Islam (Running Text)</h2>
+                        <button class="btn-primary" onclick="showAddAdabModal()"><i class="fas fa-plus"></i> Tambah Adab</button>
                     </div>
                     
-                    <div class="tab-content active" id="tab-adab-normal">
-                        <div class="page-header">
-                            <h2>Adab Normal</h2>
-                            <button class="btn-primary" onclick="showAddAdabModal('normal')"><i class="fas fa-plus"></i> Tambah Adab</button>
-                        </div>
-                        <div class="table-container">
-                            <div class="table-wrapper">
-                                <table>
-                                    <thead><tr><th>Urutan</th><th>Teks</th><th>Icon</th><th>Status</th><th>Aksi</th></tr></thead>
-                                    <tbody id="adabs-normal-tbody"><tr><td colspan="5" style="text-align: center;">Loading...</td></tr></tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="tab-content" id="tab-adab-friday">
-                        <div class="page-header">
-                            <h2>Adab Jumat</h2>
-                            <button class="btn-primary" onclick="showAddAdabModal('friday')"><i class="fas fa-plus"></i> Tambah Adab</button>
-                        </div>
-                        <div class="table-container">
-                            <div class="table-wrapper">
-                                <table>
-                                    <thead><tr><th>Urutan</th><th>Teks</th><th>Icon</th><th>Status</th><th>Aksi</th></tr></thead>
-                                    <tbody id="adabs-friday-tbody"><tr><td colspan="5" style="text-align: center;">Loading...</td></tr></tbody>
-                                </table>
-                            </div>
+                    <div class="table-container">
+                        <div class="table-wrapper">
+                            <table>
+                                <thead><tr><th>Urutan</th><th>Teks</th><th>Icon</th><th>Status</th><th>Aksi</th></tr></thead>
+                                <tbody id="adabs-tbody"><tr><td colspan="5" style="text-align: center;">Loading...</td></tr></tbody>
+                            </table>
                         </div>
                     </div>
                 </section>
                 
-                <!-- JADWAL JUMAT -->
-                <section class="page-section" id="page-friday-schedule">
-                    <form id="friday-schedule-form">
-                        <div class="form-section">
-                            <h3><i class="fas fa-clock"></i> Jadwal Shalat Jumat</h3>
-                            <div class="form-row">
-                                <div class="form-group"><label>Waktu Khutbah</label><input type="time" name="khutbah_time" required></div>
-                                <div class="form-group"><label>Waktu Iqamah</label><input type="time" name="iqamah_time" required></div>
-                            </div>
-                        </div>
-                        
-                        <div class="form-section">
-                            <h3><i class="fas fa-users"></i> Petugas Jumat</h3>
-                            <div class="form-row">
-                                <div class="form-group"><label>Imam</label><input type="text" name="imam_name" required></div>
-                                <div class="form-group"><label>Khatib</label><input type="text" name="khatib_name" required></div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group"><label>Muadzin 1</label><input type="text" name="muadzin1_name" required></div>
-                                <div class="form-group"><label>Muadzin 2</label><input type="text" name="muadzin2_name" required></div>
-                            </div>
-                        </div>
-                        
-                        <button type="submit" class="btn-primary" id="btn-save-friday-schedule"><i class="fas fa-save"></i> Simpan</button>
-                    </form>
-                </section>
-                
-                <!-- PENGUMUMAN JUMAT -->
+                <!-- ANNOUNCEMENTS / PENGUMUMAN -->
                 <section class="page-section" id="page-announcements">
                     <div class="page-header">
-                        <h2>Pengumuman Jumat</h2>
+                        <h2>Pengumuman (Slide 2 Background)</h2>
                         <button class="btn-primary" onclick="showUploadAnnouncementModal()"><i class="fas fa-upload"></i> Upload Pengumuman</button>
                     </div>
                     
                     <div class="image-grid" id="announcements-grid"><p>Loading...</p></div>
                 </section>
                 
-                <!-- HADIS JUMAT -->
-                <section class="page-section" id="page-friday-wisdoms">
-                    <div class="page-header">
-                        <h2>Hadis Keutamaan Jumat</h2>
-                        <button class="btn-primary" onclick="showAddFridayWisdomModal()"><i class="fas fa-plus"></i> Tambah Hadis</button>
-                    </div>
-                    
-                    <div class="table-container">
-                        <div class="table-wrapper">
-                            <table>
-                                <thead><tr><th>Urutan</th><th>Teks</th><th>Referensi</th><th>Status</th><th>Aksi</th></tr></thead>
-                                <tbody id="friday-wisdoms-tbody"><tr><td colspan="5" style="text-align: center;">Loading...</td></tr></tbody>
-                            </table>
+                <!-- DONASI -->
+                <section class="page-section" id="page-donation">
+                    <form id="donation-form">
+                        <div class="form-section">
+                            <h3><i class="fas fa-qrcode"></i> QR Code Donasi</h3>
+                            <div class="upload-area" id="qr-upload-area">
+                                <input type="file" id="qr-file" accept="image/*" style="display:none">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Drag & drop atau klik untuk upload QR Code</p>
+                                <small>Format: JPG, PNG (Max 5MB)</small>
+                            </div>
+                            <div id="qr-preview" style="display:none">
+                                <img id="qr-preview-img" alt="Preview QR">
+                                <p id="qr-filename"></p>
+                                <button type="button" class="btn-icon btn-danger" onclick="removeQR()"><i class="fas fa-trash"></i> Hapus</button>
+                            </div>
                         </div>
-                    </div>
+                        
+                        <div class="form-section">
+                            <h3><i class="fas fa-university"></i> Info Rekening</h3>
+                            <div class="form-group"><label>Nama Bank</label><input type="text" name="bank_name" required></div>
+                            <div class="form-group"><label>Nomor Rekening</label><input type="text" name="account_number" required></div>
+                            <div class="form-group"><label>Nama Pemilik</label><input type="text" name="account_name" required></div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <h3><i class="fas fa-image"></i> Background Info Rekening</h3>
+                            <div class="upload-area" id="bg-upload-area">
+                                <input type="file" id="bg-file" accept="image/*" style="display:none">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Drag & drop atau klik untuk upload background</p>
+                                <small>Format: JPG, PNG (Max 5MB)</small>
+                            </div>
+                            <div id="bg-preview" style="display:none">
+                                <img id="bg-preview-img" alt="Preview Background">
+                                <p id="bg-filename"></p>
+                                <button type="button" class="btn-icon btn-danger" onclick="removeBG()"><i class="fas fa-trash"></i> Hapus</button>
+                            </div>
+                        </div>
+                        
+                        <input type="hidden" name="qr_url" id="qr-url">
+                        <input type="hidden" name="qr_file_id" id="qr-file-id">
+                        <input type="hidden" name="bg_url" id="bg-url">
+                        <input type="hidden" name="bg_file_id" id="bg-file-id">
+                        
+                        <button type="submit" class="btn-primary" id="btn-save-donation"><i class="fas fa-save"></i> Simpan Donasi</button>
+                    </form>
                 </section>
             </div>
         </main>
     </div>
     
     <!-- MODALS -->
-    <div class="modal" id="wisdom-modal"><div class="modal-content"><span class="close" onclick="closeModal('wisdom-modal')">&times;</span><h2 id="wisdom-modal-title">Tambah Hikmah</h2><form id="wisdom-form"><input type="hidden" name="id"><div class="form-group"><label>Hari</label><select name="day" required><option value="monday">Senin</option><option value="tuesday">Selasa</option><option value="wednesday">Rabu</option><option value="thursday">Kamis</option><option value="friday">Jumat</option><option value="saturday">Sabtu</option><option value="sunday">Minggu</option></select></div><div class="form-group"><label>Urutan (1-3)</label><input type="number" name="order" min="1" max="3" required></div><div class="form-group"><label>Teks</label><textarea name="text" rows="4" required></textarea></div><div class="form-group"><label>Referensi</label><input type="text" name="reference" required></div><div class="form-group"><label>Tipe</label><div style="display: flex; gap: 20px;"><label><input type="radio" name="type" value="quran" checked> Quran</label><label><input type="radio" name="type" value="hadith"> Hadith</label></div></div><div class="form-group"><label><input type="checkbox" name="active" checked> Aktif</label></div><div class="modal-actions"><button type="submit" class="btn-primary"><i class="fas fa-save"></i> Simpan</button><button type="button" onclick="closeModal('wisdom-modal')" class="btn-secondary">Batal</button></div></form></div></div>
+    <div class="modal" id="wisdom-modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('wisdom-modal')">&times;</span>
+            <h2 id="wisdom-modal-title">Tambah Hikmah</h2>
+            <form id="wisdom-form">
+                <input type="hidden" name="id">
+                <div class="form-group">
+                    <label>Hari</label>
+                    <select name="day" required>
+                        <option value="monday">Senin</option>
+                        <option value="tuesday">Selasa</option>
+                        <option value="wednesday">Rabu</option>
+                        <option value="thursday">Kamis</option>
+                        <option value="friday">Jumat</option>
+                        <option value="saturday">Sabtu</option>
+                        <option value="sunday">Minggu</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Urutan (1-3)</label>
+                    <input type="number" name="order" min="1" max="3" required>
+                </div>
+                <div class="form-group">
+                    <label>Teks</label>
+                    <textarea name="text" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Referensi</label>
+                    <input type="text" name="reference" required>
+                </div>
+                <div class="form-group">
+                    <label>Tipe</label>
+                    <div style="display: flex; gap: 20px;">
+                        <label><input type="radio" name="type" value="quran" checked> Quran</label>
+                        <label><input type="radio" name="type" value="hadith"> Hadith</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><input type="checkbox" name="active" checked> Aktif</label>
+                </div>
+                <div class="modal-actions">
+                    <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Simpan</button>
+                    <button type="button" onclick="closeModal('wisdom-modal')" class="btn-secondary">Batal</button>
+                </div>
+            </form>
+        </div>
+    </div>
     
-    <div class="modal" id="upload-wallpaper-modal"><div class="modal-content"><span class="close" onclick="closeModal('upload-wallpaper-modal')">&times;</span><h2>Upload Wallpaper</h2><div class="upload-area" id="wallpaper-upload-area"><input type="file" id="wallpaper-file" accept="image/*" style="display:none"><i class="fas fa-cloud-upload-alt"></i><p>Drag & drop atau klik untuk browse</p><small>Format: JPG, PNG (Max 5MB)</small></div><div id="wallpaper-preview" style="display:none"><img id="wallpaper-preview-img" alt="Preview"><p id="wallpaper-filename"></p></div><div class="form-group"><label>Urutan</label><input type="number" id="wallpaper-order" value="1" min="1"></div><div id="upload-progress" style="display:none"><div class="progress-bar"><div class="progress-fill" id="upload-progress-fill"></div></div><p id="upload-progress-text">Uploading...</p></div><div class="modal-actions"><button onclick="uploadWallpaper()" class="btn-primary" id="btn-upload-wallpaper"><i class="fas fa-upload"></i> Upload</button><button onclick="closeModal('upload-wallpaper-modal')" class="btn-secondary">Batal</button></div></div></div>
+    <div class="modal" id="upload-wallpaper-modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('upload-wallpaper-modal')">&times;</span>
+            <h2>Upload Wallpaper</h2>
+            <div class="upload-area" id="wallpaper-upload-area">
+                <input type="file" id="wallpaper-file" accept="image/*" style="display:none">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <p>Drag & drop atau klik untuk browse</p>
+                <small>Format: JPG, PNG (Max 5MB)</small>
+            </div>
+            <div id="wallpaper-preview" style="display:none">
+                <img id="wallpaper-preview-img" alt="Preview">
+                <p id="wallpaper-filename"></p>
+            </div>
+            <div class="form-group">
+                <label>Urutan</label>
+                <input type="number" id="wallpaper-order" value="1" min="1">
+            </div>
+            <div id="upload-progress" style="display:none">
+                <div class="progress-bar"><div class="progress-fill" id="upload-progress-fill"></div></div>
+                <p id="upload-progress-text">Uploading...</p>
+            </div>
+            <div class="modal-actions">
+                <button onclick="uploadWallpaper()" class="btn-primary" id="btn-upload-wallpaper"><i class="fas fa-upload"></i> Upload</button>
+                <button onclick="closeModal('upload-wallpaper-modal')" class="btn-secondary">Batal</button>
+            </div>
+        </div>
+    </div>
     
-    <div class="modal" id="adab-modal"><div class="modal-content"><span class="close" onclick="closeModal('adab-modal')">&times;</span><h2 id="adab-modal-title">Tambah Adab</h2><form id="adab-form"><input type="hidden" name="id"><input type="hidden" name="type" id="adab-type"><div class="form-group"><label>Urutan</label><input type="number" name="order" min="1" max="10" required></div><div class="form-group"><label>Teks</label><textarea name="text" rows="3" required></textarea></div><div class="form-group"><label>Icon</label><select name="icon" required><option value="fas fa-door-open">🚪 Masuk Masjid</option><option value="fas fa-broom">🧹 Kebersihan</option><option value="fas fa-mobile-alt">📱 Silent HP</option><option value="fas fa-walking">🚶 Berjalan</option><option value="fas fa-hands-praying">🤲 Berdoa</option><option value="fas fa-shower">🚿 Mandi</option><option value="fas fa-tshirt">👕 Pakaian</option><option value="fas fa-clock">🕐 Waktu</option><option value="fas fa-volume-mute">🔇 Diam</option><option value="fas fa-pray">🕌 Shalat</option><option value="fas fa-book">📖 Quran</option><option value="fas fa-mosque">🕌 Masjid</option></select></div><div class="form-group"><label><input type="checkbox" name="active" checked> Aktif</label></div><div class="modal-actions"><button type="submit" class="btn-primary"><i class="fas fa-save"></i> Simpan</button><button type="button" onclick="closeModal('adab-modal')" class="btn-secondary">Batal</button></div></form></div></div>
+    <div class="modal" id="upload-announcement-modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('upload-announcement-modal')">&times;</span>
+            <h2>Upload Pengumuman</h2>
+            <div class="upload-area" id="announcement-upload-area">
+                <input type="file" id="announcement-file" accept="image/*" style="display:none">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <p>Drag & drop atau klik untuk browse</p>
+                <small>Format: JPG, PNG (Max 5MB)</small>
+            </div>
+            <div id="announcement-preview" style="display:none">
+                <img id="announcement-preview-img" alt="Preview">
+                <p id="announcement-filename"></p>
+            </div>
+            <div class="form-group">
+                <label>Urutan</label>
+                <input type="number" id="announcement-order" value="1" min="1">
+            </div>
+            <div id="announcement-upload-progress" style="display:none">
+                <div class="progress-bar"><div class="progress-fill" id="announcement-progress-fill"></div></div>
+                <p id="announcement-progress-text">Uploading...</p>
+            </div>
+            <div class="modal-actions">
+                <button onclick="uploadAnnouncement()" class="btn-primary" id="btn-upload-announcement"><i class="fas fa-upload"></i> Upload</button>
+                <button onclick="closeModal('upload-announcement-modal')" class="btn-secondary">Batal</button>
+            </div>
+        </div>
+    </div>
     
-    <div class="modal" id="upload-announcement-modal"><div class="modal-content"><span class="close" onclick="closeModal('upload-announcement-modal')">&times;</span><h2>Upload Pengumuman</h2><div class="upload-area" id="announcement-upload-area"><input type="file" id="announcement-file" accept="image/*" style="display:none"><i class="fas fa-cloud-upload-alt"></i><p>Drag & drop atau klik</p><small>Format: JPG, PNG (Max 5MB)</small></div><div id="announcement-preview" style="display:none"><img id="announcement-preview-img" alt="Preview"><p id="announcement-filename"></p></div><div class="form-group"><label>Urutan</label><input type="number" id="announcement-order" value="1" min="1"></div><div id="announcement-upload-progress" style="display:none"><div class="progress-bar"><div class="progress-fill" id="announcement-progress-fill"></div></div><p id="announcement-progress-text">Uploading...</p></div><div class="modal-actions"><button onclick="uploadAnnouncement()" class="btn-primary" id="btn-upload-announcement"><i class="fas fa-upload"></i> Upload</button><button onclick="closeModal('upload-announcement-modal')" class="btn-secondary">Batal</button></div></div></div>
-    
-    <div class="modal" id="friday-wisdom-modal"><div class="modal-content"><span class="close" onclick="closeModal('friday-wisdom-modal')">&times;</span><h2 id="friday-wisdom-modal-title">Tambah Hadis Jumat</h2><form id="friday-wisdom-form"><input type="hidden" name="id"><div class="form-group"><label>Urutan (1-5)</label><input type="number" name="order" min="1" max="5" required></div><div class="form-group"><label>Teks Hadis</label><textarea name="text" rows="4" required></textarea></div><div class="form-group"><label>Referensi</label><input type="text" name="reference" required></div><div class="form-group"><label><input type="checkbox" name="active" checked> Aktif</label></div><div class="modal-actions"><button type="submit" class="btn-primary"><i class="fas fa-save"></i> Simpan</button><button type="button" onclick="closeModal('friday-wisdom-modal')" class="btn-secondary">Batal</button></div></form></div></div>
+    <div class="modal" id="adab-modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('adab-modal')">&times;</span>
+            <h2 id="adab-modal-title">Tambah Adab</h2>
+            <form id="adab-form">
+                <input type="hidden" name="id">
+                <div class="form-group">
+                    <label>Urutan</label>
+                    <input type="number" name="order" min="1" max="10" required>
+                </div>
+                <div class="form-group">
+                    <label>Teks</label>
+                    <textarea name="text" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Icon</label>
+                    <select name="icon" required>
+                        <option value="fas fa-door-open">🚪 Masuk Masjid</option>
+                        <option value="fas fa-broom">🧹 Kebersihan</option>
+                        <option value="fas fa-mobile-alt">📱 Silent HP</option>
+                        <option value="fas fa-walking">🚶 Berjalan</option>
+                        <option value="fas fa-hands-praying">🤲 Berdoa</option>
+                        <option value="fas fa-shower">🚿 Mandi</option>
+                        <option value="fas fa-tshirt">👕 Pakaian</option>
+                        <option value="fas fa-clock">🕐 Waktu</option>
+                        <option value="fas fa-volume-mute">🔇 Diam</option>
+                        <option value="fas fa-pray">🕌 Shalat</option>
+                        <option value="fas fa-book">📖 Quran</option>
+                        <option value="fas fa-mosque">🕌 Masjid</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><input type="checkbox" name="active" checked> Aktif</label>
+                </div>
+                <div class="modal-actions">
+                    <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Simpan</button>
+                    <button type="button" onclick="closeModal('adab-modal')" class="btn-secondary">Batal</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <script>
-        // ========================================
-        // ADMIN PANEL - VERSION FINAL
-        // 100% SINKRON DENGAN GAS
-        // ========================================
-        
-        // GANTI DENGAN URL HASIL DEPLOY GAS LO!
-        const API_URL = "https://script.google.com/macros/s/AKfycbw58v_4TKSKQb0qI2nenO_pPI6_g-LVajqWsQu63byhWGrBYQT-aAvdJy3GXv1ge_2g2A/exec";
+        // ========== KONFIGURASI ==========
+        const API_URL = "https://script.google.com/macros/s/AKfycbyp_70mCvQkWoN8mWO01XpWZ4I74iC_ErOL-nraUBxOXtqieZ_5GFmiZJh_bwFRQwp-MA/exec"; 
         
         // Global variables
         let wisdomsData = [];
         let wallpapersData = [];
         let configData = {};
-        let adabsNormalData = [];
-        let adabsFridayData = [];
+        let adabsData = [];
         let announcementsData = [];
-        let fridayWisdomsData = [];
-        let fridayScheduleData = {};
-        let currentAdabType = 'normal';
+        let donationData = {};
         let token = sessionStorage.getItem('adminToken');
         let username = sessionStorage.getItem('adminUser');
         
         // Selected files
         let selectedWallpaperFile = null;
         let selectedAnnouncementFile = null;
+        let selectedQRFile = null;
+        let selectedBGFile = null;
         
         // ========================================
         // INITIALIZATION
@@ -1433,17 +1483,15 @@
                 case 'wisdoms': loadWisdoms(); break;
                 case 'wallpapers': loadWallpapers(); break;
                 case 'adabs': loadAdabs(); break;
-                case 'friday-schedule': loadFridaySchedule(); break;
                 case 'announcements': loadAnnouncements(); break;
-                case 'friday-wisdoms': loadFridayWisdoms(); break;
+                case 'donation': loadDonation(); break;
             }
         }
         
         function switchPage(pageName) {
             const titles = {
                 dashboard: 'Dashboard', config: 'Konfigurasi', wisdoms: 'Konten Hikmah',
-                wallpapers: 'Wallpaper', adabs: 'Adab Islam', 'friday-schedule': 'Jadwal Jumat',
-                announcements: 'Pengumuman Jumat', 'friday-wisdoms': 'Hadis Jumat'
+                wallpapers: 'Wallpaper', adabs: 'Adab Islam', announcements: 'Pengumuman', donation: 'Donasi'
             };
             
             document.getElementById('page-title').textContent = titles[pageName];
@@ -1469,7 +1517,6 @@
                 const configResult = await configRes.json();
                 if (configResult.success) {
                     configData = configResult.data;
-                    document.getElementById('masjid-name-display').textContent = configData.masjid_name || 'N/A';
                     document.getElementById('info-masjid-name').textContent = configData.masjid_name || '-';
                     document.getElementById('info-masjid-address').textContent = configData.masjid_address || '-';
                 }
@@ -1483,6 +1530,17 @@
                 if (wallpapersResult.success) {
                     const active = wallpapersResult.data.filter(w => w.active);
                     document.getElementById('total-wallpapers').textContent = active.length;
+                }
+                
+                const adabsRes = await fetch(`${API_URL}?path=adabs`);
+                const adabsResult = await adabsRes.json();
+                if (adabsResult.success) document.getElementById('total-adabs').textContent = adabsResult.data.length;
+                
+                const announcementsRes = await fetch(`${API_URL}?path=announcements`);
+                const announcementsResult = await announcementsRes.json();
+                if (announcementsResult.success) {
+                    const active = announcementsResult.data.filter(a => a.active);
+                    document.getElementById('total-announcements').textContent = active.length;
                 }
                 
                 document.getElementById('last-sync-time').textContent = new Date().toLocaleString('id-ID');
@@ -1615,8 +1673,14 @@
         
         function showAddWisdomModal() {
             document.getElementById('wisdom-modal-title').textContent = 'Tambah Hikmah';
-            document.getElementById('wisdom-form').reset();
-            document.querySelector('[name="id"]').value = '';
+            
+            const form = document.getElementById('wisdom-form');
+            form.reset();
+            
+            const idInput = form.querySelector('[name="id"]');
+            idInput.value = '';
+            idInput.removeAttribute('value');
+            
             openModal('wisdom-modal');
         }
         
@@ -1771,30 +1835,62 @@
         function setupUploadAreas() {
             // Wallpaper upload area
             const wallpaperArea = document.getElementById('wallpaper-upload-area');
-            wallpaperArea.addEventListener('click', () => document.getElementById('wallpaper-file').click());
-            wallpaperArea.addEventListener('dragover', (e) => e.preventDefault());
-            wallpaperArea.addEventListener('drop', (e) => {
-                e.preventDefault();
-                wallpaperArea.classList.remove('drag-over');
-                handleWallpaperFile(e.dataTransfer.files[0]);
-            });
+            if (wallpaperArea) {
+                wallpaperArea.addEventListener('click', () => document.getElementById('wallpaper-file').click());
+                wallpaperArea.addEventListener('dragover', (e) => e.preventDefault());
+                wallpaperArea.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    wallpaperArea.classList.remove('drag-over');
+                    handleWallpaperFile(e.dataTransfer.files[0]);
+                });
+            }
             
-            document.getElementById('wallpaper-file').addEventListener('change', (e) => {
+            document.getElementById('wallpaper-file')?.addEventListener('change', (e) => {
                 handleWallpaperFile(e.target.files[0]);
             });
             
-            // Announcement upload area
+            // Announcement upload area - FIXED: Pastikan event listener ter-attach
             const announcementArea = document.getElementById('announcement-upload-area');
-            announcementArea.addEventListener('click', () => document.getElementById('announcement-file').click());
-            announcementArea.addEventListener('dragover', (e) => e.preventDefault());
-            announcementArea.addEventListener('drop', (e) => {
-                e.preventDefault();
-                announcementArea.classList.remove('drag-over');
-                handleAnnouncementFile(e.dataTransfer.files[0]);
+            if (announcementArea) {
+                announcementArea.addEventListener('click', () => document.getElementById('announcement-file').click());
+                announcementArea.addEventListener('dragover', (e) => e.preventDefault());
+                announcementArea.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    announcementArea.classList.remove('drag-over');
+                    handleAnnouncementFile(e.dataTransfer.files[0]);
+                });
+            }
+            
+            document.getElementById('announcement-file')?.addEventListener('change', (e) => {
+                handleAnnouncementFile(e.target.files[0]);
             });
             
-            document.getElementById('announcement-file').addEventListener('change', (e) => {
-                handleAnnouncementFile(e.target.files[0]);
+            // QR upload area
+            const qrArea = document.getElementById('qr-upload-area');
+            qrArea.addEventListener('click', () => document.getElementById('qr-file').click());
+            qrArea.addEventListener('dragover', (e) => e.preventDefault());
+            qrArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                qrArea.classList.remove('drag-over');
+                handleQRFile(e.dataTransfer.files[0]);
+            });
+            
+            document.getElementById('qr-file').addEventListener('change', (e) => {
+                handleQRFile(e.target.files[0]);
+            });
+            
+            // BG upload area
+            const bgArea = document.getElementById('bg-upload-area');
+            bgArea.addEventListener('click', () => document.getElementById('bg-file').click());
+            bgArea.addEventListener('dragover', (e) => e.preventDefault());
+            bgArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                bgArea.classList.remove('drag-over');
+                handleBGFile(e.dataTransfer.files[0]);
+            });
+            
+            document.getElementById('bg-file').addEventListener('change', (e) => {
+                handleBGFile(e.target.files[0]);
             });
         }
         
@@ -1821,6 +1917,29 @@
             reader.readAsDataURL(file);
         }
         
+        function handleAnnouncementFile(file) {
+            if (!file) return;
+            if (!file.type.match('image.*')) {
+                showToast('Format harus gambar!', 'error');
+                return;
+            }
+            if (file.size > 5 * 1024 * 1024) {
+                showToast('File maksimal 5MB!', 'error');
+                return;
+            }
+            
+            selectedAnnouncementFile = file;
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                document.getElementById('announcement-preview-img').src = e.target.result;
+                document.getElementById('announcement-filename').textContent = file.name;
+                document.getElementById('announcement-upload-area').style.display = 'none';
+                document.getElementById('announcement-preview').style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+        
         async function uploadWallpaper() {
             if (!selectedWallpaperFile) {
                 showToast('Pilih file dulu!', 'error');
@@ -1839,19 +1958,19 @@
             progressText.textContent = 'Memulai upload...';
             
             try {
-                // Step 1: Resize (20%)
+                // Step 1: Resize
                 progressText.textContent = 'Memproses gambar (20%)...';
                 progressFill.style.width = '20%';
                 
                 const resizedFile = await resizeImage(selectedWallpaperFile, 1920, 1080);
                 
-                // Step 2: Convert to base64 (40%)
+                // Step 2: Convert
                 progressText.textContent = 'Mengkonversi (40%)...';
                 progressFill.style.width = '40%';
                 
                 const base64 = await fileToBase64(resizedFile);
                 
-                // Step 3: Upload (60%)
+                // Step 3: Upload
                 progressText.textContent = 'Mengupload ke Drive (60%)...';
                 progressFill.style.width = '60%';
                 
@@ -1867,7 +1986,7 @@
                 const uploadResult = await uploadResponse.json();
                 if (!uploadResult.success) throw new Error(uploadResult.error);
                 
-                // Step 4: Save to database (80%)
+                // Step 4: Save
                 progressText.textContent = 'Menyimpan ke database (80%)...';
                 progressFill.style.width = '80%';
                 
@@ -1884,7 +2003,7 @@
                 const saveResult = await saveResponse.json();
                 if (!saveResult.success) throw new Error(saveResult.error);
                 
-                // Step 5: Selesai (100%)
+                // Step 5: Selesai
                 progressFill.style.width = '100%';
                 progressText.textContent = 'Selesai!';
                 
@@ -1901,6 +2020,90 @@
             } finally {
                 btn.disabled = false;
                 document.getElementById('upload-progress').style.display = 'none';
+            }
+        }
+        
+        // FIXED: Fungsi uploadAnnouncement yang lengkap
+        async function uploadAnnouncement() {
+            if (!selectedAnnouncementFile) {
+                showToast('Pilih file dulu!', 'error');
+                return;
+            }
+            
+            const order = document.getElementById('announcement-order').value;
+            
+            document.getElementById('announcement-upload-progress').style.display = 'block';
+            const btn = document.getElementById('btn-upload-announcement');
+            btn.disabled = true;
+            const progressFill = document.getElementById('announcement-progress-fill');
+            const progressText = document.getElementById('announcement-progress-text');
+            
+            progressFill.style.width = '0%';
+            progressText.textContent = 'Memulai upload...';
+            
+            try {
+                // Step 1: Resize
+                progressText.textContent = 'Memproses gambar (20%)...';
+                progressFill.style.width = '20%';
+                
+                const resizedFile = await resizeImage(selectedAnnouncementFile, 1920, 1080);
+                
+                // Step 2: Convert
+                progressText.textContent = 'Mengkonversi (40%)...';
+                progressFill.style.width = '40%';
+                
+                const base64 = await fileToBase64(resizedFile);
+                
+                // Step 3: Upload to Drive
+                progressText.textContent = 'Mengupload ke Drive (60%)...';
+                progressFill.style.width = '60%';
+                
+                const uploadResponse = await fetch(`${API_URL}?path=upload`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        fileName: selectedAnnouncementFile.name,
+                        fileData: base64,
+                        folder: 'announcements'
+                    })
+                });
+                
+                const uploadResult = await uploadResponse.json();
+                if (!uploadResult.success) throw new Error(uploadResult.error);
+                
+                // Step 4: Save to DB
+                progressText.textContent = 'Menyimpan ke database (80%)...';
+                progressFill.style.width = '80%';
+                
+                const saveResponse = await fetch(`${API_URL}?path=announcement&action=add`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        order: parseInt(order),
+                        image_url: uploadResult.data.url,
+                        drive_file_id: uploadResult.data.fileId,
+                        active: true
+                    })
+                });
+                
+                const saveResult = await saveResponse.json();
+                if (!saveResult.success) throw new Error(saveResult.error);
+                
+                // Step 5: Done
+                progressFill.style.width = '100%';
+                progressText.textContent = 'Selesai!';
+                
+                showToast('Pengumuman berhasil diupload!', 'success');
+                
+                setTimeout(() => {
+                    closeModal('upload-announcement-modal');
+                    loadAnnouncements();
+                }, 1000);
+                
+            } catch (error) {
+                showToast('Upload gagal: ' + error.message, 'error');
+                progressFill.style.width = '0%';
+            } finally {
+                btn.disabled = false;
+                document.getElementById('announcement-upload-progress').style.display = 'none';
             }
         }
         
@@ -1959,228 +2162,6 @@
         }
         
         // ========================================
-        // ADABS
-        // ========================================
-        async function loadAdabs() {
-            showLoading();
-            try {
-                await Promise.all([loadAdabsByType('normal'), loadAdabsByType('friday')]);
-            } catch (error) {
-                showToast('Error: ' + error.message, 'error');
-            } finally {
-                hideLoading();
-            }
-        }
-        
-        async function loadAdabsByType(type) {
-            const response = await fetch(`${API_URL}?path=adabs&type=${type}`);
-            const result = await response.json();
-            if (result.success) {
-                if (type === 'normal') {
-                    adabsNormalData = result.data;
-                    renderAdabsTable('normal');
-                } else {
-                    adabsFridayData = result.data;
-                    renderAdabsTable('friday');
-                }
-            }
-        }
-        
-        function renderAdabsTable(type) {
-            const tbody = document.getElementById(`adabs-${type}-tbody`);
-            const data = type === 'normal' ? adabsNormalData : adabsFridayData;
-            
-            if (data.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Belum ada data</td></tr>';
-                return;
-            }
-            
-            data.sort((a, b) => a.order - b.order);
-            
-            tbody.innerHTML = data.map(a => `
-                <tr>
-                    <td>${a.order}</td>
-                    <td>${a.text}</td>
-                    <td><i class="${a.icon}"></i> ${a.icon}</td>
-                    <td><label class="switch"><input type="checkbox" ${a.active ? 'checked' : ''} onchange="toggleAdabStatus(${a.id}, this.checked, '${type}')"><span class="slider"></span></label></td>
-                    <td><button onclick="editAdab(${a.id}, '${type}')" class="btn-icon"><i class="fas fa-edit"></i></button><button onclick="deleteAdab(${a.id}, '${type}')" class="btn-icon btn-danger"><i class="fas fa-trash"></i></button></td>
-                </tr>
-            `).join('');
-        }
-        
-        function switchAdabTab(event, type) {
-            document.querySelectorAll('.tabs .tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            document.getElementById(`tab-adab-${type}`).classList.add('active');
-            
-            currentAdabType = type;
-        }
-        
-        function showAddAdabModal(type) {
-            currentAdabType = type;
-            document.getElementById('adab-modal-title').textContent = `Tambah Adab ${type === 'normal' ? 'Normal' : 'Jumat'}`;
-            document.getElementById('adab-form').reset();
-            document.querySelector('[name="id"]').value = '';
-            document.getElementById('adab-type').value = type;
-            openModal('adab-modal');
-        }
-        
-        function editAdab(id, type) {
-            const data = type === 'normal' ? adabsNormalData : adabsFridayData;
-            const adab = data.find(a => a.id == id);
-            if (!adab) return;
-            
-            currentAdabType = type;
-            document.getElementById('adab-modal-title').textContent = `Edit Adab ${type === 'normal' ? 'Normal' : 'Jumat'}`;
-            const form = document.getElementById('adab-form');
-            form.querySelector('[name="id"]').value = adab.id;
-            form.querySelector('[name="order"]').value = adab.order;
-            form.querySelector('[name="text"]').value = adab.text;
-            form.querySelector('[name="icon"]').value = adab.icon;
-            form.querySelector('[name="active"]').checked = adab.active;
-            document.getElementById('adab-type').value = type;
-            
-            openModal('adab-modal');
-        }
-        
-        document.getElementById('adab-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const formData = new FormData(this);
-            const adab = {
-                id: formData.get('id') || undefined,
-                type: formData.get('type'),
-                order: parseInt(formData.get('order')),
-                text: formData.get('text'),
-                icon: formData.get('icon'),
-                active: formData.get('active') === 'on'
-            };
-            
-            const action = adab.id ? 'update' : 'add';
-            const btn = document.querySelector('#adab-modal .btn-primary');
-            const originalText = btn.innerHTML;
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
-            showLoading();
-            
-            try {
-                const response = await fetch(`${API_URL}?path=adab&action=${action}`, {
-                    method: 'POST',
-                    body: JSON.stringify(adab)
-                });
-                const result = await response.json();
-                if (result.success) {
-                    showToast(`Adab berhasil ${action === 'add' ? 'ditambahkan' : 'diupdate'}!`, 'success');
-                    closeModal('adab-modal');
-                    loadAdabsByType(adab.type);
-                } else {
-                    showToast('Gagal: ' + result.error, 'error');
-                }
-            } catch (error) {
-                showToast('Error: ' + error.message, 'error');
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = originalText;
-                hideLoading();
-            }
-        });
-        
-        async function toggleAdabStatus(id, active, type) {
-            const data = type === 'normal' ? adabsNormalData : adabsFridayData;
-            const adab = data.find(a => a.id == id);
-            if (!adab) return;
-            
-            adab.active = active;
-            
-            try {
-                await fetch(`${API_URL}?path=adab&action=update`, {
-                    method: 'POST',
-                    body: JSON.stringify(adab)
-                });
-                showToast('Status diubah', 'success');
-            } catch (error) {
-                showToast('Error: ' + error.message, 'error');
-                loadAdabsByType(type);
-            }
-        }
-        
-        async function deleteAdab(id, type) {
-            if (!confirm('Yakin ingin menghapus?')) return;
-            
-            showLoading();
-            try {
-                await fetch(`${API_URL}?path=adab&action=delete`, {
-                    method: 'POST',
-                    body: JSON.stringify({ id, type })
-                });
-                showToast('Adab dihapus!', 'success');
-                loadAdabsByType(type);
-            } catch (error) {
-                showToast('Error: ' + error.message, 'error');
-            } finally {
-                hideLoading();
-            }
-        }
-        
-        // ========================================
-        // FRIDAY SCHEDULE
-        // ========================================
-        async function loadFridaySchedule() {
-            showLoading();
-            try {
-                const response = await fetch(`${API_URL}?path=friday-schedule`);
-                const result = await response.json();
-                if (result.success) {
-                    fridayScheduleData = result.data;
-                    const form = document.getElementById('friday-schedule-form');
-                    form.querySelector('[name="khutbah_time"]').value = result.data.khutbah_time || '';
-                    form.querySelector('[name="iqamah_time"]').value = result.data.iqamah_time || '';
-                    form.querySelector('[name="imam_name"]').value = result.data.imam_name || '';
-                    form.querySelector('[name="khatib_name"]').value = result.data.khatib_name || '';
-                    form.querySelector('[name="muadzin1_name"]').value = result.data.muadzin1_name || '';
-                    form.querySelector('[name="muadzin2_name"]').value = result.data.muadzin2_name || '';
-                }
-            } catch (error) {
-                showToast('Error: ' + error.message, 'error');
-            } finally {
-                hideLoading();
-            }
-        }
-        
-        document.getElementById('friday-schedule-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const formData = new FormData(this);
-            const schedule = Object.fromEntries(formData);
-            
-            const btn = document.getElementById('btn-save-friday-schedule');
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
-            showLoading();
-            
-            try {
-                const response = await fetch(`${API_URL}?path=friday-schedule&action=update`, {
-                    method: 'POST',
-                    body: JSON.stringify(schedule)
-                });
-                const result = await response.json();
-                if (result.success) {
-                    showToast('Jadwal Jumat disimpan!', 'success');
-                } else {
-                    showToast('Gagal: ' + result.error, 'error');
-                }
-            } catch (error) {
-                showToast('Error: ' + error.message, 'error');
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-save"></i> Simpan';
-                hideLoading();
-            }
-        });
-        
-        // ========================================
         // ANNOUNCEMENTS
         // ========================================
         async function loadAnnouncements() {
@@ -2221,122 +2202,6 @@
                     </div>
                 </div>
             `).join('');
-        }
-        
-        function showUploadAnnouncementModal() {
-            selectedAnnouncementFile = null;
-            document.getElementById('announcement-preview').style.display = 'none';
-            document.getElementById('announcement-upload-area').style.display = 'block';
-            document.getElementById('announcement-upload-progress').style.display = 'none';
-            document.getElementById('announcement-order').value = announcementsData.length + 1;
-            openModal('upload-announcement-modal');
-        }
-        
-        function handleAnnouncementFile(file) {
-            if (!file) return;
-            if (!file.type.match('image.*')) {
-                showToast('Format harus gambar!', 'error');
-                return;
-            }
-            if (file.size > 5 * 1024 * 1024) {
-                showToast('File maksimal 5MB!', 'error');
-                return;
-            }
-            
-            selectedAnnouncementFile = file;
-            
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                document.getElementById('announcement-preview-img').src = e.target.result;
-                document.getElementById('announcement-filename').textContent = file.name;
-                document.getElementById('announcement-upload-area').style.display = 'none';
-                document.getElementById('announcement-preview').style.display = 'block';
-            };
-            reader.readAsDataURL(file);
-        }
-        
-        async function uploadAnnouncement() {
-            if (!selectedAnnouncementFile) {
-                showToast('Pilih file dulu!', 'error');
-                return;
-            }
-            
-            const order = document.getElementById('announcement-order').value;
-            
-            document.getElementById('announcement-upload-progress').style.display = 'block';
-            const btn = document.getElementById('btn-upload-announcement');
-            btn.disabled = true;
-            const progressFill = document.getElementById('announcement-progress-fill');
-            const progressText = document.getElementById('announcement-progress-text');
-            
-            progressFill.style.width = '0%';
-            progressText.textContent = 'Memulai upload...';
-            
-            try {
-                // Step 1: Resize
-                progressText.textContent = 'Memproses gambar (20%)...';
-                progressFill.style.width = '20%';
-                
-                const resizedFile = await resizeImage(selectedAnnouncementFile, 1920, 1080);
-                
-                // Step 2: Convert
-                progressText.textContent = 'Mengkonversi (40%)...';
-                progressFill.style.width = '40%';
-                
-                const base64 = await fileToBase64(resizedFile);
-                
-                // Step 3: Upload
-                progressText.textContent = 'Mengupload ke Drive (60%)...';
-                progressFill.style.width = '60%';
-                
-                const uploadResponse = await fetch(`${API_URL}?path=upload`, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        fileName: selectedAnnouncementFile.name,
-                        fileData: base64,
-                        folder: 'announcements'
-                    })
-                });
-                
-                const uploadResult = await uploadResponse.json();
-                if (!uploadResult.success) throw new Error(uploadResult.error);
-                
-                // Step 4: Save
-                progressText.textContent = 'Menyimpan ke database (80%)...';
-                progressFill.style.width = '80%';
-                
-                const saveResponse = await fetch(`${API_URL}?path=announcement&action=add`, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        order: parseInt(order),
-                        text: '',
-                        image_url: uploadResult.data.url,
-                        drive_file_id: uploadResult.data.fileId,
-                        active: true
-                    })
-                });
-                
-                const saveResult = await saveResponse.json();
-                if (!saveResult.success) throw new Error(saveResult.error);
-                
-                // Step 5: Selesai
-                progressFill.style.width = '100%';
-                progressText.textContent = 'Selesai!';
-                
-                showToast('Pengumuman berhasil diupload!', 'success');
-                
-                setTimeout(() => {
-                    closeModal('upload-announcement-modal');
-                    loadAnnouncements();
-                }, 1000);
-                
-            } catch (error) {
-                showToast('Upload gagal: ' + error.message, 'error');
-                progressFill.style.width = '0%';
-            } finally {
-                btn.disabled = false;
-                document.getElementById('announcement-upload-progress').style.display = 'none';
-            }
         }
         
         async function updateAnnouncementOrder(id, newOrder) {
@@ -2394,16 +2259,16 @@
         }
         
         // ========================================
-        // FRIDAY WISDOMS
+        // ADABS
         // ========================================
-        async function loadFridayWisdoms() {
+        async function loadAdabs() {
             showLoading();
             try {
-                const response = await fetch(`${API_URL}?path=friday-wisdoms`);
+                const response = await fetch(`${API_URL}?path=adabs`);
                 const result = await response.json();
                 if (result.success) {
-                    fridayWisdomsData = result.data;
-                    renderFridayWisdomsTable();
+                    adabsData = result.data;
+                    renderAdabsTable();
                 }
             } catch (error) {
                 showToast('Error: ' + error.message, 'error');
@@ -2412,77 +2277,84 @@
             }
         }
         
-        function renderFridayWisdomsTable() {
-            const tbody = document.getElementById('friday-wisdoms-tbody');
-            if (fridayWisdomsData.length === 0) {
+        function renderAdabsTable() {
+            const tbody = document.getElementById('adabs-tbody');
+            
+            if (adabsData.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Belum ada data</td></tr>';
                 return;
             }
             
-            fridayWisdomsData.sort((a, b) => a.order - b.order);
+            adabsData.sort((a, b) => a.order - b.order);
             
-            tbody.innerHTML = fridayWisdomsData.map(w => `
+            tbody.innerHTML = adabsData.map(a => `
                 <tr>
-                    <td>${w.order}</td>
-                    <td class="text-truncate" title="${w.text}">${w.text}</td>
-                    <td>${w.reference}</td>
-                    <td><label class="switch"><input type="checkbox" ${w.active ? 'checked' : ''} onchange="toggleFridayWisdomStatus(${w.id}, this.checked)"><span class="slider"></span></label></td>
-                    <td><button onclick="editFridayWisdom(${w.id})" class="btn-icon"><i class="fas fa-edit"></i></button><button onclick="deleteFridayWisdom(${w.id})" class="btn-icon btn-danger"><i class="fas fa-trash"></i></button></td>
+                    <td>${a.order}</td>
+                    <td class="text-truncate" title="${a.text}">${a.text}</td>
+                    <td><i class="${a.icon}"></i> ${a.icon}</td>
+                    <td><label class="switch"><input type="checkbox" ${a.active ? 'checked' : ''} onchange="toggleAdabStatus(${a.id}, this.checked)"><span class="slider"></span></label></td>
+                    <td><button onclick="editAdab(${a.id})" class="btn-icon"><i class="fas fa-edit"></i></button><button onclick="deleteAdab(${a.id})" class="btn-icon btn-danger"><i class="fas fa-trash"></i></button></td>
                 </tr>
             `).join('');
         }
         
-        function showAddFridayWisdomModal() {
-            document.getElementById('friday-wisdom-modal-title').textContent = 'Tambah Hadis Jumat';
-            document.getElementById('friday-wisdom-form').reset();
-            document.querySelector('#friday-wisdom-form [name="id"]').value = '';
-            openModal('friday-wisdom-modal');
+        function showAddAdabModal() {
+            document.getElementById('adab-modal-title').textContent = 'Tambah Adab';
+            
+            const form = document.getElementById('adab-form');
+            form.reset();
+            
+            const idInput = form.querySelector('[name="id"]');
+            idInput.value = '';
+            idInput.removeAttribute('value');
+            
+            openModal('adab-modal');
         }
         
-        function editFridayWisdom(id) {
-            const wisdom = fridayWisdomsData.find(w => w.id == id);
-            if (!wisdom) return;
+        function editAdab(id) {
+            const adab = adabsData.find(a => a.id == id);
+            if (!adab) return;
             
-            document.getElementById('friday-wisdom-modal-title').textContent = 'Edit Hadis Jumat';
-            const form = document.getElementById('friday-wisdom-form');
-            form.querySelector('[name="id"]').value = wisdom.id;
-            form.querySelector('[name="order"]').value = wisdom.order;
-            form.querySelector('[name="text"]').value = wisdom.text;
-            form.querySelector('[name="reference"]').value = wisdom.reference;
-            form.querySelector('[name="active"]').checked = wisdom.active;
+            document.getElementById('adab-modal-title').textContent = 'Edit Adab';
+            const form = document.getElementById('adab-form');
+            form.querySelector('[name="id"]').value = adab.id;
+            form.querySelector('[name="order"]').value = adab.order;
+            form.querySelector('[name="text"]').value = adab.text;
+            form.querySelector('[name="icon"]').value = adab.icon;
+            form.querySelector('[name="active"]').checked = adab.active;
             
-            openModal('friday-wisdom-modal');
+            openModal('adab-modal');
         }
         
-        document.getElementById('friday-wisdom-form').addEventListener('submit', async function(e) {
+        document.getElementById('adab-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const formData = new FormData(this);
-            const wisdom = {
+            const adab = {
                 id: formData.get('id') || undefined,
                 order: parseInt(formData.get('order')),
                 text: formData.get('text'),
-                reference: formData.get('reference'),
+                icon: formData.get('icon'),
                 active: formData.get('active') === 'on'
             };
             
-            const action = wisdom.id ? 'update' : 'add';
-            const btn = document.querySelector('#friday-wisdom-modal .btn-primary');
+            const action = adab.id ? 'update' : 'add';
+            const btn = document.querySelector('#adab-modal .btn-primary');
             const originalText = btn.innerHTML;
             btn.disabled = true;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
             showLoading();
             
             try {
-                const response = await fetch(`${API_URL}?path=friday-wisdom&action=${action}`, {
+                const response = await fetch(`${API_URL}?path=adab&action=${action}`, {
                     method: 'POST',
-                    body: JSON.stringify(wisdom)
+                    body: JSON.stringify(adab)
                 });
                 const result = await response.json();
                 if (result.success) {
-                    showToast(`Hadis berhasil ${action === 'add' ? 'ditambahkan' : 'diupdate'}!`, 'success');
-                    closeModal('friday-wisdom-modal');
-                    loadFridayWisdoms();
+                    showToast(`Adab berhasil ${action === 'add' ? 'ditambahkan' : 'diupdate'}!`, 'success');
+                    closeModal('adab-modal');
+                    loadAdabs();
                 } else {
                     showToast('Gagal: ' + result.error, 'error');
                 }
@@ -2495,40 +2367,210 @@
             }
         });
         
-        async function toggleFridayWisdomStatus(id, active) {
-            const wisdom = fridayWisdomsData.find(w => w.id == id);
-            if (!wisdom) return;
+        async function toggleAdabStatus(id, active) {
+            const adab = adabsData.find(a => a.id == id);
+            if (!adab) return;
             
-            wisdom.active = active;
+            adab.active = active;
             
             try {
-                await fetch(`${API_URL}?path=friday-wisdom&action=update`, {
+                await fetch(`${API_URL}?path=adab&action=update`, {
                     method: 'POST',
-                    body: JSON.stringify(wisdom)
+                    body: JSON.stringify(adab)
                 });
                 showToast('Status diubah', 'success');
             } catch (error) {
                 showToast('Error: ' + error.message, 'error');
-                loadFridayWisdoms();
+                loadAdabs();
             }
         }
         
-        async function deleteFridayWisdom(id) {
+        async function deleteAdab(id) {
             if (!confirm('Yakin ingin menghapus?')) return;
             
             showLoading();
             try {
-                await fetch(`${API_URL}?path=friday-wisdom&action=delete`, {
+                await fetch(`${API_URL}?path=adab&action=delete`, {
                     method: 'POST',
                     body: JSON.stringify({ id })
                 });
-                showToast('Hadis dihapus!', 'success');
-                loadFridayWisdoms();
+                showToast('Adab dihapus!', 'success');
+                loadAdabs();
             } catch (error) {
                 showToast('Error: ' + error.message, 'error');
             } finally {
                 hideLoading();
             }
+        }
+        
+        // ========================================
+        // DONATION
+        // ========================================
+        async function loadDonation() {
+            showLoading();
+            try {
+                const response = await fetch(`${API_URL}?path=donation`);
+                const result = await response.json();
+                if (result.success) {
+                    donationData = result.data;
+                    
+                    const form = document.getElementById('donation-form');
+                    form.querySelector('[name="bank_name"]').value = donationData.bank_name || '';
+                    form.querySelector('[name="account_number"]').value = donationData.account_number || '';
+                    form.querySelector('[name="account_name"]').value = donationData.account_name || '';
+                    form.querySelector('[name="qr_url"]').value = donationData.qr_url || '';
+                    form.querySelector('[name="qr_file_id"]').value = donationData.qr_file_id || '';
+                    form.querySelector('[name="bg_url"]').value = donationData.bg_url || '';
+                    form.querySelector('[name="bg_file_id"]').value = donationData.bg_file_id || '';
+                    
+                    if (donationData.qr_url) {
+                        document.getElementById('qr-preview-img').src = donationData.qr_url;
+                        document.getElementById('qr-filename').textContent = 'QR Code tersimpan';
+                        document.getElementById('qr-upload-area').style.display = 'none';
+                        document.getElementById('qr-preview').style.display = 'block';
+                    }
+                    
+                    if (donationData.bg_url) {
+                        document.getElementById('bg-preview-img').src = donationData.bg_url;
+                        document.getElementById('bg-filename').textContent = 'Background tersimpan';
+                        document.getElementById('bg-upload-area').style.display = 'none';
+                        document.getElementById('bg-preview').style.display = 'block';
+                    }
+                }
+            } catch (error) {
+                showToast('Error: ' + error.message, 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+        
+        function handleQRFile(file) {
+            if (!file) return;
+            if (!file.type.match('image.*')) {
+                showToast('Format harus gambar!', 'error');
+                return;
+            }
+            if (file.size > 5 * 1024 * 1024) {
+                showToast('File maksimal 5MB!', 'error');
+                return;
+            }
+            
+            selectedQRFile = file;
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                document.getElementById('qr-preview-img').src = e.target.result;
+                document.getElementById('qr-filename').textContent = file.name;
+                document.getElementById('qr-upload-area').style.display = 'none';
+                document.getElementById('qr-preview').style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        function handleBGFile(file) {
+            if (!file) return;
+            if (!file.type.match('image.*')) {
+                showToast('Format harus gambar!', 'error');
+                return;
+            }
+            if (file.size > 5 * 1024 * 1024) {
+                showToast('File maksimal 5MB!', 'error');
+                return;
+            }
+            
+            selectedBGFile = file;
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                document.getElementById('bg-preview-img').src = e.target.result;
+                document.getElementById('bg-filename').textContent = file.name;
+                document.getElementById('bg-upload-area').style.display = 'none';
+                document.getElementById('bg-preview').style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        function removeQR() {
+            selectedQRFile = null;
+            document.getElementById('qr-url').value = '';
+            document.getElementById('qr-file-id').value = '';
+            document.getElementById('qr-preview').style.display = 'none';
+            document.getElementById('qr-upload-area').style.display = 'block';
+        }
+        
+        function removeBG() {
+            selectedBGFile = null;
+            document.getElementById('bg-url').value = '';
+            document.getElementById('bg-file-id').value = '';
+            document.getElementById('bg-preview').style.display = 'none';
+            document.getElementById('bg-upload-area').style.display = 'block';
+        }
+        
+        document.getElementById('donation-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const btn = document.getElementById('btn-save-donation');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
+            showLoading();
+            
+            try {
+                const formData = new FormData(this);
+                const donation = Object.fromEntries(formData);
+                
+                // Upload QR if new file selected
+                if (selectedQRFile) {
+                    const qrUpload = await uploadFile(selectedQRFile, 'donation');
+                    donation.qr_url = qrUpload.url;
+                    donation.qr_file_id = qrUpload.fileId;
+                }
+                
+                // Upload BG if new file selected
+                if (selectedBGFile) {
+                    const bgUpload = await uploadFile(selectedBGFile, 'donation');
+                    donation.bg_url = bgUpload.url;
+                    donation.bg_file_id = bgUpload.fileId;
+                }
+                
+                const response = await fetch(`${API_URL}?path=donation&action=update`, {
+                    method: 'POST',
+                    body: JSON.stringify(donation)
+                });
+                
+                const result = await response.json();
+                if (result.success) {
+                    showToast('Info donasi disimpan!', 'success');
+                    selectedQRFile = null;
+                    selectedBGFile = null;
+                    loadDonation();
+                } else {
+                    showToast('Gagal: ' + result.error, 'error');
+                }
+            } catch (error) {
+                showToast('Error: ' + error.message, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-save"></i> Simpan Donasi';
+                hideLoading();
+            }
+        });
+        
+        async function uploadFile(file, folder) {
+            const base64 = await fileToBase64(file);
+            
+            const response = await fetch(`${API_URL}?path=upload`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    fileName: file.name,
+                    fileData: base64,
+                    folder: folder
+                })
+            });
+            
+            const result = await response.json();
+            if (!result.success) throw new Error(result.error);
+            
+            return result.data;
         }
         
         // ========================================
