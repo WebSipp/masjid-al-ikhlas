@@ -1,4 +1,3 @@
-<!-- FILE 2: display.html -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -51,7 +50,8 @@
             --transition-fast: all 0.3s ease;
         }
 
-        /* BASE STYLE - untuk semua layar */
+        /* ========== BASE STYLE - LAPTOP 14" PERFECT ========== */
+        /* JANGAN DIUBAH - INI STANDAR LAPTOP YANG SUDAH PERFECT */
         html {
             font-size: 14px;
         }
@@ -1389,111 +1389,67 @@
             50% { opacity: 0.3; }
         }
 
-        /* ========== MEDIA QUERY UNTUK TV ========== */
-        /* Laptop & TV HD (1366px ke atas) */
-        @media (min-width: 1024px) {
-            html {
-                font-size: 15px;
-            }
+        /* ========== TV SCALING - ZOOM LAYOUT LAPTOP ========== */
+        /* STRATEGI BARU: Zoom layout yang sama tanpa mengubah struktur */
+        
+        /* Base: Laptop 14" (1366x768 atau 1920x1080) = Perfect, jangan ubah */
+        html {
+            font-size: 14px;
         }
 
-        /* TV Full HD (1920px ke atas) */
+        /* TV Full HD / 4K - AUTO ZOOM (135% dari ukuran laptop) */
         @media (min-width: 1600px) {
-            html {
-                font-size: 16px;
-            }
-            
-            .digital-clock {
-                font-size: 6rem;
-            }
-            
-            .masjid-name {
-                font-size: 2rem;
+            body {
+                zoom: 135%;
             }
         }
 
-        /* TV 4K (3840px ke atas) */
-        @media (min-width: 2500px) {
-            html {
-                font-size: 20px;
-            }
-            
-            .digital-clock {
-                font-size: 7rem;
-            }
-            
-            .masjid-name {
-                font-size: 2.5rem;
-            }
-            
-            .countdown-badge .prayer {
-                font-size: 2.2rem;
-            }
-            
-            .countdown-badge .timer {
-                font-size: 2.8rem;
+        /* TV Besar (50"+ atau 4K) - ZOOM LEBIH BESAR (180%) */
+        @media (min-width: 2200px) {
+            body {
+                zoom: 180%;
             }
         }
 
-        /* ========== RESPONSIVE UNTUK LAYAR KECIL (HP/TABLET) - TIDAK AKTIF DI TV ========== */
-        @media (max-width: 1024px) {
-            .slide-1, .slide-3 {
-                flex-direction: column;
-            }
-            .slide-1 .left-panel {
-                flex: 0 0 auto;
-                max-height: 220px;
-            }
-            .digital-clock {
-                font-size: 4rem;
-            }
-            .prayer-grid-footer {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 8px;
-            }
-            .slide-3 .donation-card-wide {
-                flex-direction: column;
-            }
-            .schedule-card-vertical-box {
-                flex: 0 0 auto;
-                max-height: 250px;
-                margin-bottom: 10px;
-                width: 100%;
+        /* TV Super Besar (65"+ atau 8K) - ZOOM MAKSIMAL (240%) */
+        @media (min-width: 3000px) {
+            body {
+                zoom: 240%;
             }
         }
 
-        @media (max-width: 768px) {
-            .header-original, .header-info {
-                flex-direction: column;
-                gap: 5px;
-                text-align: center;
-                padding: 8px 15px;
-                min-height: auto;
+        /* Fallback untuk browser yang tidak support zoom */
+        @supports not (zoom: 1) {
+            @media (min-width: 1600px) {
+                body {
+                    transform: scale(1.35);
+                    transform-origin: top left;
+                    width: 74.07%; /* 100/1.35 */
+                    height: 74.07%;
+                }
             }
-            .masjid-section, .header-right {
-                text-align: center;
+            
+            @media (min-width: 2200px) {
+                body {
+                    transform: scale(1.8);
+                    transform-origin: top left;
+                    width: 55.56%; /* 100/1.8 */
+                    height: 55.56%;
+                }
             }
-            .digital-clock {
-                font-size: 3rem;
-            }
-            .prayer-grid-footer {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 6px;
-            }
-            .countdown-badge {
-                padding: 8px 15px;
-                gap: 8px;
-            }
-            .countdown-badge .prayer {
-                font-size: 1.3rem;
-            }
-            .countdown-badge .timer {
-                font-size: 1.6rem;
-            }
-            .countdown-badge .seconds {
-                font-size: 1rem;
+            
+            @media (min-width: 3000px) {
+                body {
+                    transform: scale(2.4);
+                    transform-origin: top left;
+                    width: 41.67%; /* 100/2.4 */
+                    height: 41.67%;
+                }
             }
         }
+
+        /* ===== SEMUA MEDIA QUERY MAX-WIDTH YANG MERUSAK LAYOUT TELAH DIHAPUS ===== */
+        /* Tidak ada lagi media query yang mengubah flex-direction atau grid layout */
     </style>
 </head>
 <body>
