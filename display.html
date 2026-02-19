@@ -1,10 +1,10 @@
-<!-- FILE 2: display.html - DENGAN REVISI DESIGN + FITUR + PERFORMANCE (FIXED) -->
+<!-- FILE 2: display.html -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Display Digital Masjid - Premium Edition</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0">
+    <title>Display Digital Masjid Al - Ikhlas</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;600&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -49,6 +49,11 @@
             /* Transitions */
             --transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             --transition-fast: all 0.3s ease;
+        }
+
+        /* BASE STYLE - untuk semua layar */
+        html {
+            font-size: 14px;
         }
 
         body {
@@ -1384,7 +1389,53 @@
             50% { opacity: 0.3; }
         }
 
-        /* ========== RESPONSIVE ========== */
+        /* ========== MEDIA QUERY UNTUK TV ========== */
+        /* Laptop & TV HD (1366px ke atas) */
+        @media (min-width: 1024px) {
+            html {
+                font-size: 15px;
+            }
+        }
+
+        /* TV Full HD (1920px ke atas) */
+        @media (min-width: 1600px) {
+            html {
+                font-size: 16px;
+            }
+            
+            .digital-clock {
+                font-size: 6rem;
+            }
+            
+            .masjid-name {
+                font-size: 2rem;
+            }
+        }
+
+        /* TV 4K (3840px ke atas) */
+        @media (min-width: 2500px) {
+            html {
+                font-size: 20px;
+            }
+            
+            .digital-clock {
+                font-size: 7rem;
+            }
+            
+            .masjid-name {
+                font-size: 2.5rem;
+            }
+            
+            .countdown-badge .prayer {
+                font-size: 2.2rem;
+            }
+            
+            .countdown-badge .timer {
+                font-size: 2.8rem;
+            }
+        }
+
+        /* ========== RESPONSIVE UNTUK LAYAR KECIL (HP/TABLET) - TIDAK AKTIF DI TV ========== */
         @media (max-width: 1024px) {
             .slide-1, .slide-3 {
                 flex-direction: column;
@@ -1462,7 +1513,7 @@
 
     <!-- FULLSCREEN OVERLAY -->
     <div class="fullscreen-overlay" id="fullscreen-overlay">
-        <h2>Display Digital Masjid</h2>
+        <h2>Display Digital Masjid Al- Ikhlas</h2>
         <p>Untuk pengalaman terbaik, tampilan akan dibuka dalam mode layar penuh.</p>
         <button class="fullscreen-btn" id="enter-fullscreen-btn">
             <i class="fas fa-expand"></i> Buka Layar Penuh
