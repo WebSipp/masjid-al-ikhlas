@@ -1,4 +1,4 @@
-<!-- FILE 3: admin-panel.html - DENGAN HALAMAN ANNOUNCEMENTS (FIXED) -->
+<!-- FILE 3: admin-panel.html - DENGAN HALAMAN ANNOUNCEMENTS (FIXED + LENGKAP) -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -1849,7 +1849,7 @@
                 handleWallpaperFile(e.target.files[0]);
             });
             
-            // Announcement upload area - FIXED: Pastikan event listener ter-attach
+            // Announcement upload area
             const announcementArea = document.getElementById('announcement-upload-area');
             if (announcementArea) {
                 announcementArea.addEventListener('click', () => document.getElementById('announcement-file').click());
@@ -1867,29 +1867,33 @@
             
             // QR upload area
             const qrArea = document.getElementById('qr-upload-area');
-            qrArea.addEventListener('click', () => document.getElementById('qr-file').click());
-            qrArea.addEventListener('dragover', (e) => e.preventDefault());
-            qrArea.addEventListener('drop', (e) => {
-                e.preventDefault();
-                qrArea.classList.remove('drag-over');
-                handleQRFile(e.dataTransfer.files[0]);
-            });
+            if (qrArea) {
+                qrArea.addEventListener('click', () => document.getElementById('qr-file').click());
+                qrArea.addEventListener('dragover', (e) => e.preventDefault());
+                qrArea.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    qrArea.classList.remove('drag-over');
+                    handleQRFile(e.dataTransfer.files[0]);
+                });
+            }
             
-            document.getElementById('qr-file').addEventListener('change', (e) => {
+            document.getElementById('qr-file')?.addEventListener('change', (e) => {
                 handleQRFile(e.target.files[0]);
             });
             
             // BG upload area
             const bgArea = document.getElementById('bg-upload-area');
-            bgArea.addEventListener('click', () => document.getElementById('bg-file').click());
-            bgArea.addEventListener('dragover', (e) => e.preventDefault());
-            bgArea.addEventListener('drop', (e) => {
-                e.preventDefault();
-                bgArea.classList.remove('drag-over');
-                handleBGFile(e.dataTransfer.files[0]);
-            });
+            if (bgArea) {
+                bgArea.addEventListener('click', () => document.getElementById('bg-file').click());
+                bgArea.addEventListener('dragover', (e) => e.preventDefault());
+                bgArea.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    bgArea.classList.remove('drag-over');
+                    handleBGFile(e.dataTransfer.files[0]);
+                });
+            }
             
-            document.getElementById('bg-file').addEventListener('change', (e) => {
+            document.getElementById('bg-file')?.addEventListener('change', (e) => {
                 handleBGFile(e.target.files[0]);
             });
         }
@@ -2023,7 +2027,9 @@
             }
         }
         
-        // FIXED: Fungsi uploadAnnouncement yang lengkap
+        // ========================================
+        // ANNOUNCEMENT UPLOAD - LENGKAP!
+        // ========================================
         async function uploadAnnouncement() {
             if (!selectedAnnouncementFile) {
                 showToast('Pilih file dulu!', 'error');
@@ -2107,62 +2113,8 @@
             }
         }
         
-        async function updateWallpaperOrder(id, newOrder) {
-            const wallpaper = wallpapersData.find(w => w.id == id);
-            if (!wallpaper) return;
-            
-            wallpaper.order = parseInt(newOrder);
-            
-            try {
-                await fetch(`${API_URL}?path=wallpaper&action=update`, {
-                    method: 'POST',
-                    body: JSON.stringify(wallpaper)
-                });
-                showToast('Urutan diubah', 'success');
-                loadWallpapers();
-            } catch (error) {
-                showToast('Error: ' + error.message, 'error');
-            }
-        }
-        
-        async function toggleWallpaperStatus(id, active) {
-            const wallpaper = wallpapersData.find(w => w.id == id);
-            if (!wallpaper) return;
-            
-            wallpaper.active = active;
-            
-            try {
-                await fetch(`${API_URL}?path=wallpaper&action=update`, {
-                    method: 'POST',
-                    body: JSON.stringify(wallpaper)
-                });
-                showToast('Status diubah', 'success');
-            } catch (error) {
-                showToast('Error: ' + error.message, 'error');
-                loadWallpapers();
-            }
-        }
-        
-        async function deleteWallpaper(id) {
-            if (!confirm('Yakin ingin menghapus?')) return;
-            
-            showLoading();
-            try {
-                await fetch(`${API_URL}?path=wallpaper&action=delete`, {
-                    method: 'POST',
-                    body: JSON.stringify({ id })
-                });
-                showToast('Wallpaper dihapus!', 'success');
-                loadWallpapers();
-            } catch (error) {
-                showToast('Error: ' + error.message, 'error');
-            } finally {
-                hideLoading();
-            }
-        }
-        
         // ========================================
-        // ANNOUNCEMENTS
+        // ANNOUNCEMENTS - LENGKAP DENGAN showUploadAnnouncementModal!
         // ========================================
         async function loadAnnouncements() {
             showLoading();
@@ -2202,6 +2154,16 @@
                     </div>
                 </div>
             `).join('');
+        }
+        
+        // ===== FUNGSI YANG SEBELUMNYA HILANG - SEKARANG SUDAH ADA! =====
+        function showUploadAnnouncementModal() {
+            selectedAnnouncementFile = null;
+            document.getElementById('announcement-preview').style.display = 'none';
+            document.getElementById('announcement-upload-area').style.display = 'block';
+            document.getElementById('announcement-upload-progress').style.display = 'none';
+            document.getElementById('announcement-order').value = announcementsData.length + 1;
+            openModal('upload-announcement-modal');
         }
         
         async function updateAnnouncementOrder(id, newOrder) {
