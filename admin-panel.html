@@ -1823,6 +1823,61 @@
             `).join('');
         }
         
+        // ===== FUNGSI YANG DITAMBAHKAN UNTUK WALLPAPER =====
+        async function updateWallpaperOrder(id, newOrder) {
+            const wallpaper = wallpapersData.find(w => w.id == id);
+            if (!wallpaper) return;
+            
+            wallpaper.order = parseInt(newOrder);
+            
+            try {
+                await fetch(`${API_URL}?path=wallpaper&action=update`, {
+                    method: 'POST',
+                    body: JSON.stringify(wallpaper)
+                });
+                showToast('Urutan diubah', 'success');
+                loadWallpapers(); // reload untuk memastikan konsistensi
+            } catch (error) {
+                showToast('Error: ' + error.message, 'error');
+            }
+        }
+        
+        async function toggleWallpaperStatus(id, active) {
+            const wallpaper = wallpapersData.find(w => w.id == id);
+            if (!wallpaper) return;
+            
+            wallpaper.active = active;
+            
+            try {
+                await fetch(`${API_URL}?path=wallpaper&action=update`, {
+                    method: 'POST',
+                    body: JSON.stringify(wallpaper)
+                });
+                showToast('Status diubah', 'success');
+            } catch (error) {
+                showToast('Error: ' + error.message, 'error');
+                loadWallpapers();
+            }
+        }
+        
+        async function deleteWallpaper(id) {
+            if (!confirm('Yakin ingin menghapus?')) return;
+            
+            showLoading();
+            try {
+                await fetch(`${API_URL}?path=wallpaper&action=delete`, {
+                    method: 'POST',
+                    body: JSON.stringify({ id })
+                });
+                showToast('Wallpaper dihapus!', 'success');
+                loadWallpapers();
+            } catch (error) {
+                showToast('Error: ' + error.message, 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+        
         function showUploadWallpaperModal() {
             selectedWallpaperFile = null;
             document.getElementById('wallpaper-preview').style.display = 'none';
